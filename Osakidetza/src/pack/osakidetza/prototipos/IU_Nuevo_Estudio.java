@@ -46,14 +46,18 @@ public class IU_Nuevo_Estudio extends JFrame {
 	 */
 	public IU_Nuevo_Estudio() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 576, 538);
+		setBounds(100, 100, 568, 576);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JButton btnListar = new JButton("Listar");
-		btnListar.setBounds(30, 475, 117, 25);
+		btnListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnListar.setBounds(276, 426, 117, 25);
 		contentPane.add(btnListar);
 		
 		JLabel lblEstudios = new JLabel("Estudios");
@@ -173,8 +177,25 @@ public class IU_Nuevo_Estudio extends JFrame {
 		contentPane.add(comboBox_2);
 		
 		JButton btnAadirNuevo = new JButton("Añadir nuevo");
-		btnAadirNuevo.setEnabled(false);
-		btnAadirNuevo.setBounds(408, 367, 135, 25);
+		btnAadirNuevo.setBounds(408, 362, 135, 25);
 		contentPane.add(btnAadirNuevo);
+		
+		JButton btnActualizar = new JButton("Actualizar");
+		btnActualizar.setEnabled(false);
+		btnActualizar.setBounds(147, 426, 117, 25);
+		contentPane.add(btnActualizar);
+		
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBounds(426, 426, 117, 25);
+		contentPane.add(btnBuscar);
+		
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.setEnabled(false);
+		btnBorrar.setBounds(12, 426, 117, 25);
+		contentPane.add(btnBorrar);
+		
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.setBounds(426, 503, 117, 25);
+		contentPane.add(btnVolver);
 	}
 }
