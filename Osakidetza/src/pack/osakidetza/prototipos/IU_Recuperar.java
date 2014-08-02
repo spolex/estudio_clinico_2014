@@ -17,7 +17,7 @@ public class IU_Recuperar extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField pwdJhnfkfvlflbfg;
-	private JPasswordField pwdJkdshfajksdghfu;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -82,9 +82,8 @@ public class IU_Recuperar extends JFrame {
 		pwdJhnfkfvlflbfg.setBounds(188, 214, 252, 17);
 		contentPane.add(pwdJhnfkfvlflbfg);
 		
-		pwdJkdshfajksdghfu = new JPasswordField();
-		pwdJkdshfajksdghfu.setText("jkdshfajksdghfñu");
-		pwdJkdshfajksdghfu.setBounds(188, 272, 252, 17);
-		contentPane.add(pwdJkdshfajksdghfu);
+		passwordField = new JPasswordField();
+		passwordField.setBounds(188, 272, 252, 17);
+		contentPane.add(passwordField);
 	}
 }
