@@ -24,6 +24,7 @@ public class IU_Nuevo_Estudio extends JFrame {
 	private JTextField txtNHistorial;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	private JTextField textField_3;
 
 	/**
 	 * Launch the application.
@@ -177,7 +178,7 @@ public class IU_Nuevo_Estudio extends JFrame {
 		contentPane.add(comboBox_2);
 		
 		JButton btnAadirNuevo = new JButton("Añadir nuevo");
-		btnAadirNuevo.setBounds(408, 362, 135, 25);
+		btnAadirNuevo.setBounds(408, 346, 135, 25);
 		contentPane.add(btnAadirNuevo);
 		
 		JButton btnActualizar = new JButton("Actualizar");
@@ -197,5 +198,15 @@ public class IU_Nuevo_Estudio extends JFrame {
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.setBounds(426, 503, 117, 25);
 		contentPane.add(btnVolver);
+		
+		JLabel lblFecha = new JLabel("Fecha");
+		lblFecha.setBounds(12, 379, 70, 15);
+		contentPane.add(lblFecha);
+		
+		textField_3 = new JTextField();
+		textField_3.setText("12-12-2005");
+		textField_3.setBounds(108, 377, 114, 19);
+		contentPane.add(textField_3);
+		textField_3.setColumns(10);
 	}
 }

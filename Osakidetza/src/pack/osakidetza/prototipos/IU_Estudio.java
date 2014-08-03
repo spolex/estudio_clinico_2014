@@ -42,7 +42,7 @@ public class IU_Estudio extends JFrame {
 	 */
 	public IU_Estudio() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 685, 421);
+		setBounds(100, 100, 854, 421);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -51,7 +51,7 @@ public class IU_Estudio extends JFrame {
 		JLabel lblBienvenidoDoctor = new JLabel("Bienvenido Doctor");
 		lblBienvenidoDoctor.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBienvenidoDoctor.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 21));
-		lblBienvenidoDoctor.setBounds(149, 12, 380, 96);
+		lblBienvenidoDoctor.setBounds(223, 12, 380, 96);
 		contentPane.add(lblBienvenidoDoctor);	
 		
 		
@@ -65,7 +65,7 @@ public class IU_Estudio extends JFrame {
 		
 		JLabel lblIcon = new JLabel("");
 		lblIcon.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIcon.setBounds(192, 99, 308, 103);
+		lblIcon.setBounds(260, 99, 308, 103);
 		contentPane.add(lblIcon);
 		
 		ImageIcon icon = new ImageIcon("resources/osak.jpg");
@@ -87,5 +87,9 @@ public class IU_Estudio extends JFrame {
 		JButton btnDiagnosticos = new JButton("Diagnosticos");
 		btnDiagnosticos.setBounds(349, 262, 138, 25);
 		contentPane.add(btnDiagnosticos);
+		
+		JButton btnVisitas = new JButton("Visitas");
+		btnVisitas.setBounds(703, 262, 117, 25);
+		contentPane.add(btnVisitas);
 	}
 }

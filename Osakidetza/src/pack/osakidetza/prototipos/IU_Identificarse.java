@@ -92,5 +92,13 @@ public class IU_Identificarse extends JFrame {
 		JButton btnRecuperarPass = new JButton("Recuperar contraseña");
 		btnRecuperarPass.setBounds(27, 237, 194, 25);
 		contentPane.add(btnRecuperarPass);
+		
+		JButton btnNewButton = new JButton("Actualizar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton.setBounds(251, 160, 185, 25);
+		contentPane.add(btnNewButton);
 	}
 }
