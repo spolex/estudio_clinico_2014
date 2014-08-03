@@ -15,11 +15,12 @@ import javax.swing.JTextPane;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
 
-public class IU_Pacientes extends JFrame {
+public class IU_Listado_Pacientes extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
+	private JTextField txtNHistorial;
 
 	/**
 	 * Launch the application.
@@ -28,7 +29,7 @@ public class IU_Pacientes extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IU_Pacientes frame = new IU_Pacientes();
+					IU_Listado_Pacientes frame = new IU_Listado_Pacientes();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,7 +41,7 @@ public class IU_Pacientes extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IU_Pacientes() {
+	public IU_Listado_Pacientes() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 465, 387);
 		contentPane = new JPanel();
@@ -80,14 +81,15 @@ public class IU_Pacientes extends JFrame {
 		contentPane.add(btnVolver);
 		
 		JLabel lblPacientes_1 = new JLabel("Pacientes");
-		lblPacientes_1.setBounds(24, 177, 70, 15);
+		lblPacientes_1.setBounds(24, 214, 70, 15);
 		contentPane.add(lblPacientes_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(157, 177, 242, 99);
+		scrollPane.setBounds(157, 212, 242, 99);
 		contentPane.add(scrollPane);
 		
 		JList list = new JList();
+		scrollPane.setViewportView(list);
 		list.setModel(new AbstractListModel() {
 			String[] values = new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
 			public int getSize() {
@@ -97,6 +99,19 @@ public class IU_Pacientes extends JFrame {
 				return values[index];
 			}
 		});
-		scrollPane.setViewportView(list);
+		
+		JLabel lblPaciente = new JLabel("Paciente");
+		lblPaciente.setBounds(24, 169, 70, 15);
+		contentPane.add(lblPaciente);
+		
+		txtNHistorial = new JTextField();
+		txtNHistorial.setText("nº historial");
+		txtNHistorial.setBounds(160, 167, 234, 19);
+		contentPane.add(txtNHistorial);
+		txtNHistorial.setColumns(10);
+		
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBounds(76, 323, 117, 25);
+		contentPane.add(btnBuscar);
 	}
 }
