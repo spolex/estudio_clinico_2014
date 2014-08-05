@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class IU_Estudio extends JFrame {
 
@@ -42,7 +43,7 @@ public class IU_Estudio extends JFrame {
 	 */
 	public IU_Estudio() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 854, 421);
+		setBounds(100, 100, 528, 336);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -51,21 +52,13 @@ public class IU_Estudio extends JFrame {
 		JLabel lblBienvenidoDoctor = new JLabel("Bienvenido Doctor");
 		lblBienvenidoDoctor.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBienvenidoDoctor.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 21));
-		lblBienvenidoDoctor.setBounds(223, 12, 380, 96);
-		contentPane.add(lblBienvenidoDoctor);	
-		
-		
-		JButton btnEstudio = new JButton("Estudios");
-		btnEstudio.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnEstudio.setBounds(35, 262, 117, 25);
-		contentPane.add(btnEstudio);
+		lblBienvenidoDoctor.setBounds(60, 12, 380, 96);
+		contentPane.add(lblBienvenidoDoctor);
 		
 		JLabel lblIcon = new JLabel("");
+		lblIcon.setBackground(Color.RED);
 		lblIcon.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIcon.setBounds(260, 99, 308, 103);
+		lblIcon.setBounds(94, 105, 308, 103);
 		contentPane.add(lblIcon);
 		
 		ImageIcon icon = new ImageIcon("resources/osak.jpg");
@@ -77,19 +70,15 @@ public class IU_Estudio extends JFrame {
 		lblIcon.setIcon(iconoEscalado);
 		
 		JButton btnPacientes = new JButton("Pacientes");
-		btnPacientes.setBounds(192, 262, 117, 25);
+		btnPacientes.setBounds(23, 262, 117, 25);
 		contentPane.add(btnPacientes);
 		
 		JButton btnEstadsticas = new JButton("Estadísticas");
-		btnEstadsticas.setBounds(514, 262, 146, 25);
+		btnEstadsticas.setBounds(172, 262, 146, 25);
 		contentPane.add(btnEstadsticas);
 		
-		JButton btnDiagnosticos = new JButton("Diagnosticos");
-		btnDiagnosticos.setBounds(349, 262, 138, 25);
-		contentPane.add(btnDiagnosticos);
-		
 		JButton btnVisitas = new JButton("Visitas");
-		btnVisitas.setBounds(703, 262, 117, 25);
+		btnVisitas.setBounds(351, 262, 117, 25);
 		contentPane.add(btnVisitas);
 	}
 }

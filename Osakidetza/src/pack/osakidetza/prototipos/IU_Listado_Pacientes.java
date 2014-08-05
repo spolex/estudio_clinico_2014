@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
+import javax.swing.JCheckBox;
 
 public class IU_Listado_Pacientes extends JFrame {
 
@@ -43,7 +44,7 @@ public class IU_Listado_Pacientes extends JFrame {
 	 */
 	public IU_Listado_Pacientes() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 465, 387);
+		setBounds(100, 100, 550, 433);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -72,20 +73,20 @@ public class IU_Listado_Pacientes extends JFrame {
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		
-		JButton btnListar = new JButton("Listar");
-		btnListar.setBounds(205, 323, 117, 25);
+		JButton btnListar = new JButton("Aceptar");
+		btnListar.setBounds(290, 370, 117, 25);
 		contentPane.add(btnListar);
 		
 		JButton btnVolver = new JButton("Volver");
-		btnVolver.setBounds(334, 323, 117, 25);
+		btnVolver.setBounds(419, 370, 117, 25);
 		contentPane.add(btnVolver);
 		
 		JLabel lblPacientes_1 = new JLabel("Pacientes");
-		lblPacientes_1.setBounds(24, 214, 70, 15);
+		lblPacientes_1.setBounds(157, 198, 70, 15);
 		contentPane.add(lblPacientes_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(157, 212, 242, 99);
+		scrollPane.setBounds(157, 225, 242, 99);
 		contentPane.add(scrollPane);
 		
 		JList list = new JList();
@@ -110,8 +111,24 @@ public class IU_Listado_Pacientes extends JFrame {
 		contentPane.add(txtNHistorial);
 		txtNHistorial.setColumns(10);
 		
-		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.setBounds(76, 323, 117, 25);
-		contentPane.add(btnBuscar);
+		JCheckBox chckbxDiagnsticos = new JCheckBox("Diagnósticos");
+		chckbxDiagnsticos.setBounds(24, 243, 129, 23);
+		contentPane.add(chckbxDiagnsticos);
+		
+		JCheckBox chckbxVisitas = new JCheckBox("Visitas");
+		chckbxVisitas.setBounds(24, 270, 129, 23);
+		contentPane.add(chckbxVisitas);
+		
+		JCheckBox chckbxNuevo = new JCheckBox("Añadir nuevo");
+		chckbxNuevo.setBounds(407, 243, 129, 23);
+		contentPane.add(chckbxNuevo);
+		
+		JCheckBox chckbxEliminar = new JCheckBox("Eliminar");
+		chckbxEliminar.setBounds(407, 270, 129, 23);
+		contentPane.add(chckbxEliminar);
+		
+		JCheckBox chckbxActualizar = new JCheckBox("Actualizar");
+		chckbxActualizar.setBounds(407, 297, 129, 23);
+		contentPane.add(chckbxActualizar);
 	}
 }
