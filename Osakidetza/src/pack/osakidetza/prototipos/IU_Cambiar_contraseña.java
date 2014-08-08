@@ -11,7 +11,7 @@ import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class IU_Cambiar extends JFrame {
+public class IU_Cambiar_contraseña extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textResp;
@@ -27,7 +27,7 @@ public class IU_Cambiar extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IU_Cambiar frame = new IU_Cambiar();
+					IU_Cambiar_contraseña frame = new IU_Cambiar_contraseña();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,7 +39,7 @@ public class IU_Cambiar extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IU_Cambiar() {
+	public IU_Cambiar_contraseña() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 383, 431);
 		contentPane = new JPanel();

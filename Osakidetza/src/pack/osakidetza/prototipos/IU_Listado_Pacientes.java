@@ -130,5 +130,9 @@ public class IU_Listado_Pacientes extends JFrame {
 		JCheckBox chckbxActualizar = new JCheckBox("Actualizar");
 		chckbxActualizar.setBounds(407, 297, 129, 23);
 		contentPane.add(chckbxActualizar);
+		
+		JCheckBox chckbxCncer = new JCheckBox("Cáncer");
+		chckbxCncer.setBounds(24, 297, 129, 23);
+		contentPane.add(chckbxCncer);
 	}
 }

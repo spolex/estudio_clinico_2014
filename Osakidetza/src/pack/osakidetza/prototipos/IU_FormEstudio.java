@@ -17,7 +17,7 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.Component;
 import javax.swing.Box;
 
-public class IU_Nuevo_Estudio extends JFrame {
+public class IU_FormEstudio extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -33,7 +33,7 @@ public class IU_Nuevo_Estudio extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IU_Nuevo_Estudio frame = new IU_Nuevo_Estudio();
+					IU_FormEstudio frame = new IU_FormEstudio();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,21 +45,13 @@ public class IU_Nuevo_Estudio extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IU_Nuevo_Estudio() {
+	public IU_FormEstudio() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 568, 576);
+		setBounds(100, 100, 566, 488);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JButton btnListar = new JButton("Listar");
-		btnListar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnListar.setBounds(276, 426, 117, 25);
-		contentPane.add(btnListar);
 		
 		JLabel lblEstudios = new JLabel("Estudios");
 		lblEstudios.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 20));
@@ -177,26 +169,16 @@ public class IU_Nuevo_Estudio extends JFrame {
 		comboBox_2.setBounds(408, 169, 135, 20);
 		contentPane.add(comboBox_2);
 		
-		JButton btnAadirNuevo = new JButton("Añadir nuevo");
-		btnAadirNuevo.setBounds(408, 346, 135, 25);
-		contentPane.add(btnAadirNuevo);
-		
-		JButton btnActualizar = new JButton("Actualizar");
-		btnActualizar.setEnabled(false);
-		btnActualizar.setBounds(147, 426, 117, 25);
-		contentPane.add(btnActualizar);
-		
-		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.setBounds(426, 426, 117, 25);
-		contentPane.add(btnBuscar);
-		
-		JButton btnBorrar = new JButton("Borrar");
-		btnBorrar.setEnabled(false);
-		btnBorrar.setBounds(12, 426, 117, 25);
-		contentPane.add(btnBorrar);
+		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar.setBounds(298, 415, 117, 25);
+		contentPane.add(btnAceptar);
 		
 		JButton btnVolver = new JButton("Volver");
-		btnVolver.setBounds(426, 503, 117, 25);
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnVolver.setBounds(437, 415, 117, 25);
 		contentPane.add(btnVolver);
 		
 		JLabel lblFecha = new JLabel("Fecha");
