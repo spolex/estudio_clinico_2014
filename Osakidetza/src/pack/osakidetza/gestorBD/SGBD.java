@@ -33,9 +33,9 @@ public class SGBD {
 		 try {
  
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setUser("liga");
+        dataSource.setUser("doctor");
         dataSource.setPassword("x6a4Fj8q");
-        dataSource.setDatabaseName("ligabbva");
+        dataSource.setDatabaseName("Estudio");
         dataSource.setServerName("localhost");
 
          conexion = dataSource.getConnection();
