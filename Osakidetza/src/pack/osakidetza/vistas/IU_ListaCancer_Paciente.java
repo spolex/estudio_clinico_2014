@@ -1,4 +1,4 @@
-package pack.osakidetza.prototipos;
+package pack.osakidetza.vistas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -9,18 +9,19 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.AbstractListModel;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
-public class I_Estudios extends JFrame {
+public class IU_ListaCancer_Paciente extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtNHistorial;
-	private JTextField txtTipoCancer;
+	private JTextField txtHistorial;
 
 	/**
 	 * Launch the application.
@@ -29,7 +30,7 @@ public class I_Estudios extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					I_Estudios frame = new I_Estudios();
+					IU_ListaCancer_Paciente frame = new IU_ListaCancer_Paciente();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,30 +42,41 @@ public class I_Estudios extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public I_Estudios() {
+	public IU_ListaCancer_Paciente() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 479, 306);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblEstudios = new JLabel("Estudios");
-		lblEstudios.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
-		lblEstudios.setBounds(12, 12, 233, 32);
-		contentPane.add(lblEstudios);
+		JLabel lblCncer = new JLabel("Cáncer");
+		lblCncer.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
+		lblCncer.setBounds(27, 12, 127, 27);
+		contentPane.add(lblCncer);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(12, 42, 424, 15);
+		separator.setBounds(37, 39, 399, 16);
 		contentPane.add(separator);
 		
+		txtHistorial = new JTextField();
+		txtHistorial.setEditable(false);
+		txtHistorial.setText("Historial");
+		txtHistorial.setBounds(322, 17, 114, 19);
+		contentPane.add(txtHistorial);
+		txtHistorial.setColumns(10);
+		
+		JLabel lblTipo = new JLabel("Tipo");
+		lblTipo.setBounds(12, 69, 70, 15);
+		contentPane.add(lblTipo);
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(22, 54, 414, 88);
+		scrollPane.setBounds(87, 67, 272, 76);
 		contentPane.add(scrollPane);
 		
 		JList list = new JList();
 		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {"12", "13", "15", "16", "19", "136", "1444"};
+			String[] values = new String[] {"Trompa"};
 			public int getSize() {
 				return values.length;
 			}
@@ -74,38 +86,28 @@ public class I_Estudios extends JFrame {
 		});
 		scrollPane.setViewportView(list);
 		
-		txtNHistorial = new JTextField();
-		txtNHistorial.setEditable(false);
-		txtNHistorial.setText("nº historial");
-		txtNHistorial.setBounds(322, 20, 114, 19);
-		contentPane.add(txtNHistorial);
-		txtNHistorial.setColumns(10);
-		
-		txtTipoCancer = new JTextField();
-		txtTipoCancer.setEditable(false);
-		txtTipoCancer.setText("tipo cancer");
-		txtTipoCancer.setBounds(158, 20, 114, 19);
-		contentPane.add(txtTipoCancer);
-		txtTipoCancer.setColumns(10);
-		
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(319, 237, 117, 25);
+		btnCancelar.setBounds(213, 237, 117, 25);
 		contentPane.add(btnCancelar);
 		
 		JButton btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(190, 237, 117, 25);
+		btnAceptar.setBounds(348, 237, 117, 25);
 		contentPane.add(btnAceptar);
 		
-		JCheckBox chckbxNuevo = new JCheckBox("Nuevo");
-		chckbxNuevo.setBounds(22, 168, 129, 23);
-		contentPane.add(chckbxNuevo);
-		
 		JCheckBox chckbxEliminar = new JCheckBox("Eliminar");
-		chckbxEliminar.setBounds(158, 168, 129, 23);
+		chckbxEliminar.setBounds(12, 151, 129, 23);
 		contentPane.add(chckbxEliminar);
 		
+		JCheckBox chckbxAadir = new JCheckBox("Añadir");
+		chckbxAadir.setBounds(160, 151, 129, 23);
+		contentPane.add(chckbxAadir);
+		
 		JCheckBox chckbxActualizar = new JCheckBox("Actualizar");
-		chckbxActualizar.setBounds(291, 168, 129, 23);
+		chckbxActualizar.setBounds(322, 151, 129, 23);
 		contentPane.add(chckbxActualizar);
+		
+		JButton btnEstudios = new JButton("Estudios");
+		btnEstudios.setBounds(12, 237, 117, 25);
+		contentPane.add(btnEstudios);
 	}
 }

@@ -1,21 +1,24 @@
-package pack.osakidetza.pruebas;
-
-import javax.swing.Spring;
+package pack.osakidetza.controladoras;
+import pack.osakidetza.gestorBD.*;
 
 public class C_Administracion {
-
-	private C_Administracion miAdmin;
-
+	
+	private static C_Administracion miAdmin=new C_Administracion();
+	
 	private C_Administracion() {
 	}
 
-	public C_Administracion getMiAdmin() {
+	public static C_Administracion getMiAdmin() {
 		return miAdmin;
 	}
 
-	public String identificarse(String pNombre, String pPass) {
-		return pPass;
+	public boolean identificarse(String pNombre, String pPass) {
 		
+		boolean rdo = false;	
+		ResultadoSQL rdoSQL = SGBD.getSGBD().consultaSQL("SELECT * FROM Usuario  WHERE Usuario.nombre='" +pNombre+"' AND Usuario.pass=sha1('" +pPass+ "')");
+		if(rdoSQL.next()){rdo = true;}
+		rdoSQL.close();
+		return rdo;		
 	}
 
 	public boolean cambiarPass(String pUsuario, String pPass, String pPassNueva) {
@@ -40,4 +43,5 @@ public class C_Administracion {
 	public boolean borrarUsuario(String pNom, String pPass) {
 		throw new UnsupportedOperationException();
 	}
+
 }

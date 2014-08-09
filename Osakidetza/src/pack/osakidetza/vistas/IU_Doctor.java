@@ -1,4 +1,4 @@
-package pack.osakidetza.prototipos;
+package pack.osakidetza.vistas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

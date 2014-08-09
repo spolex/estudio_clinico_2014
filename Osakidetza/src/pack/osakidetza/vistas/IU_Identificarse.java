@@ -1,4 +1,4 @@
-package pack.osakidetza.prototipos;
+package pack.osakidetza.vistas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -7,11 +7,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+
+import pack.osakidetza.controladoras.C_Administracion;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -77,7 +82,22 @@ public class IU_Identificarse extends JFrame {
 		passUsuario.setBounds(133, 111, 194, 17);
 		contentPane.add(passUsuario);
 		
-		JButton btnEntrar = new JButton("Entrar");
+		final JButton btnEntrar = new JButton("Entrar");
+		btnEntrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource()== btnEntrar)
+				{					
+					String pass = new String(passUsuario.getPassword());					
+					String nombre = new String(textUsuario.getText().toString());
+					boolean identificado = C_Administracion.getMiAdmin().identificarse(nombre, pass);
+					if(identificado)
+					{
+						IU_Doctor IU_DR = new IU_Doctor();
+						IU_DR.setVisible(true);
+					}
+				}
+			}
+		});
 		btnEntrar.setBounds(27, 160, 194, 25);
 		contentPane.add(btnEntrar);
 		
