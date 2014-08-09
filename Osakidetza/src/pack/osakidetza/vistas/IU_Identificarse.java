@@ -1,6 +1,5 @@
 package pack.osakidetza.vistas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -10,6 +9,7 @@ import javax.swing.JLabel;
 
 import java.awt.Font;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -20,6 +20,7 @@ import pack.osakidetza.controladoras.C_Administracion;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class IU_Identificarse extends JFrame {
 
 	private JPanel contentPane;
@@ -61,7 +62,14 @@ public class IU_Identificarse extends JFrame {
 		lblBienvenido.setBounds(27, 12, 409, 23);
 		contentPane.add(lblBienvenido);
 		
-		JButton btnSalir = new JButton("Salir");
+		final JButton btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource()==btnSalir){
+					dispose();
+				}
+			}
+		});
 		btnSalir.setBounds(319, 237, 117, 25);
 		contentPane.add(btnSalir);
 		
@@ -89,12 +97,26 @@ public class IU_Identificarse extends JFrame {
 				{					
 					String pass = new String(passUsuario.getPassword());					
 					String nombre = new String(textUsuario.getText().toString());
-					boolean identificado = C_Administracion.getMiAdmin().identificarse(nombre, pass);
-					if(identificado)
+					String identificado = new String();
+				    identificado = C_Administracion.getMiAdmin().identificarse(nombre, pass);
+					identificado = identificado.toString();
+					if(identificado!=null)
 					{
-						IU_Doctor IU_DR = new IU_Doctor();
-						IU_DR.setVisible(true);
+						if(identificado.equalsIgnoreCase("0"))
+						{
+							IU_Doctor IU_DR = new IU_Doctor();
+							IU_DR.setVisible(true);
+						}
+						else if (identificado.equalsIgnoreCase("1"))
+						{
+							IU_Administracion IU_admin= new IU_Administracion();
+							IU_admin.setVisible(true);
+						}
+						
 					}
+					else{
+						JOptionPane.showMessageDialog(null,"Usuario o contraseña incorrectos, vuelva a intentarlo.");
+					}					
 				}
 			}
 		});

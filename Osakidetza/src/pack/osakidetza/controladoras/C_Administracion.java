@@ -1,5 +1,4 @@
 package pack.osakidetza.controladoras;
-import pack.osakidetza.gestorBD.*;
 
 public class C_Administracion {
 	
@@ -12,13 +11,8 @@ public class C_Administracion {
 		return miAdmin;
 	}
 
-	public boolean identificarse(String pNombre, String pPass) {
-		
-		boolean rdo = false;	
-		ResultadoSQL rdoSQL = SGBD.getSGBD().consultaSQL("SELECT * FROM Usuario  WHERE Usuario.nombre='" +pNombre+"' AND Usuario.pass=sha1('" +pPass+ "')");
-		if(rdoSQL.next()){rdo = true;}
-		rdoSQL.close();
-		return rdo;		
+	public String identificarse(String pNombre, String pPass) {		
+		return CatalogoUsuarios.getMisUsuarios().identificarse(pNombre, pPass);
 	}
 
 	public boolean cambiarPass(String pUsuario, String pPass, String pPassNueva) {
@@ -40,7 +34,7 @@ public class C_Administracion {
 				return false;
 	}
 
-	public boolean borrarUsuario(String pNom, String pPass) {
+	public boolean borrarUsuario(String pNom, String pPass){
 		throw new UnsupportedOperationException();
 	}
 
