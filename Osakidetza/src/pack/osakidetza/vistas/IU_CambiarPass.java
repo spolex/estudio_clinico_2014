@@ -1,7 +1,5 @@
 package pack.osakidetza.vistas;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -15,8 +13,6 @@ import pack.osakidetza.controladoras.C_Administracion;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.security.spec.PSSParameterSpec;
-
 import javax.swing.JPasswordField;
 
 @SuppressWarnings("serial")
