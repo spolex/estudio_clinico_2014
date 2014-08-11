@@ -86,7 +86,8 @@ public class IU_Restablecer extends JFrame {
 					String passN = new String(passNueva.getPassword());
 					String passR = new String (passRepite.getPassword());
 					if(passN.equals(passR)){
-						if(C_Administracion.getMiAdmin().restablecerPass(pEmail,textResp.getText() , passN)){
+						if(C_Administracion.getMiAdmin().restablecerPass(pEmail,textResp.getText() , passN))
+						{
 							JOptionPane.showMessageDialog(null, "Contraseña restablecida con éxito");
 							dispose();
 							IU_Principal IU_P = new IU_Principal();

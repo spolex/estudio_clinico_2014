@@ -32,6 +32,23 @@ public class CatalogoUsuarios {
 		}
 		return rdo;		
 	}
+	
+	/**
+	 * @pre Recibe como parametro el nombre del usuario y la clave
+	 * @post Si existe el usuario con la clave devuelve true, en caso contrario false. 
+	 * @param pNombre
+	 * @param pPass
+	 * @return boolean
+	 */
+		public String identificarseEmail(String pEmail, String pPass) {
+			String rdo = null;	
+			ResultadoSQL rdoSQL = SGBD.getSGBD().consultaSQL("SELECT esAdmin FROM Usuario  WHERE Usuario.pEmail='" +pEmail+"' AND Usuario.pass=sha1('" +pPass+ "')");
+			if(rdoSQL.next()){
+			rdo = rdoSQL.get("esAdmin");
+			rdoSQL.close();
+			}
+			return rdo;		
+		}
 	/**
 	 * pre:Recibe por parámetros el nombre y la contraseña para poder identificarse, además de la pregunta de seguridad nueva y su correspondiente respuesta.
 	 * post:Cambia la contraseña del usuario y además actualiza la pregunta y respuesta de seguridad.
@@ -90,10 +107,9 @@ public class CatalogoUsuarios {
 		{
 			if(rdoSQL.get("respuesta").equals(pRespSeg)){
 				SGBD.getSGBD().execSQL("UPDATE Usuario SET pass = sha1('"+ pNuevoPass+ "') WHERE email = '" +pEmail+ "'");	
-				return true;
 			}
 		}		
-		return false;
+		return CatalogoUsuarios.getMisUsuarios().identificarseEmail(pEmail, pNuevoPass)!=null;
 	}
 
 	/*public boolean addUsuario(string pNom, string pPass, string pEsmedico,
