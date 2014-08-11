@@ -15,13 +15,14 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 
+import pack.osakidetza.aux.EmailValidator;
 import pack.osakidetza.controladoras.C_Administracion;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
-public class IU_Identificarse extends JFrame {
+public class IU_Principal extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textUsuario;
@@ -34,7 +35,7 @@ public class IU_Identificarse extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IU_Identificarse frame = new IU_Identificarse();
+					IU_Principal frame = new IU_Principal();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,7 +47,7 @@ public class IU_Identificarse extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IU_Identificarse() {
+	public IU_Principal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -103,11 +104,13 @@ public class IU_Identificarse extends JFrame {
 					{
 						if(identificado.equalsIgnoreCase("0"))
 						{
+							dispose();
 							IU_Doctor IU_DR = new IU_Doctor();
 							IU_DR.setVisible(true);
 						}
 						else if (identificado.equalsIgnoreCase("1"))
 						{
+							dispose();
 							IU_Administracion IU_admin= new IU_Administracion();
 							IU_admin.setVisible(true);
 						}
@@ -120,19 +123,46 @@ public class IU_Identificarse extends JFrame {
 				}
 			}
 		});
-		btnEntrar.setBounds(27, 160, 194, 25);
+		btnEntrar.setBounds(27, 160, 215, 25);
 		contentPane.add(btnEntrar);
 		
-		JButton btnCambiarPass = new JButton("Cambiar contraseña");
+		final JButton btnCambiarPass = new JButton("Cambiar contraseña");
 		btnCambiarPass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==btnCambiarPass){
+					dispose();
+					IU_CambiarPass IU_CP = new IU_CambiarPass();
+					IU_CP.setVisible(true);
+				}
 			}
 		});
-		btnCambiarPass.setBounds(27, 197, 194, 25);
+		btnCambiarPass.setBounds(27, 197, 215, 25);
 		contentPane.add(btnCambiarPass);
-		
-		JButton btnRecuperarPass = new JButton("Recuperar contraseña");
-		btnRecuperarPass.setBounds(27, 237, 194, 25);
+		/*
+		 * Para restablecer la contraseña es necesario introducir el email de la cuenta con la que estamo registrados en el campo usuario.
+		 */
+		final JButton btnRecuperarPass = new JButton("Restablecer contraseña");
+		btnRecuperarPass.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == btnRecuperarPass && EmailValidator.validateEmail(textUsuario.getText())){
+					String email = textUsuario.getText();
+					String pregunta = C_Administracion.getMiAdmin().obtenerPregunta(email);
+					if(pregunta!=null)
+					{
+						dispose();
+						IU_Restablecer IU_R = new IU_Restablecer(pregunta,email);
+						IU_R.setVisible(true);
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "El email no está registrado");
+					}
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Introduzca su email en el campo Usuario");
+				}
+			}
+		});
+		btnRecuperarPass.setBounds(27, 237, 215, 25);
 		contentPane.add(btnRecuperarPass);
 	}
 }

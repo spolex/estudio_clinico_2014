@@ -15,14 +15,14 @@ public class C_Administracion {
 		return CatalogoUsuarios.getMisUsuarios().identificarse(pNombre, pPass);
 	}
 
-	public boolean cambiarPass(String pUsuario, String pPass, String pPassNueva) {
-		return false;
+	public boolean cambiarPass(String pUsuario, String pPass, String pPassNueva, String pPregunta, String pResp) {
+		return CatalogoUsuarios.getMisUsuarios().cambiarPass(pUsuario, pPass, pPassNueva, pPregunta, pResp);
 	
 	}
 
-	public boolean recuperarPass(String pNomUsuario, String pRespSeg,
+	public boolean restablecerPass(String pEmail, String pRespSeg,
 			String pNuevoPass) {
-				return false;
+				return CatalogoUsuarios.getMisUsuarios().restablecerPass(pEmail, pRespSeg, pNuevoPass);
 	}
 
 	/*public Usuario existeUsuario(String pNom) {
@@ -36,6 +36,10 @@ public class C_Administracion {
 
 	public boolean borrarUsuario(String pNom, String pPass){
 		throw new UnsupportedOperationException();
+	}
+	
+	public String obtenerPregunta(String pEmail){
+		return CatalogoUsuarios.getMisUsuarios().obtenerPregunta(pEmail);
 	}
 
 }
