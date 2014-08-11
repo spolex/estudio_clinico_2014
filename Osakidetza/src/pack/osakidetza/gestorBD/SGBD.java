@@ -12,9 +12,7 @@ public class SGBD {
 	private static SGBD mSGDB = new SGBD();
 	
 	private SGBD()
-	{
-		
-		
+	{		
 	}
 	
 	public static SGBD getSGBD()
@@ -91,13 +89,13 @@ public class SGBD {
 		{
 			
 			try {
-				//creamos la sentencia
-				Statement s = conexion.createStatement();
-				//obtenemos su resultado
-				ResultSet rs = s.executeQuery(consulta);
-				//creamos el ResultadoSQL a devolver
-				//la conexion se cerrara al ejecutar el close del ResultSet
-				return new ResultadoSQL(rs);
+					//creamos la sentencia
+					Statement s = conexion.createStatement();
+					//obtenemos su resultado
+					ResultSet rs = s.executeQuery(consulta);
+					//creamos el ResultadoSQL a devolver
+					//la conexion se cerrara al ejecutar el close del ResultSet
+					return new ResultadoSQL(rs);
 			
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

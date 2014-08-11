@@ -98,8 +98,7 @@ public class IU_Identificarse extends JFrame {
 					String pass = new String(passUsuario.getPassword());					
 					String nombre = new String(textUsuario.getText().toString());
 					String identificado = new String();
-				    identificado = C_Administracion.getMiAdmin().identificarse(nombre, pass);
-					identificado = identificado.toString();
+				    identificado = C_Administracion.getMiAdmin().identificarse(nombre, pass);				
 					if(identificado!=null)
 					{
 						if(identificado.equalsIgnoreCase("0"))
@@ -115,6 +114,7 @@ public class IU_Identificarse extends JFrame {
 						
 					}
 					else{
+						
 						JOptionPane.showMessageDialog(null,"Usuario o contraseña incorrectos, vuelva a intentarlo.");
 					}					
 				}
@@ -134,13 +134,5 @@ public class IU_Identificarse extends JFrame {
 		JButton btnRecuperarPass = new JButton("Recuperar contraseña");
 		btnRecuperarPass.setBounds(27, 237, 194, 25);
 		contentPane.add(btnRecuperarPass);
-		
-		JButton btnNewButton = new JButton("Actualizar");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton.setBounds(251, 160, 185, 25);
-		contentPane.add(btnNewButton);
 	}
 }
