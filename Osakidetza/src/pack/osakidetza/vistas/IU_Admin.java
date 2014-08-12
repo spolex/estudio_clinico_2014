@@ -63,6 +63,7 @@ public class IU_Admin extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setResizable(false);
 		
 		JLabel lblPanelDeAdministracin = new JLabel("Panel de Administración");
 		lblPanelDeAdministracin.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));

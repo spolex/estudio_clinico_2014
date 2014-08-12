@@ -49,6 +49,7 @@ public class IU_Restablecer extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setResizable(false);
 		
 		JTextPane txtPreg = new JTextPane();
 		txtPreg.setText(pregunta);

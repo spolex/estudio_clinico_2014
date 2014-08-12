@@ -49,6 +49,8 @@ public class IU_Doctor extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		setResizable(false);
+		
 		JLabel lblBienvenidoDoctor = new JLabel("Bienvenido Doctor");
 		lblBienvenidoDoctor.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBienvenidoDoctor.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 21));

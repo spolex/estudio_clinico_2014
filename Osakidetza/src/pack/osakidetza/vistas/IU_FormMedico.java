@@ -58,6 +58,7 @@ public class IU_FormMedico extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setResizable(false);
 		
 		JLabel lblNuevoMedico = new JLabel("Nuevo medico");
 		lblNuevoMedico.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
