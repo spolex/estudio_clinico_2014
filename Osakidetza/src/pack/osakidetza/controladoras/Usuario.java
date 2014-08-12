@@ -3,18 +3,19 @@ package pack.osakidetza.controladoras;
 public class Usuario {
 
 	private String nombre;
-	private String pass;
+	private String email;
 
-	public Usuario() {
-		throw new UnsupportedOperationException();
+	public Usuario(String pNombre,String pEmail) {
+		this.nombre=pNombre;
+		this.email=pEmail;
 	}
 
 	public String getNombre() {
 		return nombre;
 	}
 
-	public String getPass() {
-		return pass;
+	public String getEmail() {
+		return email;
 	}	
 
 	

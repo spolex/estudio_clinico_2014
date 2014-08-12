@@ -1,5 +1,7 @@
 package pack.osakidetza.controladoras;
 
+import java.util.ArrayList;
+
 public class C_Administracion {
 	
 	private static C_Administracion miAdmin=new C_Administracion();
@@ -25,17 +27,22 @@ public class C_Administracion {
 				return CatalogoUsuarios.getMisUsuarios().restablecerPass(pEmail, pRespSeg, pNuevoPass);
 	}
 
-	/*public Usuario existeUsuario(String pNom) {
-		throw new UnsupportedOperationException();
-	}*/
+	public boolean addUsuario(String pNom,String pEmail,String pEsp, String pPass, String pEsmedico, String pNomAdmin){
+		return CatalogoUsuarios.getMisUsuarios().addUsuario(pNom, pEmail, pEsp, pPass, pEsmedico, pNomAdmin);
+	}
+	
+	public ArrayList<Usuario> listarMedicos()
+	{
+		return CatalogoUsuarios.getMisUsuarios().listarMedicos();
+	}
 
 	public boolean addUsuario(String pNom, String pPass, String pEsmedico,
 			String pEsAdmin) {
 				return false;
 	}
 
-	public boolean borrarUsuario(String pNom, String pPass){
-		throw new UnsupportedOperationException();
+	public boolean darDeBajaUsuario(String pNom, String pEmail){
+		return CatalogoUsuarios.getMisUsuarios().darDeBajaUsuario(pEmail, pNom);
 	}
 	
 	public String obtenerPregunta(String pEmail){

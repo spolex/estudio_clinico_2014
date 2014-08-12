@@ -7,8 +7,9 @@ import pack.osakidetza.gestorBD.SGBD;
 
 public class CatalogoUsuarios {
 
-	private ArrayList<Usuario> listaUsuarios;
+	//private ArrayList<Usuario> listaUsuarios;
 	private static CatalogoUsuarios misUsuarios = new CatalogoUsuarios();
+	public static int max = 100;//El máximo de usuarios que soporta el sistema. 
 
 	private CatalogoUsuarios() {		
 	}
@@ -112,16 +113,83 @@ public class CatalogoUsuarios {
 		return CatalogoUsuarios.getMisUsuarios().identificarseEmail(pEmail, pNuevoPass)!=null;
 	}
 
-	/*public boolean addUsuario(string pNom, string pPass, string pEsmedico,
-			string pEsAdmin) {
-		throw new UnsupportedOperationException();
+	/**
+	 * pre:recibe por parámetros los datos del usuario que quiere añadir.
+	 * post:si no existe se añade un nuevo usuario en el sistema.
+	 * @param pNom
+	 * @param pEmail
+	 * @param pEsp
+	 * @param pPass
+	 * @param pEsmedico
+	 * @param pNomAdmin
+	 * @return true si se añade, en otro caso false.
+	 */
+	public boolean addUsuario(String pNom,String pEmail,String pEsp, String pPass, String pEsmedico, String pNomAdmin) {
+		String nombre = existeUsuario(pEmail);
+		if(nombre == null)
+		{
+			SGBD.getSGBD().execSQL("INSERT INTO Usuario(nombre, pass, email, esMedico, especialidad, nombreAdmin) "
+					+ "VALUES('" + pNom + "', sha1('" + pPass + "'), '" + pEmail + "', 1, '" + pEsp + "','"+ pNomAdmin +"')");
+			return existeUsuario(pEmail) !=null;
+		}	
+		return false;		
 	}
-*/
-	/*public boolean borrarUsuario(string pNom, string pPass) {
-		throw new UnsupportedOperationException();
-	}*/
-
-	/*public string obtenerPregunta(string pNom) {
-		throw new UnsupportedOperationException();
-	}*/
+	
+	/**
+	 * pre:recibe por parámetros el email que se quiere verificar si está registrado en el sistema.
+	 * post:
+	 * @param pEmail
+	 * @return si existe devuelve el nombre del usuario, en otro caso NULL.
+	 */
+	private String existeUsuario(String pEmail){
+		ResultadoSQL rdoSQL = SGBD.getSGBD().consultaSQL("SELECT nombre FROM Usuario WHERE email='" +pEmail+ "'");
+		if(rdoSQL.next()){
+			return rdoSQL.get("nombre");
+		}
+		return null;
+		}
+	
+	/**
+	 * pre:recibe por parámetro el email y el nombre del usuario que se quiere dar de baja en el sistema.
+	 * post: si no está activo se da de baja (esAdmin=0 y esMedico=0).
+	 * @param pEmail
+	 * @param pNom
+	 * @return true si no está activo o si se consigue dar de baja, false en otro caso.
+	 */
+	
+	public boolean darDeBajaUsuario(String pEmail, String pNom) 
+	{
+		if(existeUsuario(pEmail) != null && estaActivo(pEmail)){
+			SGBD.getSGBD().execSQL("UPDATE Usuario SET esAdmin=0, esMedico=0 WHERE email='" +pEmail+ "'");
+		}
+		return !estaActivo(pEmail);
+	}
+	
+	/**
+	 * pre:recibe por parémetro el email del usuario que se quiere verificar si está dado de alta en el sistema.
+	 * post:si existe y es administrador o médico está activo, en otro caso no.
+	 * @param pEmail
+	 * @return true si es admin o médico, false en otro caso. 
+	 */
+	private boolean estaActivo(String pEmail){
+		ResultadoSQL rdoSQL = SGBD.getSGBD().consultaSQL("Select esMedico,esAdmin FROM Usuario WHERE email='"+pEmail+"'");
+		if(rdoSQL.next()){
+			return (rdoSQL.get("esAdmin").equals("1") || rdoSQL.get("esMedico").equals("1"));
+		}
+		return false;
+	}
+	public ArrayList<Usuario> listarMedicos() {
+		ArrayList<Usuario> pListaUsuarios =new ArrayList<Usuario>();
+		
+		ResultadoSQL RdoSQL=SGBD.getSGBD().consultaSQL("SELECT * FROM Usuario WHERE esMedico=1");			
+			while(RdoSQL.next())			
+			{	
+				Usuario nUsuario = new Usuario(RdoSQL.get("nombre"),RdoSQL.get("email"));
+				pListaUsuarios.add(nUsuario);	
+				
+			}
+			RdoSQL.close();
+		
+		return pListaUsuarios;
+	}
 }

@@ -104,17 +104,17 @@ public class IU_Principal extends JFrame {
 					{
 						if(identificado.equalsIgnoreCase("0"))
 						{
-							dispose();
+							
 							IU_Doctor IU_DR = new IU_Doctor();
 							IU_DR.setVisible(true);
+							passUsuario.setText("");
 						}
 						else if (identificado.equalsIgnoreCase("1"))
 						{
-							dispose();
-							IU_Administracion IU_admin= new IU_Administracion();
+							IU_Admin IU_admin= new IU_Admin(textUsuario.getText());
 							IU_admin.setVisible(true);
-						}
-						
+							passUsuario.setText("");
+						}					
 					}
 					else{
 						
