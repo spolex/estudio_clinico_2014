@@ -28,7 +28,7 @@ public class ResultadoSQL {
 				return this.rdo.next();
 			
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				
 				System.out.println("Error en la conexion con la base de datos");
 			}
 		}
@@ -51,7 +51,7 @@ public class ResultadoSQL {
 			return this.rdo.getString(pNomAtributo);
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			System.out.println("Error en la conexion con la base de datos");
 			return null;
 		}
@@ -71,7 +71,6 @@ public class ResultadoSQL {
 			return this.rdo.getInt(pNomAtributo);
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Error en la conexion con la base de datos");
 			return 0;
 		}
@@ -91,7 +90,7 @@ public class ResultadoSQL {
 			return this.rdo.getBoolean(pNomAtributo);
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			System.out.println("Error en la conexion con la base de datos");
 			return false;
 		}
@@ -105,6 +104,7 @@ public class ResultadoSQL {
 	 * @return la fecha como GregorianCalendar, null en caso de que falle la conexion
 	 * a la base de datos
 	 */
+	@SuppressWarnings("deprecation")
 	public GregorianCalendar getDate(String pNomAtributo)
 	{
 		try {
@@ -114,7 +114,7 @@ public class ResultadoSQL {
 			return (new GregorianCalendar((fecha.getYear()),fecha.getMonth(),fecha.getDate()));
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		
 			System.out.println("Error en la conexion con la base de datos");
 			return null;
 		}
@@ -130,7 +130,6 @@ public class ResultadoSQL {
 			this.rdo.close();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Fallo al cerrar la conexión");
 		}
 	}

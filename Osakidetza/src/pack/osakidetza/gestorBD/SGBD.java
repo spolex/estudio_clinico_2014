@@ -39,7 +39,6 @@ public class SGBD {
          conexion = dataSource.getConnection();
          
 		 } catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Error al conectar a la base de datos");
 			e.printStackTrace();
 		}
@@ -68,7 +67,6 @@ public class SGBD {
 				conexion.close();
 			
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				System.out.println("Error al ejecutar la sentencia SQL");
 				e.printStackTrace();
 			}
@@ -98,7 +96,6 @@ public class SGBD {
 					return new ResultadoSQL(rs);
 			
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				System.out.println("Error al ejecutar la sentencia SQL");
 			}
 	
