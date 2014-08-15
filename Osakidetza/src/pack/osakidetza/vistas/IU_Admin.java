@@ -8,7 +8,6 @@ import javax.swing.JLabel;
 import java.awt.Font;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -33,6 +32,7 @@ public class IU_Admin extends JFrame {
 	private String doctor;
 	private String emailDoctor;
 
+
 	/**
 	 * Launch the application.
 	 */
@@ -54,7 +54,6 @@ public class IU_Admin extends JFrame {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public IU_Admin(final String pNomAdmin) {
-		
 		this.doctor=null;
 		this.emailDoctor=null;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,14 +88,10 @@ public class IU_Admin extends JFrame {
 		final JButton btnBorrar = new JButton("Borrar");
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource()==btnBorrar){
+				if(e.getSource()==btnBorrar){					
 					if(IU_Admin.this.doctor != null && IU_Admin.this.emailDoctor != null){
-						if(C_Administracion.getMiAdmin().darDeBajaUsuario(doctor,emailDoctor)){
-							JOptionPane.showMessageDialog(null, "Usuario dado de baja con éxito");
-						}
-						else{
-							JOptionPane.showMessageDialog(null, "El usuario no está de alta en el sistema");
-						}
+						IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,true);					
+						IU_FI.setVisible(true);									
 					}
 				}
 			}
@@ -152,7 +147,7 @@ public class IU_Admin extends JFrame {
 		btnNuevo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==btnNuevo){
-					IU_FormMedico IU_NM = new IU_FormMedico(pNomAdmin);
+					IU_FormMedico IU_NM = new IU_FormMedico(pNomAdmin,"","","");
 					IU_NM.setVisible(true);
 				}
 			}
@@ -160,7 +155,17 @@ public class IU_Admin extends JFrame {
 		btnNuevo.setBounds(274, 311, 117, 25);
 		contentPane.add(btnNuevo);
 		
-		JButton btnActualizar = new JButton("Actualizar");
+		final JButton btnActualizar = new JButton("Actualizar");
+		btnActualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==btnActualizar){
+					if(IU_Admin.this.doctor != null && IU_Admin.this.emailDoctor != null){
+						IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,false);					
+						IU_FI.setVisible(true);									
+					}
+				}
+			}
+		});
 		btnActualizar.setBounds(402, 311, 117, 25);
 		contentPane.add(btnActualizar);
 		

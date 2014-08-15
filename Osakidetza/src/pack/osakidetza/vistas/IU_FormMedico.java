@@ -39,7 +39,7 @@ public class IU_FormMedico extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IU_FormMedico frame = new IU_FormMedico("Admin");
+					IU_FormMedico frame = new IU_FormMedico("","","","");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,7 +51,7 @@ public class IU_FormMedico extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IU_FormMedico(final String pNomAdmin) {
+	public IU_FormMedico(final String pNomAdmin,final String pNom,final String pEmail,final String pEsp) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 449, 368);
 		contentPane = new JPanel();
@@ -78,6 +78,7 @@ public class IU_FormMedico extends JFrame {
 		texNom.setBounds(196, 94, 181, 19);
 		contentPane.add(texNom);
 		texNom.setColumns(10);
+		texNom.setText(pNom);
 		
 		JLabel lblPass = new JLabel("Pass");
 		lblPass.setBounds(72, 176, 70, 15);
@@ -92,6 +93,7 @@ public class IU_FormMedico extends JFrame {
 		textEsp.setBounds(196, 253, 181, 19);
 		contentPane.add(textEsp);
 		textEsp.setColumns(10);
+		textEsp.setText(pEsp);	
 		
 		final JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
@@ -107,7 +109,7 @@ public class IU_FormMedico extends JFrame {
 		final JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource()==btnAceptar){
+				if(e.getSource()==btnAceptar && pNom.length()==0){
 					if(pass.getPassword().length!=0 && passRep.getPassword().length!=0 
 							&& texNom.getText().length()!=0 && 
 							textEmail.getText().length()!=0 && textEsp.getText().length() != 0){
@@ -115,6 +117,7 @@ public class IU_FormMedico extends JFrame {
 							if(EmailValidator.validateEmail(textEmail.getText())){
 								if(C_Administracion.getMiAdmin().addUsuario(texNom.getText(),textEmail.getText(),textEsp.getText(), String.valueOf(pass.getPassword()),"1", pNomAdmin)){
 									JOptionPane.showMessageDialog(null, "Usuario añadido");
+									dispose();
 								}
 								else
 								{
@@ -131,6 +134,17 @@ public class IU_FormMedico extends JFrame {
 					}
 					else{
 						JOptionPane.showMessageDialog(null, "Faltan campos por rellenar");
+					}
+				}
+				else if(e.getSource()==btnAceptar && !pass.isEnabled() && !passRep.isEnabled()){
+					if(EmailValidator.validateEmail(textEmail.getText())){
+						if(C_Administracion.getMiAdmin().actualizarUsuario(pNom, pEmail, textEmail.getText(), textEsp.getText())){
+							JOptionPane.showMessageDialog(null, "Los datos del usuario han sido actualizados");
+							dispose();
+						}
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "El formato del email no está soportado por el sistema");
 					}
 				}
 			}
@@ -160,5 +174,12 @@ public class IU_FormMedico extends JFrame {
 		textEmail.setBounds(196, 137, 181, 19);
 		contentPane.add(textEmail);
 		textEmail.setColumns(10);
+		textEmail.setText(pEmail);
+		
+		if(pEmail.length()>0 && pEsp.length()>0 && pNom.length() >0){			
+			texNom.setEnabled(false);
+			pass.setEnabled(false);
+			passRep.setEnabled(false);
+		}
 	}
 }

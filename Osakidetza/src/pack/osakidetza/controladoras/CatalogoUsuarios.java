@@ -1,21 +1,27 @@
 package pack.osakidetza.controladoras;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import pack.osakidetza.gestorBD.ResultadoSQL;
 import pack.osakidetza.gestorBD.SGBD;
 
 public class CatalogoUsuarios {
 
-	//private ArrayList<Usuario> listaUsuarios;
+	private ArrayList<Usuario> listaUsuarios;
 	private static CatalogoUsuarios misUsuarios = new CatalogoUsuarios();
-	public static int max = 100;//El máximo de usuarios que soporta el sistema. 
+	public static int max = 100;//El máximo de usuarios que soporta el sistema.
+	 
 
 	private CatalogoUsuarios() {		
 	}
 
 	public static CatalogoUsuarios getMisUsuarios() {
 		return misUsuarios;
+	}
+	
+	private ArrayList<Usuario> getLista(){
+		return this.getLista();
 	}
 /**
  * @pre Recibe como parametro el nombre del usuario y la clave
@@ -185,12 +191,63 @@ public class CatalogoUsuarios {
 		ResultadoSQL RdoSQL=SGBD.getSGBD().consultaSQL("SELECT * FROM Usuario WHERE esMedico=1");			
 			while(RdoSQL.next())			
 			{	
-				Usuario nUsuario = new Usuario(RdoSQL.get("nombre"),RdoSQL.get("email"));
+				Usuario nUsuario = new Usuario(RdoSQL.get("nombre"),RdoSQL.get("email"),"");
 				pListaUsuarios.add(nUsuario);	
 				
 			}
 			RdoSQL.close();
 		
 		return pListaUsuarios;
+	}
+	/**
+	 * No utiliza el modelo, busca en la lista que contiene el catálogo
+	 * Es necesario para manejar las instancias de clases Usuario.
+	 * pre:recibe el nombre del usuario que se quiere buscar en el catálogo.
+	 * post:devuelve el usuario con el mismo nombre que se recibe como parámetro
+	 * @param pNom
+	 * @return usuario si existe, en otro caso null
+	 */
+	private Usuario buscarUsuario(String pNom){
+		
+		Usuario user = null;
+		Iterator<Usuario> itr = this.getLista().iterator();
+		if(itr.hasNext()){
+			Usuario userAux = itr.next();
+			if(userAux.getNombre().equalsIgnoreCase(pNom));
+			return user;
+		}
+		return user;
+	}
+	
+	/**
+	 * pre:recibe como parámetro el nombre del usuario del que se quiere resetear el pass
+	 * pos:el atributo pass="" 
+	 * @param pNom
+	 */
+	public void resetPass(String pNom){
+		Usuario user=this.buscarUsuario(pNom);
+		if(user!=null){
+			user.resetPass();
+		}
+	}
+
+	public Usuario obtenerUsuario(String pEmail) {
+		ResultadoSQL RdoSQL = SGBD.getSGBD().consultaSQL("Select * FROM Usuario WHERE email = '" +pEmail+ "'");
+		if(RdoSQL.next()){
+			return new Usuario(RdoSQL.get("nombre"),pEmail, RdoSQL.get("especialidad"));
+		}
+		return null;
+	}
+
+	public boolean actualizarUsuario(String pNom, String pEmailViejo,String pEmailNuevo, String pEspec) {
+		
+		SGBD.getSGBD().execSQL("UPDATE Usuario SET email='"+pEmailNuevo+"', especialidad='"+pEspec+"' WHERE email='" +pEmailViejo+ "'");
+		ResultadoSQL RdoSQL=SGBD.getSGBD().consultaSQL("SELECT nombre FROM Usuario WHERE email='" +pEmailNuevo+ "'");
+		if(RdoSQL.next()){
+			boolean rdo= pNom.equals(RdoSQL.get("nombre"));
+			RdoSQL.close();
+			return rdo;
+		}
+		return false;		
 	}
 }
