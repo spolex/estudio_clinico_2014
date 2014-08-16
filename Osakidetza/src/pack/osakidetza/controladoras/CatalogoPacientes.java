@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.swing.ListModel;
-
 import pack.osakidetza.gestorBD.ResultadoSQL;
 import pack.osakidetza.gestorBD.SGBD;
 
@@ -58,7 +56,6 @@ public class CatalogoPacientes {
 				+ "VALUES('"+pHist+"','"+pNom+"','"+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"'"
 				+ ", '"+cI+"', '"+sexo+"', '"+criteriosCI+"', '"+numFamilia+"','"+familiarCi+"', '"+relacionCi+"','"+lugarNace+"','"+origenMaterno+"', '"+origenPaterno+"', '"+anovulatorios+"','"+numGes+"')");
 		
-		boolean encontrado = buscarPaciente(pHist);
 		
 		if(!fechaNacimiento.equals("")){
 			SGBD.getSGBD().execSQL("UPDATE Paciente SET fechaNacimiento = '"+fechaNacimiento+"' WHERE historial = '"+pHist+"'");
@@ -88,21 +85,21 @@ public class CatalogoPacientes {
 			SGBD.getSGBD().execSQL("UPDATE Paciente SET historialCI = '"+histCI+"' WHERE historial = '"+pHist+"'");
 		}
 		
-		return encontrado;
+		return buscarPaciente(pHist)!=null;
 	}
 
 	/**
 	 * pre:
 	 * post:comprueba si el paciente con el número de historial recibido como parámetro existe en el sistema.
 	 * @param pHist
-	 * @return true si existe en el sistema, false en otro caso.
+	 * @return retorna el nº historial si existe en el sistema, null en otro caso.
 	 */
-	public boolean buscarPaciente(String pHist) {
+	public String buscarPaciente(String pHist) {
 		
-		boolean encontrado = false;
+		String encontrado = null;
 		ResultadoSQL RdoSQL = SGBD.getSGBD().consultaSQL("SELECT historial FROM Paciente WHERE historial = '"+pHist+"'");
 		if(RdoSQL.next()){
-			encontrado = true;
+			encontrado = RdoSQL.get("historial");
 			RdoSQL.close();
 		}
 		return encontrado;
@@ -137,6 +134,16 @@ public class CatalogoPacientes {
 			listaPacientes.add(RdoSQL.get("historial"));
 		}
 		return listaPacientes;
+	}
+
+	public ArrayList<String> listarPacientesDado(String cI) {
+		ArrayList<String> lista= new ArrayList<String>();
+		
+		ResultadoSQL RdoSQL = SGBD.getSGBD().consultaSQL("SELECT historial FROM Paciente WHERE historialCI = '"+cI+"'");
+		while(RdoSQL.next()){
+			lista.add(RdoSQL.get("historial"));
+		}
+		return lista;
 	}
 
 }

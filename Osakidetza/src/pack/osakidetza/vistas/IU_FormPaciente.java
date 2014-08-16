@@ -239,7 +239,7 @@ public class IU_FormPaciente extends JFrame {
 					if(!textHist.getText().isEmpty() && !textNombre.getText().isEmpty())
 					{
 						String pHist = textHist.getText();
-						if(!C_Doctor.getMiDoctor().buscarPaciente(pHist))
+						if(C_Doctor.getMiDoctor().buscarPaciente(pHist)==null)
 						{
 							String pNom = textNombre.getText();
 							String CI = comboBoxCI.getSelectedItem().toString();

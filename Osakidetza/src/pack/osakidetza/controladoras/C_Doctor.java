@@ -2,8 +2,6 @@ package pack.osakidetza.controladoras;
 
 import java.util.ArrayList;
 
-import javax.swing.ListModel;
-
 public class C_Doctor {
 	
 	private static C_Doctor miDoctor=new C_Doctor();
@@ -29,7 +27,7 @@ public class C_Doctor {
 				 fechaPrimerEmbarazo,  fechaMenopausia, fechaMenarquia);
 	}
 
-	public boolean buscarPaciente(String pHist) {
+	public String buscarPaciente(String pHist) {
 		return CatalogoPacientes.getPacientes().buscarPaciente(pHist);
 	}
 	
@@ -39,6 +37,10 @@ public class C_Doctor {
 
 	public ArrayList<String> listarPacientes() {
 		return CatalogoPacientes.getPacientes().listarPacientes();
+	}
+
+	public ArrayList<String> listarPacientesDado(String cI) {
+		return CatalogoPacientes.getPacientes().listarPacientesDado(cI);
 	}
 
 }

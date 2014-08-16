@@ -5,7 +5,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.html.HTMLDocument.Iterator;
 import javax.swing.JLabel;
 
 import java.awt.Font;
@@ -24,12 +23,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
+import com.toedter.calendar.JDateChooser;
+
 @SuppressWarnings("serial")
 public class IU_Pacientes extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textCI;
 	private JTextField txtNHistorial;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
@@ -70,19 +70,14 @@ public class IU_Pacientes extends JFrame {
 		lblCasondice.setBounds(24, 67, 117, 15);
 		contentPane.add(lblCasondice);
 		
-		textField = new JTextField();
-		textField.setBounds(157, 65, 234, 19);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textCI = new JTextField();
+		textCI.setBounds(157, 65, 234, 19);
+		contentPane.add(textCI);
+		textCI.setColumns(10);
 		
-		JLabel lblFecha = new JLabel("Fecha");
-		lblFecha.setBounds(24, 118, 70, 15);
+		JLabel lblFecha = new JLabel("Fecha alta");
+		lblFecha.setBounds(24, 118, 74, 15);
 		contentPane.add(lblFecha);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(157, 116, 234, 19);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
 		
 		
 		
@@ -140,6 +135,47 @@ public class IU_Pacientes extends JFrame {
 						IU_FormPaciente IU_FP= new IU_FormPaciente();
 						IU_FP.setVisible(true);
 					}
+					else if(txtNHistorial.getText().length()>0){
+						String paciente = C_Doctor.getMiDoctor().buscarPaciente(txtNHistorial.getText());
+						if(paciente!=null){
+							final String[] encontrado = new String[]{paciente};
+							list.setModel(new AbstractListModel() {
+								String[] values = encontrado;
+								@Override
+								public int getSize() {
+									return values.length;
+								}
+
+								@Override
+								public Object getElementAt(int index) {
+									return values[index];
+								}
+							});
+						}
+					}
+					else if(textCI.getText().length()>0){
+						String CI = textCI.getText();
+						ArrayList<String> listaPacientesDCI = C_Doctor.getMiDoctor().listarPacientesDado(CI);
+						final String[] listaPacientes = new String[listaPacientesDCI.size()];
+						java.util.Iterator<String> itr = listaPacientesDCI.iterator();
+						int index =0;
+						while(itr.hasNext()){
+							listaPacientes[index]=itr.next();
+							index++;
+						}
+						list.setModel(new AbstractListModel() {
+							String[] values = listaPacientes;
+							@Override
+							public int getSize() {
+								return values.length;
+							}
+
+							@Override
+							public Object getElementAt(int index) {
+								return values[index];
+							}
+						});
+					}
 					else{	
 						ArrayList<String> listaPacientes = C_Doctor.getMiDoctor().listarPacientes();
 						java.util.Iterator<String> itr = listaPacientes.iterator();
@@ -191,5 +227,9 @@ public class IU_Pacientes extends JFrame {
 		txtNHistorial.setBounds(160, 167, 234, 19);
 		contentPane.add(txtNHistorial);
 		txtNHistorial.setColumns(10);	
+		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(157, 118, 242, 19);
+		contentPane.add(dateChooser);
 	}
 }
