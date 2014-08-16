@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.html.HTMLDocument.Iterator;
 import javax.swing.JLabel;
 
 import java.awt.Font;
@@ -17,8 +18,11 @@ import javax.swing.AbstractListModel;
 import javax.swing.JCheckBox;
 import javax.swing.ButtonGroup;
 
+import pack.osakidetza.controladoras.C_Doctor;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class IU_Pacientes extends JFrame {
@@ -112,6 +116,22 @@ public class IU_Pacientes extends JFrame {
 		chckbxCancer.setBounds(24, 301, 74, 23);
 		contentPane.add(chckbxCancer);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(157, 225, 242, 99);
+		contentPane.add(scrollPane);		
+
+		final JList list = new JList();
+		scrollPane.setViewportView(list);
+		list.setModel(new AbstractListModel() {
+			String[] values = new String[] {};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		
 		final JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -119,6 +139,29 @@ public class IU_Pacientes extends JFrame {
 					if(chckbxNuevo.isSelected()){
 						IU_FormPaciente IU_FP= new IU_FormPaciente();
 						IU_FP.setVisible(true);
+					}
+					else{	
+						ArrayList<String> listaPacientes = C_Doctor.getMiDoctor().listarPacientes();
+						java.util.Iterator<String> itr = listaPacientes.iterator();
+						final String[] forModel=new String[listaPacientes.size()];
+						int index =0;
+						while(itr.hasNext()){
+							forModel[index] = itr.next();
+							index++;
+						}
+						list.setModel(new AbstractListModel() {
+							String[] values = forModel;
+							@Override
+							public int getSize() {
+								return values.length;
+							}
+
+							@Override
+							public Object getElementAt(int index) {
+								return values[index];
+							}
+						});
+
 					}
 				}
 			}
@@ -137,23 +180,8 @@ public class IU_Pacientes extends JFrame {
 		
 		JLabel lblPacientes_1 = new JLabel("Pacientes");
 		lblPacientes_1.setBounds(157, 198, 70, 15);
-		contentPane.add(lblPacientes_1);
+		contentPane.add(lblPacientes_1);		
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(157, 225, 242, 99);
-		contentPane.add(scrollPane);
-		
-		JList list = new JList();
-		scrollPane.setViewportView(list);
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
 		
 		JLabel lblPaciente = new JLabel("Paciente");
 		lblPaciente.setBounds(24, 169, 70, 15);

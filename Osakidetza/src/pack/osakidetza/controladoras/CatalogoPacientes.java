@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.ListModel;
+
 import pack.osakidetza.gestorBD.ResultadoSQL;
 import pack.osakidetza.gestorBD.SGBD;
 
@@ -106,6 +108,11 @@ public class CatalogoPacientes {
 		return encontrado;
 	}
 	
+	/**
+	 * pre:
+	 * post:obtiene la lista de todos los pacientes que son caso índice.
+	 * @return lista pacientes que son caso índice.
+	 */
 	public ArrayList<String> listarCasosIndice(){
 		
 		ArrayList<String> listaCI = new ArrayList<String>();
@@ -116,6 +123,20 @@ public class CatalogoPacientes {
 		}
 		
 		return listaCI;
+	}
+	
+	/**
+	 * 
+	 * @return todos los pacientes ACTIVOS en el sistema.
+	 */
+	public ArrayList<String> listarPacientes() {
+		
+		ArrayList<String> listaPacientes = new ArrayList<String>();
+		ResultadoSQL RdoSQL = SGBD.getSGBD().consultaSQL("Select historial FROM Paciente WHERE activo = '1'");
+		while(RdoSQL.next()){
+			listaPacientes.add(RdoSQL.get("historial"));
+		}
+		return listaPacientes;
 	}
 
 }

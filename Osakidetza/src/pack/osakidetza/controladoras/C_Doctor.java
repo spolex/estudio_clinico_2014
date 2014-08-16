@@ -2,6 +2,8 @@ package pack.osakidetza.controladoras;
 
 import java.util.ArrayList;
 
+import javax.swing.ListModel;
+
 public class C_Doctor {
 	
 	private static C_Doctor miDoctor=new C_Doctor();
@@ -33,6 +35,10 @@ public class C_Doctor {
 	
 	public ArrayList<String> listarCasosIndice(){
 		return CatalogoPacientes.getPacientes().listarCasosIndice();
+	}
+
+	public ArrayList<String> listarPacientes() {
+		return CatalogoPacientes.getPacientes().listarPacientes();
 	}
 
 }
