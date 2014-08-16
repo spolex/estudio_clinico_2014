@@ -1,6 +1,5 @@
 package pack.osakidetza.vistas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Image;
 
@@ -14,10 +13,12 @@ import java.awt.Font;
 
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
 
+@SuppressWarnings("serial")
 public class IU_Doctor extends JFrame {
 
 	private JPanel contentPane;
@@ -71,7 +72,15 @@ public class IU_Doctor extends JFrame {
 		 
 		lblIcon.setIcon(iconoEscalado);
 		
-		JButton btnPacientes = new JButton("Pacientes");
+		final JButton btnPacientes = new JButton("Pacientes");
+		btnPacientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==btnPacientes){
+					IU_Pacientes IU_P = new IU_Pacientes();
+					IU_P.setVisible(true);
+				}
+			}
+		});
 		btnPacientes.setBounds(23, 262, 117, 25);
 		contentPane.add(btnPacientes);
 		

@@ -8,6 +8,7 @@ import pack.osakidetza.gestorBD.SGBD;
 
 public class CatalogoUsuarios {
 
+	@SuppressWarnings("unused")
 	private ArrayList<Usuario> listaUsuarios;
 	private static CatalogoUsuarios misUsuarios = new CatalogoUsuarios();
 	public static int max = 100;//El máximo de usuarios que soporta el sistema.
