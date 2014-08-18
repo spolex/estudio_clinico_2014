@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 
+import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.DefaultListModel;
@@ -36,7 +37,7 @@ public class IU_Admin extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -47,7 +48,7 @@ public class IU_Admin extends JFrame {
 				}
 			}
 		});
-	}*/
+	}
 
 	/**
 	 * Create the frame.
@@ -128,13 +129,11 @@ public class IU_Admin extends JFrame {
 					ArrayList<Usuario> medicos=C_Administracion.getMiAdmin().listarMedicos();
 					Iterator<Usuario> itr = medicos.iterator();
 					DefaultListModel modelo = new DefaultListModel();
-					int i =0;
 					while(itr.hasNext())
 					{
 						Usuario medico=itr.next();
 						String item = medico.getNombre()+";"+medico.getEmail();						
-						modelo.add(i, item);
-						i++;
+						modelo.addElement(item);
 					}
 					listMedicos.setModel(modelo);
 				}

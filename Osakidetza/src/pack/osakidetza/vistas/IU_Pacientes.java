@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 
 import java.awt.Font;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -19,11 +20,11 @@ import javax.swing.JCheckBox;
 import javax.swing.ButtonGroup;
 
 import pack.osakidetza.controladoras.C_Doctor;
+import pack.osakidetza.controladoras.Paciente;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.event.ListSelectionListener;
@@ -81,11 +82,14 @@ public class IU_Pacientes extends JFrame {
 		contentPane.add(textCI);
 		textCI.setColumns(10);
 		
+		txtNHistorial = new JTextField();
+		txtNHistorial.setBounds(160, 167, 234, 19);
+		contentPane.add(txtNHistorial);
+		txtNHistorial.setColumns(10);			
+		
 		JLabel lblFecha = new JLabel("Fecha alta");
 		lblFecha.setBounds(24, 118, 74, 15);
-		contentPane.add(lblFecha);
-		
-		
+		contentPane.add(lblFecha);		
 		
 		JCheckBox chckbxDiagnosticos = new JCheckBox("Diagnósticos");
 		buttonGroup.add(chckbxDiagnosticos);
@@ -102,7 +106,7 @@ public class IU_Pacientes extends JFrame {
 		chckbxEliminar.setBounds(407, 270, 129, 23);
 		contentPane.add(chckbxEliminar);
 		
-		JCheckBox chckbxActualizar = new JCheckBox("Actualizar");
+		final JCheckBox chckbxActualizar = new JCheckBox("Actualizar");
 		buttonGroup.add(chckbxActualizar);
 		chckbxActualizar.setBounds(407, 297, 129, 23);
 		contentPane.add(chckbxActualizar);
@@ -125,16 +129,16 @@ public class IU_Pacientes extends JFrame {
 		scrollPane.setBounds(157, 225, 242, 99);
 		contentPane.add(scrollPane);		
 
-		final JList list = new JList();
-		list.addListSelectionListener(new ListSelectionListener() {
+		final JList listPacientes = new JList();
+		listPacientes.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				if(e.getValueIsAdjusting()){
-					historial = (String) list.getSelectedValue();
+					historial = (String) listPacientes.getSelectedValue();
 				}
 			}
 		});
-		scrollPane.setViewportView(list);
-		list.setModel(new AbstractListModel() {
+		scrollPane.setViewportView(listPacientes);
+		listPacientes.setModel(new AbstractListModel() {
 			String[] values = new String[] {};
 			public int getSize() {
 				return values.length;
@@ -150,12 +154,12 @@ public class IU_Pacientes extends JFrame {
 				if(e.getSource()==btnAceptar){
 					//Añadir paciente
 					if(chckbxNuevo.isSelected()){
-						IU_FormPaciente IU_FP= new IU_FormPaciente();
+						IU_FormPaciente IU_FP= new IU_FormPaciente(null);
 						IU_FP.setVisible(true);
 					}
 					//borrar paciente
 					if(chckbxEliminar.isSelected()){
-						if(!list.isSelectionEmpty()){
+						if(!listPacientes.isSelectionEmpty()){
 							IU_FastIdent IU_FI= new IU_FastIdent("",historial,false,true);					
 							IU_FI.setVisible(true);	
 						}
@@ -170,70 +174,39 @@ public class IU_Pacientes extends JFrame {
 					    if(txtNHistorial.getText().length()>0){
 					    	String paciente = C_Doctor.getMiDoctor().buscarPaciente(txtNHistorial.getText());
 							if(paciente!=null){
-								final String[] encontrado = new String[]{paciente};
-								list.setModel(new AbstractListModel() {
-									String[] values = encontrado;
-									@Override
-									public int getSize() {
-										return values.length;
-									}
-
-									@Override
-									public Object getElementAt(int index) {
-										return values[index];
-									}
-								});
+								DefaultListModel encontrado = new DefaultListModel();
+								listPacientes.setModel(encontrado);
 							}
 					    }
-					//listar paacientes dado ci
+					//listar pacientes dado ci
 					    else if(textCI.getText().length()>0){
 					    	String CI = textCI.getText();
 					    	ArrayList<String> listaPacientesDCI = C_Doctor.getMiDoctor().listarPacientesDado(CI);
-					    	final String[] listaPacientes = new String[listaPacientesDCI.size()];
 					    	java.util.Iterator<String> itr = listaPacientesDCI.iterator();
-					    	int index =0;
+							DefaultListModel modelo = new DefaultListModel();
 					    	while(itr.hasNext()){
-					    		listaPacientes[index]=itr.next();
-					    		index++;
+					    		modelo.addElement(itr.next());
 					    	}
-					    	list.setModel(new AbstractListModel() {
-					    		String[] values = listaPacientes;
-					    		@Override
-					    		public int getSize() {
-					    			return values.length;
-					    		}
-
-					    		@Override
-					    		public Object getElementAt(int index) {
-					    			return values[index];
-					    		}
-					    	});
+					    	listPacientes.setModel(modelo);
 					    }
 					//listar pacientes
 					    else{	
 					    	ArrayList<String> listaPacientes = C_Doctor.getMiDoctor().listarPacientes();
 					    	java.util.Iterator<String> itr = listaPacientes.iterator();
-					    	final String[] forModel=new String[listaPacientes.size()];
-					    	int index =0;
+					    	DefaultListModel modelo =new DefaultListModel();
 					    	while(itr.hasNext()){
-					    		forModel[index] = itr.next();
-					    		index++;
+					    		modelo.addElement(itr.next());
 					    	}
-					    	list.setModel(new AbstractListModel() {
-					    		String[] values = forModel;
-					    		@Override
-					    		public int getSize() {
-					    			return values.length;
-					    		}
-
-					    		@Override
-					    		public Object getElementAt(int index) {
-					    			return values[index];
-					    		}
-					    	});
-
+					    	listPacientes.setModel(modelo);
 					    }
 				    }
+					if(chckbxActualizar.isSelected()){
+						
+						Paciente pacienteCurrent = C_Doctor.getMiDoctor().obtenerPaciente(historial);
+						IU_FormPaciente IU_FP= new IU_FormPaciente(pacienteCurrent);
+						IU_FP.setVisible(true);
+						
+					}
 				}
 			}
 		});
@@ -256,12 +229,7 @@ public class IU_Pacientes extends JFrame {
 		
 		JLabel lblPaciente = new JLabel("Paciente");
 		lblPaciente.setBounds(24, 169, 70, 15);
-		contentPane.add(lblPaciente);
-		
-		txtNHistorial = new JTextField();
-		txtNHistorial.setBounds(160, 167, 234, 19);
-		contentPane.add(txtNHistorial);
-		txtNHistorial.setColumns(10);	
+		contentPane.add(lblPaciente);		
 		
 		JDateChooser dateChooser = new JDateChooser();
 		dateChooser.setBounds(157, 118, 242, 19);

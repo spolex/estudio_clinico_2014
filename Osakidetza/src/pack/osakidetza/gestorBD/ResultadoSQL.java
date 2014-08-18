@@ -104,14 +104,12 @@ public class ResultadoSQL {
 	 * @return la fecha como GregorianCalendar, null en caso de que falle la conexion
 	 * a la base de datos
 	 */
-	@SuppressWarnings("deprecation")
-	public GregorianCalendar getDate(String pNomAtributo)
+	public Date getDate(String pNomAtributo)
 	{
 		try {
 			
 			Date fecha = this.rdo.getDate(pNomAtributo);
-			//transformamos la fecha obtenida a un objeto GregorianCalendar
-			return (new GregorianCalendar((fecha.getYear()),fecha.getMonth(),fecha.getDate()));
+			return fecha;
 			
 		} catch (SQLException e) {
 		

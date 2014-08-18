@@ -16,11 +16,15 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 
+import pack.osakidetza.aux.Sexo;
+import pack.osakidetza.aux.SiNo;
 import pack.osakidetza.controladoras.C_Doctor;
+import pack.osakidetza.controladoras.Paciente;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
+
 import com.toedter.calendar.JDateChooser;
 
 @SuppressWarnings("serial")
@@ -40,7 +44,7 @@ public class IU_FormPaciente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IU_FormPaciente frame = new IU_FormPaciente();
+					IU_FormPaciente frame = new IU_FormPaciente(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,15 +55,17 @@ public class IU_FormPaciente extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param pacienteCurrent 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public IU_FormPaciente() {
+	public IU_FormPaciente(final Paciente pacienteCurrent) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 677, 561);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setResizable(false);
 		
 		JLabel lblPaciente = new JLabel("Paciente");
 		lblPaciente.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 15));
@@ -139,13 +145,18 @@ public class IU_FormPaciente extends JFrame {
 		contentPane.add(textHist);
 		textHist.setColumns(10);
 		
+		textNombre = new JTextField();
+		textNombre.setBounds(173, 86, 114, 19);
+		contentPane.add(textNombre);
+		textNombre.setColumns(10);				
+		
 		final JComboBox comboBoxFamiliarCI = new JComboBox();
 		comboBoxFamiliarCI.setModel(new DefaultComboBoxModel(new String[] {"no", "si"}));
 		comboBoxFamiliarCI.setBounds(173, 323, 114, 24);
 		contentPane.add(comboBoxFamiliarCI);
 		
 		final JComboBox comboBoxSex = new JComboBox();
-		comboBoxSex.setModel(new DefaultComboBoxModel(new String[] {"Hombre", "Mujer"}));
+		comboBoxSex.setModel(new DefaultComboBoxModel(new String[] {"hombre", "mujer"}));
 		comboBoxSex.setBounds(173, 201, 114, 24);
 		contentPane.add(comboBoxSex);
 		
@@ -230,13 +241,41 @@ public class IU_FormPaciente extends JFrame {
 		
 		final JComboBox comboBoxCasosI = new JComboBox(C_Doctor.getMiDoctor().listarCasosIndice().toArray());
 		comboBoxCasosI.setBounds(173, 451, 122, 19);
+		comboBoxCasosI.setSelectedIndex(-1);//Para que no se seleccione ningún elemento por defecto
 		contentPane.add(comboBoxCasosI);
+		
+		if(pacienteCurrent!=null)
+		{
+			textNombre.setText(pacienteCurrent.getNombre());
+			textHist.setText(pacienteCurrent.getHistorial());
+			textHist.setEnabled(false);			
+			comboBoxCI.setSelectedItem(pacienteCurrent.getCi().toString());
+			comboBoxSex.setSelectedItem(pacienteCurrent.getSexo().toString());
+			textCriteriosCI.setText(pacienteCurrent.getCriteriosCI());
+			textNumFamilia.setText(pacienteCurrent.getNumFamilia());
+			comboBoxFamiliarCI.setSelectedItem(pacienteCurrent.getFamiliarCI().toString());
+			comboBoxRelacionCI.setSelectedItem(pacienteCurrent.getRelacionCI().toString());
+			dateFNacimiento.setDate(pacienteCurrent.getFechaNace());
+			if(pacienteCurrent.getHistorialCI()!=null && pacienteCurrent.getHistorialCI().length()>0){
+				comboBoxCasosI.setSelectedItem(pacienteCurrent.getHistorialCI());
+			}
+			comboBoxLugarNace.setSelectedItem(pacienteCurrent.getLugarNace());
+			comboBoxMaterno.setSelectedItem(pacienteCurrent.getOrigenMaterno());
+			comboBoxPaterno.setSelectedItem(pacienteCurrent.getOrigenPaterno());
+			dateFechaSeg.setDate(pacienteCurrent.getFechaSeguimiento());
+			textFieldAnovu.setText(pacienteCurrent.getAnovulatorios());
+			comboBoxNumGesta.setSelectedItem(String.valueOf(pacienteCurrent.getNumGestaciones()));
+			datePrimerEmbarazo.setDate(pacienteCurrent.getPrimerEmbarazo());
+			dateMenopausia.setDate(pacienteCurrent.getMenopausia());
+			dateMenarquia.setDate(pacienteCurrent.getMenarquia());
+			
+		}
 		
 		final JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==btnAceptar){
-					if(!textHist.getText().isEmpty() && !textNombre.getText().isEmpty())
+					if(!textHist.getText().isEmpty() && !textNombre.getText().isEmpty() && pacienteCurrent==null)
 					{
 						String pHist = textHist.getText();
 						if(C_Doctor.getMiDoctor().buscarPaciente(pHist)==null)
@@ -279,6 +318,27 @@ public class IU_FormPaciente extends JFrame {
 							JOptionPane.showMessageDialog(null, "El número de historial ya está registrado en el sistema");
 						}
 					}
+					else if(pacienteCurrent!=null && textNombre.getText().length()>0){
+						pacienteCurrent.setNombre(textNombre.getText());
+						pacienteCurrent.setCi(SiNo.valueOf(comboBoxCI.getSelectedItem().toString()));
+						pacienteCurrent.setSexo(Sexo.valueOf(comboBoxSex.getSelectedItem().toString()));
+						pacienteCurrent.setCriteriosCI(textCriteriosCI.getText());
+						pacienteCurrent.setNumFamilia(textNumFamilia.getText());
+						pacienteCurrent.setFamiliarCI(SiNo.valueOf(comboBoxFamiliarCI.getSelectedItem().toString()));
+						pacienteCurrent.setRelacionCI(comboBoxRelacionCI.getSelectedItem().toString());
+						pacienteCurrent.setFechaNace(dateFNacimiento.getDate());
+						pacienteCurrent.setHistorialCI(comboBoxCasosI.getSelectedItem().toString());
+						pacienteCurrent.setLugarNace(comboBoxLugarNace.getSelectedItem().toString());
+						pacienteCurrent.setOrigenMaterno(comboBoxMaterno.getSelectedItem().toString());
+						pacienteCurrent.setOrigenPaterno(comboBoxPaterno.getSelectedItem().toString());
+						pacienteCurrent.setFechaSeguimiento(dateFechaSeg.getDate());
+						pacienteCurrent.setAnovulatorios(textFieldAnovu.getText());
+						pacienteCurrent.setNumGestaciones(Integer.parseInt(comboBoxNumGesta.getSelectedItem().toString()));
+						pacienteCurrent.setPrimerEmbarazo(datePrimerEmbarazo.getDate());
+						pacienteCurrent.setMenopausia(dateMenopausia.getDate());
+						pacienteCurrent.setMenarquia(dateMenarquia.getDate());
+						C_Doctor.getMiDoctor().actualizarPaciente(pacienteCurrent);
+					}
 				}
 			}
 		});
@@ -288,11 +348,6 @@ public class IU_FormPaciente extends JFrame {
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setBounds(12, 88, 70, 15);
 		contentPane.add(lblNombre);
-		
-		textNombre = new JTextField();
-		textNombre.setBounds(173, 86, 114, 19);
-		contentPane.add(textNombre);
-		textNombre.setColumns(10);		
 		
 		JLabel lblHistorialCi = new JLabel("Historial CI");
 		lblHistorialCi.setBounds(12, 456, 85, 15);

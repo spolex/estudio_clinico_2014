@@ -47,4 +47,12 @@ public class C_Doctor {
 		return CatalogoPacientes.getPacientes().borrarPaciente(Historial);
 	}
 
+	public Paciente obtenerPaciente(String historial) {
+		return CatalogoPacientes.getPacientes().obtenerPaciente(historial);
+	}
+
+	public void actualizarPaciente(Paciente pacienteCurrent) {
+		CatalogoPacientes.getPacientes().actualizarPaciente(pacienteCurrent);
+	}
+
 }
