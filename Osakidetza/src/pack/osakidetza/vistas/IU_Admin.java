@@ -90,7 +90,7 @@ public class IU_Admin extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==btnBorrar){					
 					if(IU_Admin.this.doctor != null && IU_Admin.this.emailDoctor != null){
-						IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,true);					
+						IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,true, false);					
 						IU_FI.setVisible(true);									
 					}
 				}
@@ -160,7 +160,7 @@ public class IU_Admin extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==btnActualizar){
 					if(IU_Admin.this.doctor != null && IU_Admin.this.emailDoctor != null){
-						IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,false);					
+						IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,false,false);					
 						IU_FI.setVisible(true);									
 					}
 				}

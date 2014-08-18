@@ -106,6 +106,18 @@ public class CatalogoPacientes {
 	}
 	
 	/**
+	 * pre: el paciente existe en el sistema.
+	 * @param historial
+	 * @return
+	 */
+	public boolean borrarPaciente(String historial) {
+		
+		SGBD.getSGBD().execSQL("UPDATE Paciente SET activo = 0 WHERE historial = '" +historial+"'");
+		
+		return buscarPaciente(historial)!=null;
+	}
+	
+	/**
 	 * pre:
 	 * post:obtiene la lista de todos los pacientes que son caso índice.
 	 * @return lista pacientes que son caso índice.
@@ -136,6 +148,11 @@ public class CatalogoPacientes {
 		return listaPacientes;
 	}
 
+	/**
+	 * 
+	 * @param cI
+	 * @return la lista de pacientes a partir de un caso índice
+	 */
 	public ArrayList<String> listarPacientesDado(String cI) {
 		ArrayList<String> lista= new ArrayList<String>();
 		
@@ -145,5 +162,4 @@ public class CatalogoPacientes {
 		}
 		return lista;
 	}
-
 }

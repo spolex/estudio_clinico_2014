@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import pack.osakidetza.controladoras.C_Administracion;
+import pack.osakidetza.controladoras.C_Doctor;
 import pack.osakidetza.controladoras.Usuario;
 
 import java.awt.event.ActionListener;
@@ -31,7 +32,7 @@ public class IU_FastIdent extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IU_FastIdent frame = new IU_FastIdent(null,null,false);
+					IU_FastIdent frame = new IU_FastIdent(null,null,false,false);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,9 +42,10 @@ public class IU_FastIdent extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the frame. El parámetro pEmail_Historial se utiliza para el email del usuario a manipular o el historial del paciente.
 	 */
-	public IU_FastIdent(final String pNom,final String pEmail,final boolean darDeBaja) {
+	//
+	public IU_FastIdent(final String pNom,final String pEmail_Historial,final boolean darDeBajaU,final boolean darDeBajaP) {
 		setTitle("Verificar identidad");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -83,11 +85,12 @@ public class IU_FastIdent extends JFrame {
 		final JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource()==btnAceptar && darDeBaja){
+				if(e.getSource()==btnAceptar && darDeBajaU){
 					if(textUsuario.getText().length()!=0 && pass.getPassword().length!=0){
 						String rdo=C_Administracion.getMiAdmin().identificarse(textUsuario.getText(), String.valueOf(pass.getPassword()));
-						if(rdo!=null && rdo.equals("1")){
-								if(C_Administracion.getMiAdmin().darDeBajaUsuario(pNom,pEmail)){
+						if(rdo!=null){
+							if(rdo.equals("1")){
+								if(C_Administracion.getMiAdmin().darDeBajaUsuario(pNom,pEmail_Historial)){
 									JOptionPane.showMessageDialog(null, "Usuario dado de baja con éxito");
 									dispose();
 								}
@@ -95,6 +98,7 @@ public class IU_FastIdent extends JFrame {
 									JOptionPane.showMessageDialog(null, "El usuario no está de alta en el sistema");
 									dispose();
 								}								
+							}
 						}
 						else{
 							JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
@@ -104,8 +108,28 @@ public class IU_FastIdent extends JFrame {
 						JOptionPane.showMessageDialog(null, "Faltan campos por rellenar");
 					}
 				}
-				else if (e.getSource()==btnAceptar && !darDeBaja){
-					Usuario user=C_Administracion.getMiAdmin().obtenerUsuario(pEmail);
+				else if (e.getSource()==btnAceptar && darDeBajaP){
+					String rdo=C_Administracion.getMiAdmin().identificarse(textUsuario.getText(), String.valueOf(pass.getPassword()));
+					if(rdo!=null)
+					{						//Un medico solo tiene cuenta de medico, si además es administrador necesita cuenta una diferente.
+						if(rdo.equals("0"))
+						{
+							boolean borrado = C_Doctor.getMiDoctor().borrarPaciente(pEmail_Historial);
+							if(borrado){
+								JOptionPane.showMessageDialog(null, "Paciente dado de baja con éxito");
+								dispose();
+							}
+							else{
+								JOptionPane.showMessageDialog(null, "No ha sido posible dar de baja al paciente");
+							}
+						}
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+					}
+				}
+				else if (e.getSource()==btnAceptar && !darDeBajaU && !darDeBajaP){
+					Usuario user=C_Administracion.getMiAdmin().obtenerUsuario(pEmail_Historial);
 					IU_FormMedico IU_FM = new IU_FormMedico(textUsuario.getText(), user.getNombre(), user.getEmail(), user.getEsp());
 					IU_FM.setVisible(true);
 					dispose();

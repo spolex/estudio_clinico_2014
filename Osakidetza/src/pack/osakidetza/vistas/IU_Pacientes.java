@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 
 import java.awt.Font;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -25,6 +26,9 @@ import java.util.ArrayList;
 
 import com.toedter.calendar.JDateChooser;
 
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+
 @SuppressWarnings("serial")
 public class IU_Pacientes extends JFrame {
 
@@ -32,6 +36,7 @@ public class IU_Pacientes extends JFrame {
 	private JTextField textCI;
 	private JTextField txtNHistorial;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private String historial;
 
 	/**
 	 * Launch the application.
@@ -60,6 +65,7 @@ public class IU_Pacientes extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		historial=new String();
 		
 		JLabel lblPacientes = new JLabel("Pacientes");
 		lblPacientes.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
@@ -91,7 +97,7 @@ public class IU_Pacientes extends JFrame {
 		chckbxNuevo.setBounds(407, 243, 129, 23);
 		contentPane.add(chckbxNuevo);
 		
-		JCheckBox chckbxEliminar = new JCheckBox("Eliminar");
+		final JCheckBox chckbxEliminar = new JCheckBox("Eliminar");
 		buttonGroup.add(chckbxEliminar);
 		chckbxEliminar.setBounds(407, 270, 129, 23);
 		contentPane.add(chckbxEliminar);
@@ -110,12 +116,23 @@ public class IU_Pacientes extends JFrame {
 		buttonGroup.add(chckbxCancer);
 		chckbxCancer.setBounds(24, 301, 74, 23);
 		contentPane.add(chckbxCancer);
+		final JCheckBox chckbxBuscar = new JCheckBox("Buscar");
+		buttonGroup.add(chckbxBuscar);
+		chckbxBuscar.setBounds(407, 223, 129, 23);
+		contentPane.add(chckbxBuscar);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(157, 225, 242, 99);
 		contentPane.add(scrollPane);		
 
 		final JList list = new JList();
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if(e.getValueIsAdjusting()){
+					historial = (String) list.getSelectedValue();
+				}
+			}
+		});
 		scrollPane.setViewportView(list);
 		list.setModel(new AbstractListModel() {
 			String[] values = new String[] {};
@@ -131,74 +148,92 @@ public class IU_Pacientes extends JFrame {
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==btnAceptar){
+					//Añadir paciente
 					if(chckbxNuevo.isSelected()){
 						IU_FormPaciente IU_FP= new IU_FormPaciente();
 						IU_FP.setVisible(true);
 					}
-					else if(txtNHistorial.getText().length()>0){
-						String paciente = C_Doctor.getMiDoctor().buscarPaciente(txtNHistorial.getText());
-						if(paciente!=null){
-							final String[] encontrado = new String[]{paciente};
-							list.setModel(new AbstractListModel() {
-								String[] values = encontrado;
-								@Override
-								public int getSize() {
-									return values.length;
-								}
-
-								@Override
-								public Object getElementAt(int index) {
-									return values[index];
-								}
-							});
+					//borrar paciente
+					if(chckbxEliminar.isSelected()){
+						if(!list.isSelectionEmpty()){
+							IU_FastIdent IU_FI= new IU_FastIdent("",historial,false,true);					
+							IU_FI.setVisible(true);	
+						}
+						else{
+							JOptionPane.showMessageDialog(null, "No ha escogido un paciente para eliminar");
 						}
 					}
-					else if(textCI.getText().length()>0){
-						String CI = textCI.getText();
-						ArrayList<String> listaPacientesDCI = C_Doctor.getMiDoctor().listarPacientesDado(CI);
-						final String[] listaPacientes = new String[listaPacientesDCI.size()];
-						java.util.Iterator<String> itr = listaPacientesDCI.iterator();
-						int index =0;
-						while(itr.hasNext()){
-							listaPacientes[index]=itr.next();
-							index++;
-						}
-						list.setModel(new AbstractListModel() {
-							String[] values = listaPacientes;
-							@Override
-							public int getSize() {
-								return values.length;
-							}
+					//obtener pacientes
+					if(chckbxBuscar.isSelected())
+					//Buscar paciente dado historial
+					{
+					    if(txtNHistorial.getText().length()>0){
+					    	String paciente = C_Doctor.getMiDoctor().buscarPaciente(txtNHistorial.getText());
+							if(paciente!=null){
+								final String[] encontrado = new String[]{paciente};
+								list.setModel(new AbstractListModel() {
+									String[] values = encontrado;
+									@Override
+									public int getSize() {
+										return values.length;
+									}
 
-							@Override
-							public Object getElementAt(int index) {
-								return values[index];
+									@Override
+									public Object getElementAt(int index) {
+										return values[index];
+									}
+								});
 							}
-						});
-					}
-					else{	
-						ArrayList<String> listaPacientes = C_Doctor.getMiDoctor().listarPacientes();
-						java.util.Iterator<String> itr = listaPacientes.iterator();
-						final String[] forModel=new String[listaPacientes.size()];
-						int index =0;
-						while(itr.hasNext()){
-							forModel[index] = itr.next();
-							index++;
-						}
-						list.setModel(new AbstractListModel() {
-							String[] values = forModel;
-							@Override
-							public int getSize() {
-								return values.length;
-							}
+					    }
+					//listar paacientes dado ci
+					    else if(textCI.getText().length()>0){
+					    	String CI = textCI.getText();
+					    	ArrayList<String> listaPacientesDCI = C_Doctor.getMiDoctor().listarPacientesDado(CI);
+					    	final String[] listaPacientes = new String[listaPacientesDCI.size()];
+					    	java.util.Iterator<String> itr = listaPacientesDCI.iterator();
+					    	int index =0;
+					    	while(itr.hasNext()){
+					    		listaPacientes[index]=itr.next();
+					    		index++;
+					    	}
+					    	list.setModel(new AbstractListModel() {
+					    		String[] values = listaPacientes;
+					    		@Override
+					    		public int getSize() {
+					    			return values.length;
+					    		}
 
-							@Override
-							public Object getElementAt(int index) {
-								return values[index];
-							}
-						});
+					    		@Override
+					    		public Object getElementAt(int index) {
+					    			return values[index];
+					    		}
+					    	});
+					    }
+					//listar pacientes
+					    else{	
+					    	ArrayList<String> listaPacientes = C_Doctor.getMiDoctor().listarPacientes();
+					    	java.util.Iterator<String> itr = listaPacientes.iterator();
+					    	final String[] forModel=new String[listaPacientes.size()];
+					    	int index =0;
+					    	while(itr.hasNext()){
+					    		forModel[index] = itr.next();
+					    		index++;
+					    	}
+					    	list.setModel(new AbstractListModel() {
+					    		String[] values = forModel;
+					    		@Override
+					    		public int getSize() {
+					    			return values.length;
+					    		}
 
-					}
+					    		@Override
+					    		public Object getElementAt(int index) {
+					    			return values[index];
+					    		}
+					    	});
+
+					    }
+				    }
 				}
 			}
 		});
@@ -231,5 +266,7 @@ public class IU_Pacientes extends JFrame {
 		JDateChooser dateChooser = new JDateChooser();
 		dateChooser.setBounds(157, 118, 242, 19);
 		contentPane.add(dateChooser);
+		
+		
 	}
 }

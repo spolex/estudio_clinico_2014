@@ -43,4 +43,8 @@ public class C_Doctor {
 		return CatalogoPacientes.getPacientes().listarPacientesDado(cI);
 	}
 
+	public boolean borrarPaciente(String Historial) {
+		return CatalogoPacientes.getPacientes().borrarPaciente(Historial);
+	}
+
 }
