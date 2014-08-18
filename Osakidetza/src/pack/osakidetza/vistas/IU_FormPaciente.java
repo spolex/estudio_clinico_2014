@@ -16,10 +16,10 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 
-import pack.osakidetza.aux.Sexo;
-import pack.osakidetza.aux.SiNo;
 import pack.osakidetza.controladoras.C_Doctor;
 import pack.osakidetza.controladoras.Paciente;
+import pack.osakidetza.enumerados.Sexo;
+import pack.osakidetza.enumerados.SiNo;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

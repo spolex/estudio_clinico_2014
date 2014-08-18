@@ -1,4 +1,4 @@
-package pack.osakidetza.aux;
+package pack.osakidetza.enumerados;
 
 public enum Sexo {
 

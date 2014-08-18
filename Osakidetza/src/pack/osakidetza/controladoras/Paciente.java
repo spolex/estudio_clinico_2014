@@ -1,8 +1,9 @@
 package pack.osakidetza.controladoras;
 
 import java.util.Date;
-import pack.osakidetza.aux.Sexo;
-import pack.osakidetza.aux.SiNo;
+
+import pack.osakidetza.enumerados.Sexo;
+import pack.osakidetza.enumerados.SiNo;
 
 public class Paciente {
 
