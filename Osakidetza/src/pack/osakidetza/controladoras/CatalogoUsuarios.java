@@ -33,11 +33,13 @@ public class CatalogoUsuarios {
  */
 	public String identificarse(String pNombre, String pPass) {
 		String rdo = null;	
-		ResultadoSQL rdoSQL = SGBD.getSGBD().consultaSQL("SELECT esAdmin FROM Usuario  WHERE Usuario.nombre='" +pNombre+"' AND Usuario.pass=sha1('" +pPass+ "')");
+		ResultadoSQL rdoSQL = SGBD.getSGBD().consultaSQL("SELECT esAdmin,activo FROM Usuario  WHERE Usuario.nombre='" +pNombre+"' AND Usuario.pass=sha1('" +pPass+ "')");
 		if(rdoSQL.next()){
-		rdo = rdoSQL.get("esAdmin");
-		rdoSQL.close();
+			if(rdoSQL.getBoolean("activo")){
+				rdo = rdoSQL.get("esAdmin");
+			}
 		}
+		rdoSQL.close();
 		return rdo;		
 	}
 	
@@ -50,11 +52,14 @@ public class CatalogoUsuarios {
 	 */
 		public String identificarseEmail(String pEmail, String pPass) {
 			String rdo = null;	
-			ResultadoSQL rdoSQL = SGBD.getSGBD().consultaSQL("SELECT esAdmin FROM Usuario  WHERE email='" +pEmail+ "' AND pass=sha1('" +pPass+ "')");
+			ResultadoSQL rdoSQL = SGBD.getSGBD().consultaSQL("SELECT esAdmin,activo FROM Usuario  WHERE email='" +pEmail+ "' AND pass=sha1('" +pPass+ "')");
 			if(rdoSQL.next()){
-			rdo = rdoSQL.get("esAdmin");
-			rdoSQL.close();
+				rdo = rdoSQL.get("esAdmin");
+				if(rdoSQL.getBoolean("activo")){
+					rdo = rdoSQL.get("esAdmin");
+				}
 			}
+			rdoSQL.close();
 			return rdo;		
 		}
 	/**
@@ -95,7 +100,9 @@ public class CatalogoUsuarios {
 		
 		ResultadoSQL RdoSQL=SGBD.getSGBD().consultaSQL("SELECT pregunta FROM Usuario WHERE email='" + pEmail +"'");
 		if(RdoSQL.next())
-		rdo=RdoSQL.get("pregunta");
+		{
+			rdo=RdoSQL.get("pregunta");
+		}
 		RdoSQL.close();
 		return rdo;
 	}
@@ -117,8 +124,9 @@ public class CatalogoUsuarios {
 			if(rdoSQL.get("respuesta").equals(pRespSeg)){
 				SGBD.getSGBD().execSQL("UPDATE Usuario SET pass = sha1('"+ pNuevoPass+ "') WHERE email = '" +pEmail+ "'");	
 			}
-		}		
-		return true;//CatalogoUsuarios.getMisUsuarios().identificarseEmail(pEmail, pNuevoPass)!=null;
+		}
+		rdoSQL.close();
+		return CatalogoUsuarios.getMisUsuarios().identificarseEmail(pEmail, pNuevoPass)!=null;
 	}
 
 	/**
@@ -159,7 +167,7 @@ public class CatalogoUsuarios {
 	
 	/**
 	 * pre:recibe por parámetro el email y el nombre del usuario que se quiere dar de baja en el sistema.
-	 * post: si no está activo se da de baja (esAdmin=0 y esMedico=0).
+	 * post: si está activo se da de baja (esAdmin=0 y esMedico=0).
 	 * @param pEmail
 	 * @param pNom
 	 * @return true si no está activo o si se consigue dar de baja, false en otro caso.

@@ -68,6 +68,7 @@ public class IU_Pacientes extends JFrame {
 		contentPane.setLayout(null);
 		historial=new String();
 		
+		
 		JLabel lblPacientes = new JLabel("Pacientes");
 		lblPacientes.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
 		lblPacientes.setBounds(157, 12, 117, 31);
@@ -175,6 +176,7 @@ public class IU_Pacientes extends JFrame {
 					    	String paciente = C_Doctor.getMiDoctor().buscarPaciente(txtNHistorial.getText());
 							if(paciente!=null){
 								DefaultListModel encontrado = new DefaultListModel();
+								encontrado.addElement(paciente);
 								listPacientes.setModel(encontrado);
 							}
 					    }

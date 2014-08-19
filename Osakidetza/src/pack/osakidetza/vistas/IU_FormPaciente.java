@@ -247,8 +247,7 @@ public class IU_FormPaciente extends JFrame {
 		if(pacienteCurrent!=null)
 		{
 			textNombre.setText(pacienteCurrent.getNombre());
-			textHist.setText(pacienteCurrent.getHistorial());
-			textHist.setEnabled(false);			
+			textHist.setText(pacienteCurrent.getHistorial());		
 			comboBoxCI.setSelectedItem(pacienteCurrent.getCi().toString());
 			comboBoxSex.setSelectedItem(pacienteCurrent.getSexo().toString());
 			textCriteriosCI.setText(pacienteCurrent.getCriteriosCI());
