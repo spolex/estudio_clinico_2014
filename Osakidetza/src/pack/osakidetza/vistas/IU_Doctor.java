@@ -30,7 +30,7 @@ public class IU_Doctor extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IU_Doctor frame = new IU_Doctor();
+					IU_Doctor frame = new IU_Doctor("Doctor");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,7 +42,7 @@ public class IU_Doctor extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IU_Doctor() {
+	public IU_Doctor(String nombre) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 504, 330);
 		contentPane = new JPanel();
@@ -52,7 +52,7 @@ public class IU_Doctor extends JFrame {
 		
 		setResizable(false);
 		
-		JLabel lblBienvenidoDoctor = new JLabel("Bienvenido Doctor");
+		JLabel lblBienvenidoDoctor = new JLabel("Bienvenido Dr/a. "+nombre);
 		lblBienvenidoDoctor.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBienvenidoDoctor.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 21));
 		lblBienvenidoDoctor.setBounds(60, 12, 380, 96);

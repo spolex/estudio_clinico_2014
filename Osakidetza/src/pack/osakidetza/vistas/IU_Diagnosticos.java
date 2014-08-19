@@ -1,6 +1,5 @@
 package pack.osakidetza.vistas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -14,13 +13,14 @@ import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JTextField;
-import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
+import javax.swing.ButtonGroup;
 
+@SuppressWarnings("serial")
 public class IU_Diagnosticos extends JFrame {
 
 	private JPanel contentPane;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -41,6 +41,7 @@ public class IU_Diagnosticos extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public IU_Diagnosticos() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 557, 415);
@@ -49,8 +50,8 @@ public class IU_Diagnosticos extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblDiagnsticos = new JLabel("Diagnósticos");
-		lblDiagnsticos.setBounds(12, 23, 143, 15);
+		JLabel lblDiagnsticos = new JLabel("Diagnósticos genéticos\n");
+		lblDiagnsticos.setBounds(12, 12, 166, 15);
 		contentPane.add(lblDiagnsticos);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -70,11 +71,11 @@ public class IU_Diagnosticos extends JFrame {
 		scrollPane.setViewportView(list);
 		
 		JButton btnNuevo = new JButton("Aceptar");
-		btnNuevo.setBounds(302, 327, 117, 25);
+		btnNuevo.setBounds(288, 352, 117, 25);
 		contentPane.add(btnNuevo);
 		
 		JButton btnVolver = new JButton("Volver");
-		btnVolver.setBounds(431, 327, 117, 25);
+		btnVolver.setBounds(417, 352, 117, 25);
 		contentPane.add(btnVolver);
 		
 		JLabel lblGenSecuenciado = new JLabel("Gen secuenciado");
@@ -85,15 +86,15 @@ public class IU_Diagnosticos extends JFrame {
 		lblTipoCancer.setBounds(12, 163, 133, 15);
 		contentPane.add(lblTipoCancer);
 		
-		JLabel lblObservaciones = new JLabel("Observaciones");
-		lblObservaciones.setBounds(12, 210, 105, 15);
+		JLabel lblObservaciones = new JLabel("Observaciones :");
+		lblObservaciones.setBounds(12, 233, 114, 15);
 		contentPane.add(lblObservaciones);
 		
 		JTextPane txtpnNoClaro = new JTextPane();
 		txtpnNoClaro.setEnabled(false);
 		txtpnNoClaro.setEditable(false);
 		txtpnNoClaro.setText("No claro");
-		txtpnNoClaro.setBounds(121, 232, 298, 83);
+		txtpnNoClaro.setBounds(121, 257, 298, 83);
 		contentPane.add(txtpnNoClaro);
 		
 		JComboBox comboBox_1 = new JComboBox();
@@ -109,15 +110,18 @@ public class IU_Diagnosticos extends JFrame {
 		contentPane.add(comboBox);
 		
 		JCheckBox chckbxNuevo = new JCheckBox("Nuevo");
-		chckbxNuevo.setBounds(358, 121, 129, 23);
+		buttonGroup.add(chckbxNuevo);
+		chckbxNuevo.setBounds(418, 121, 129, 23);
 		contentPane.add(chckbxNuevo);
 		
 		JCheckBox chckbxActualizar = new JCheckBox("Actualizar");
-		chckbxActualizar.setBounds(358, 159, 129, 23);
+		buttonGroup.add(chckbxActualizar);
+		chckbxActualizar.setBounds(418, 159, 129, 23);
 		contentPane.add(chckbxActualizar);
 		
 		JCheckBox chckbxBorrar = new JCheckBox("Borrar");
-		chckbxBorrar.setBounds(358, 202, 129, 23);
+		buttonGroup.add(chckbxBorrar);
+		chckbxBorrar.setBounds(417, 195, 129, 23);
 		contentPane.add(chckbxBorrar);
 	}
 }

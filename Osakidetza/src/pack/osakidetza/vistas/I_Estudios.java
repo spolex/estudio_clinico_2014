@@ -1,13 +1,14 @@
 package pack.osakidetza.vistas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.JSeparator;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -16,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.AbstractListModel;
 import javax.swing.JCheckBox;
 
+@SuppressWarnings("serial")
 public class I_Estudios extends JFrame {
 
 	private JPanel contentPane;
@@ -41,6 +43,7 @@ public class I_Estudios extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public I_Estudios() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -48,6 +51,7 @@ public class I_Estudios extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setResizable(false);
 		
 		JLabel lblEstudios = new JLabel("Estudios");
 		lblEstudios.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));

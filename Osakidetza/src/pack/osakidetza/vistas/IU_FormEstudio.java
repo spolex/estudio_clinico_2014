@@ -1,6 +1,5 @@
 package pack.osakidetza.vistas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -8,15 +7,17 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import java.awt.Component;
-import javax.swing.Box;
+import javax.swing.JSeparator;
 
+@SuppressWarnings("serial")
 public class IU_FormEstudio extends JFrame {
 
 	private JPanel contentPane;
@@ -53,9 +54,9 @@ public class IU_FormEstudio extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblEstudios = new JLabel("Estudios");
+		JLabel lblEstudios = new JLabel("Estudio patológico");
 		lblEstudios.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 20));
-		lblEstudios.setBounds(216, 12, 107, 46);
+		lblEstudios.setBounds(24, 12, 212, 24);
 		contentPane.add(lblEstudios);
 		
 		JLabel lblCdigo = new JLabel("Código");
@@ -190,5 +191,9 @@ public class IU_FormEstudio extends JFrame {
 		textField_3.setBounds(108, 377, 114, 19);
 		contentPane.add(textField_3);
 		textField_3.setColumns(10);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(24, 39, 515, 24);
+		contentPane.add(separator);
 	}
 }

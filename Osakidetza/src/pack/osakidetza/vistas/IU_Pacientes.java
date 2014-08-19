@@ -29,6 +29,13 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 @SuppressWarnings("serial")
 public class IU_Pacientes extends JFrame {
@@ -65,66 +72,80 @@ public class IU_Pacientes extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		historial=new String();
 		
 		
 		JLabel lblPacientes = new JLabel("Pacientes");
 		lblPacientes.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
-		lblPacientes.setBounds(157, 12, 117, 31);
-		contentPane.add(lblPacientes);
 		
 		JLabel lblCasondice = new JLabel("Caso índice");
-		lblCasondice.setBounds(24, 93, 117, 15);
-		contentPane.add(lblCasondice);
 		
 		textCI = new JTextField();
-		textCI.setBounds(157, 91, 234, 19);
-		contentPane.add(textCI);
 		textCI.setColumns(10);
 		
 		txtNHistorial = new JTextField();
-		txtNHistorial.setBounds(157, 150, 234, 19);
-		contentPane.add(txtNHistorial);
 		txtNHistorial.setColumns(10);
+		
+		JPanel funcionalidadesPanel = new JPanel();
+		
 		
 		JCheckBox chckbxDiagnosticos = new JCheckBox("Diagnósticos");
 		buttonGroup.add(chckbxDiagnosticos);
-		chckbxDiagnosticos.setBounds(24, 243, 117, 23);
-		contentPane.add(chckbxDiagnosticos);
-		
-		final JCheckBox chckbxNuevo = new JCheckBox("Añadir nuevo");
-		buttonGroup.add(chckbxNuevo);
-		chckbxNuevo.setBounds(407, 243, 129, 23);
-		contentPane.add(chckbxNuevo);
-		
-		final JCheckBox chckbxEliminar = new JCheckBox("Eliminar");
-		buttonGroup.add(chckbxEliminar);
-		chckbxEliminar.setBounds(407, 270, 129, 23);
-		contentPane.add(chckbxEliminar);
-		
-		final JCheckBox chckbxActualizar = new JCheckBox("Actualizar");
-		buttonGroup.add(chckbxActualizar);
-		chckbxActualizar.setBounds(407, 297, 129, 23);
-		contentPane.add(chckbxActualizar);
 		
 		JCheckBox chckbxVisitas = new JCheckBox("Visitas");
 		buttonGroup.add(chckbxVisitas);
-		chckbxVisitas.setBounds(24, 274, 73, 23);
-		contentPane.add(chckbxVisitas);
 		
 		JCheckBox chckbxCancer = new JCheckBox("Cancer\n");
 		buttonGroup.add(chckbxCancer);
-		chckbxCancer.setBounds(24, 301, 74, 23);
-		contentPane.add(chckbxCancer);
+		
+		final JCheckBox chckbxNuevo = new JCheckBox("Añadir nuevo");
+		buttonGroup.add(chckbxNuevo);
 		final JCheckBox chckbxBuscar = new JCheckBox("Buscar");
 		buttonGroup.add(chckbxBuscar);
-		chckbxBuscar.setBounds(407, 223, 129, 23);
-		contentPane.add(chckbxBuscar);
+		
+		final JCheckBox chckbxEliminar = new JCheckBox("Eliminar");
+		buttonGroup.add(chckbxEliminar);
+		
+		final JCheckBox chckbxActualizar = new JCheckBox("Actualizar");
+		buttonGroup.add(chckbxActualizar);
+		GroupLayout gl_funcionalidadesPanel = new GroupLayout(funcionalidadesPanel);
+		gl_funcionalidadesPanel.setHorizontalGroup(
+			gl_funcionalidadesPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_funcionalidadesPanel.createSequentialGroup()
+					.addGroup(gl_funcionalidadesPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_funcionalidadesPanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(chckbxBuscar))
+						.addGroup(gl_funcionalidadesPanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(chckbxNuevo)))
+					.addGap(3))
+				.addGroup(gl_funcionalidadesPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(chckbxEliminar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(40))
+				.addGroup(gl_funcionalidadesPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(chckbxActualizar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(25))
+		);
+		gl_funcionalidadesPanel.setVerticalGroup(
+			gl_funcionalidadesPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_funcionalidadesPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(chckbxNuevo)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(chckbxBuscar)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(chckbxEliminar, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(chckbxActualizar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(15))
+		);
+		funcionalidadesPanel.setLayout(gl_funcionalidadesPanel);
+		
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(157, 225, 242, 99);
-		contentPane.add(scrollPane);		
 
 		final JList listPacientes = new JList();
 		listPacientes.addListSelectionListener(new ListSelectionListener() {
@@ -208,8 +229,6 @@ public class IU_Pacientes extends JFrame {
 				}
 			}
 		});
-		btnAceptar.setBounds(290, 370, 117, 25);
-		contentPane.add(btnAceptar);
 		
 		final JButton btnVolver = new JButton("Volver");
 		btnVolver.addActionListener(new ActionListener() {
@@ -217,18 +236,98 @@ public class IU_Pacientes extends JFrame {
 				if(e.getSource()==btnVolver)dispose();
 			}
 		});
-		btnVolver.setBounds(419, 370, 117, 25);
-		contentPane.add(btnVolver);
 		
 		JLabel lblPacientes_1 = new JLabel("Pacientes");
-		lblPacientes_1.setBounds(157, 198, 70, 15);
-		contentPane.add(lblPacientes_1);		
 		
 		
 		JLabel lblPaciente = new JLabel("Paciente");
-		lblPaciente.setBounds(24, 152, 70, 15);
-		contentPane.add(lblPaciente);
-		
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(152)
+					.addComponent(lblPacientes, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+					.addGap(269))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(19)
+					.addComponent(lblCasondice, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+					.addGap(16)
+					.addComponent(textCI, GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+					.addGap(152))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(19)
+					.addComponent(lblPaciente, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+					.addGap(63)
+					.addComponent(txtNHistorial, GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+					.addGap(152))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(152)
+					.addComponent(lblPacientes_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(316))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(19)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(chckbxDiagnosticos, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(chckbxVisitas, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(44))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(chckbxCancer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(43)))
+					.addGap(16)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+					.addGap(8)
+					.addComponent(funcionalidadesPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(7))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(285)
+					.addComponent(btnAceptar, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+					.addGap(12)
+					.addComponent(btnVolver, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+					.addGap(7))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(7)
+					.addComponent(lblPacientes, GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+					.addGap(48)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(2)
+							.addComponent(lblCasondice, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(2))
+						.addComponent(textCI))
+					.addGap(40)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(2)
+							.addComponent(lblPaciente, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(2))
+						.addComponent(txtNHistorial))
+					.addGap(29)
+					.addComponent(lblPacientes_1, GroupLayout.DEFAULT_SIZE, 15, Short.MAX_VALUE)
+					.addGap(3)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(chckbxDiagnosticos, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(17)
+							.addComponent(chckbxVisitas, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(chckbxCancer, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+							.addGap(11))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(9)
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+							.addGap(7))
+						.addComponent(funcionalidadesPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(39)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnAceptar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnVolver, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(7))
+		);
+		contentPane.setLayout(gl_contentPane);
 		
 	}
 }

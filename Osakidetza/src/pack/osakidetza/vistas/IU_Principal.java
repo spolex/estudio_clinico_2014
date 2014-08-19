@@ -105,7 +105,7 @@ public class IU_Principal extends JFrame {
 						if(identificado.equalsIgnoreCase("0"))
 						{
 							
-							IU_Doctor IU_DR = new IU_Doctor();
+							IU_Doctor IU_DR = new IU_Doctor(textUsuario.getText());
 							IU_DR.setVisible(true);
 							passUsuario.setText("");
 						}
