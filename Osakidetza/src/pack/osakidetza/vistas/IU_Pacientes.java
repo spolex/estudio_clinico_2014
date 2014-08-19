@@ -75,22 +75,18 @@ public class IU_Pacientes extends JFrame {
 		contentPane.add(lblPacientes);
 		
 		JLabel lblCasondice = new JLabel("Caso índice");
-		lblCasondice.setBounds(24, 67, 117, 15);
+		lblCasondice.setBounds(24, 93, 117, 15);
 		contentPane.add(lblCasondice);
 		
 		textCI = new JTextField();
-		textCI.setBounds(157, 65, 234, 19);
+		textCI.setBounds(157, 91, 234, 19);
 		contentPane.add(textCI);
 		textCI.setColumns(10);
 		
 		txtNHistorial = new JTextField();
-		txtNHistorial.setBounds(160, 167, 234, 19);
+		txtNHistorial.setBounds(157, 150, 234, 19);
 		contentPane.add(txtNHistorial);
-		txtNHistorial.setColumns(10);			
-		
-		JLabel lblFecha = new JLabel("Fecha alta");
-		lblFecha.setBounds(24, 118, 74, 15);
-		contentPane.add(lblFecha);		
+		txtNHistorial.setColumns(10);
 		
 		JCheckBox chckbxDiagnosticos = new JCheckBox("Diagnósticos");
 		buttonGroup.add(chckbxDiagnosticos);
@@ -230,12 +226,8 @@ public class IU_Pacientes extends JFrame {
 		
 		
 		JLabel lblPaciente = new JLabel("Paciente");
-		lblPaciente.setBounds(24, 169, 70, 15);
-		contentPane.add(lblPaciente);		
-		
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(157, 118, 242, 19);
-		contentPane.add(dateChooser);
+		lblPaciente.setBounds(24, 152, 70, 15);
+		contentPane.add(lblPaciente);
 		
 		
 	}
