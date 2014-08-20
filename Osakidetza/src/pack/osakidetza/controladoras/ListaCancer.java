@@ -11,16 +11,16 @@ import pack.osakidetza.gestorBD.ResultadoSQL;
 import pack.osakidetza.gestorBD.SGBD;
 
 @SuppressWarnings("serial")
-public class ListaCancerPaciente extends ArrayList<Cancer> {
+public class ListaCancer extends ArrayList<Cancer> {
 
-	public ListaCancerPaciente() {
+	public ListaCancer() {
 	}
 
-	public ListaCancerPaciente(int initialCapacity) {
+	public ListaCancer(int initialCapacity) {
 		super(initialCapacity);
 	}
 
-	public ListaCancerPaciente(Collection<? extends Cancer> c) {
+	public ListaCancer(Collection<? extends Cancer> c) {
 		super(c);
 	}
 
@@ -42,10 +42,9 @@ public class ListaCancerPaciente extends ArrayList<Cancer> {
 		RdoSQL.close();
 		return this.iterator();
 	}
-	
 	/**
 	 * 
-	 * pre:El paciente con el historial pHist existe en la BD.
+	 * pre:El paciente existe en la BD.
 	 * post:Se añade el cáncer tanto a la BD como a la ListaCancerPacienete.
 	 * @param pHistorial
 	 * @param pFecha
@@ -54,19 +53,31 @@ public class ListaCancerPaciente extends ArrayList<Cancer> {
 	 * @param pMama
 	 * @return si se añade con éxito true, false en otro caso.
 	 */
-	public boolean addCancer(String pHistorial,Date pFecha, TipoCancer pTipo, String pTratamiento, Mama pMama){
+	public boolean añadirCancer(Cancer pCancer) {
 		
-		Cancer pCancer = new Cancer(pHistorial,pFecha,pTipo,pTratamiento, pMama);
-		
-		String orden = "INSERT INTO Cancer(historial,fechaCancer,tipo,mama,tratamiento) VALUES('"+pHistorial+"','"+pFecha+"',"
-				+ "'"+pTipo+"', '"+pMama+"','"+pTratamiento+"')";
-		SGBD.getSGBD().execSQL(orden );
-		
-		String consulta = "SELECT tipo FROM Cancer WHERE tipo = '"+pTipo+"' AND historial = '"+pHistorial+"' AND fechaCancer = '"+pFecha+"'";
-		ResultadoSQL RdoSql = SGBD.getSGBD().consultaSQL(consulta);
-		
-		if(RdoSql.next())this.add(pCancer);
-		
-		return this.contains(pCancer);
+		String insert="INSERT INTO Cancer(historial,fechaCancer, tipo) VALUES('"+pCancer.getPaciente()+"', '"+pCancer.getFecha()+"','"+pCancer.getTipo().toString()+"')";
+		SGBD.getSGBD().execSQL(insert);
+		if(pCancer.getMama()!=null){
+			String update = "UPDATE Cancer SET mama = '"+pCancer.getMama()+"' WHERE historial = '"+pCancer.getPaciente()+"'"
+					+ "AND tipo ='"+pCancer.getTipo().toString()+"' AND fechaCancer = '"+pCancer.getFecha()+"'";
+			SGBD.getSGBD().execSQL(update);
+		}
+		if(pCancer.getTratamiento()!=null){
+			String update1="UPDATE Cancer set tratamiento = '"+pCancer.getTratamiento()+"' WHERE historial = '"+pCancer.getPaciente()+"'"
+					+ "AND tipo ='"+pCancer.getTipo().toString()+"' AND fechaCancer = '"+pCancer.getFecha()+"'";
+			SGBD.getSGBD().execSQL(update1);
+		}
+		String consulta="Select * FROM Cancer WHERE historial = '"+pCancer.getPaciente()+"'"
+					+ "AND tipo ='"+pCancer.getTipo().toString()+"' AND fechaCancer = '"+pCancer.getFecha()+"'";
+		ResultadoSQL RdoSQL=SGBD.getSGBD().consultaSQL(consulta);
+		if(RdoSQL.next()){
+			return this.add(pCancer);
+		}
+		RdoSQL.close();
+		return false;
 	}
+	
+	
+	
+	
 }

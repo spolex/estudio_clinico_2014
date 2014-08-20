@@ -2,7 +2,10 @@ package pack.osakidetza.controladoras;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
+import pack.osakidetza.enumerados.Mama;
+import pack.osakidetza.enumerados.TipoCancer;
 import pack.osakidetza.gestorBD.ResultadoSQL;
 import pack.osakidetza.gestorBD.SGBD;
 
@@ -21,7 +24,7 @@ public class CatalogoPacientes extends ArrayList<Paciente>{
 
 	/**
 	 * pre:recibe todos los datos necesarios para dar de alta en el sistema un paciente.El número de historial no está registrado en el sistema.
-	 * post:registra un nuevo paciemte con todos sus datos.
+	 * post:registra un nuevo paciemte con todos sus datos y lo añade al catalogo en ejecución.
 	 * @param pNom
 	 * @param pHist
 	 * @param cI
@@ -134,16 +137,17 @@ public class CatalogoPacientes extends ArrayList<Paciente>{
 		String encontrado = null;
 		ResultadoSQL RdoSQL = SGBD.getSGBD().consultaSQL("SELECT historial FROM Paciente WHERE historial = '"+pHist+"'");
 		if(RdoSQL.next()){
-			encontrado = RdoSQL.get("historial");
-			RdoSQL.close();
+			encontrado = RdoSQL.get("historial");			
 		}
+		RdoSQL.close();
 		return encontrado;
 	}
 	
 	/**
 	 * pre: el paciente existe en el sistema.
+	 * post:
 	 * @param historial
-	 * @return
+	 * @return true si se borra del sistema, en otro caso false.
 	 */
 	public boolean borrarPaciente(String historial) {
 		
@@ -165,7 +169,7 @@ public class CatalogoPacientes extends ArrayList<Paciente>{
 		while(RdoSQL.next()){
 			listaCI.add(RdoSQL.get("historial"));
 		}
-		
+		RdoSQL.close();
 		return listaCI;
 	}
 	
@@ -180,6 +184,7 @@ public class CatalogoPacientes extends ArrayList<Paciente>{
 		while(RdoSQL.next()){
 			listaPacientes.add(RdoSQL.get("historial"));
 		}
+		RdoSQL.close();
 		return listaPacientes;
 	}
 
@@ -195,6 +200,7 @@ public class CatalogoPacientes extends ArrayList<Paciente>{
 		while(RdoSQL.next()){
 			lista.add(RdoSQL.get("historial"));
 		}
+		RdoSQL.close();
 		return lista;
 	}
 
@@ -239,7 +245,11 @@ public class CatalogoPacientes extends ArrayList<Paciente>{
 		return null;
 	}
 	
-		
+	/**
+	 * pre:actualiza los datos del paciente que recibe como parámetro.
+	 * post:todos los datos del paciente se actualizan en el modelo.	
+	 * @param pacienteCurrent
+	 */
 	public void actualizarPaciente(Paciente pacienteCurrent) {
 		
 		if(pacienteCurrent.getFechaNace()!=null){
@@ -272,5 +282,19 @@ public class CatalogoPacientes extends ArrayList<Paciente>{
 						+ " numeroGestaciones = '"+pacienteCurrent.getNumGestaciones()+"'"
 						+ "WHERE historial= '"+pacienteCurrent.getHistorial()+"'";
 		SGBD.getSGBD().execSQL(orden);
+	}
+
+	public Iterator<Cancer> listarCancer(String pHistorial) {
+				Paciente paciente = CatalogoPacientes.getPacientes().obtenerPaciente(pHistorial);
+				return paciente.listarCancerPaciente();				
+	}
+
+	public boolean addCancer(String pHistorial, java.util.Date dateFecha,
+			String pTipo, String pMama, String pTratamiento) {
+		Mama mama=null;
+		TipoCancer tipo=null;
+		if(pMama!=null)mama=Mama.valueOf(pMama);
+		if(pTipo!=null)tipo=TipoCancer.valueOf(pTipo);
+		return CatalogoPacientes.getPacientes().obtenerPaciente(pHistorial).addCancer(new Cancer(pHistorial, new java.sql.Date(dateFecha.getTime()), tipo, pTratamiento,mama));
 	}
 }

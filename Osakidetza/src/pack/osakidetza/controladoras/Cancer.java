@@ -7,13 +7,13 @@ import pack.osakidetza.enumerados.*;
 public class Cancer 
 {
 	private TipoCancer tipo;
-	private String paciente;
+	private String historial;
 	private Date fecha;
 	private Mama mama;
 	private String tratamiento;
 	public Cancer(String pHistorial, Date pFecha, TipoCancer pTipo,
 			String pTratamiento, Mama pMama) {
-		this.paciente= pHistorial;
+		this.historial= pHistorial;
 		this.tipo=pTipo;
 		this.fecha=pFecha;
 		this.tratamiento= pTratamiento;
@@ -23,7 +23,7 @@ public class Cancer
 		this.tipo = tipo;
 	}
 	public void setPaciente(String paciente) {
-		this.paciente = paciente;
+		this.historial = paciente;
 	}
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
@@ -38,7 +38,7 @@ public class Cancer
 		return tipo;
 	}
 	public String getPaciente() {
-		return paciente;
+		return historial;
 	}
 	public Date getFecha() {
 		return fecha;

@@ -2,6 +2,9 @@ package pack.osakidetza.controladoras;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Iterator;
+
+import com.toedter.calendar.JDateChooser;
 
 public class C_Doctor {
 	
@@ -54,6 +57,15 @@ public class C_Doctor {
 
 	public void actualizarPaciente(Paciente pacienteCurrent) {
 		CatalogoPacientes.getPacientes().actualizarPaciente(pacienteCurrent);
+	}
+
+	public Iterator<Cancer> listarCancer(String pHistorial) {
+		 return CatalogoPacientes.getPacientes().listarCancer(pHistorial);		
+	}
+
+	public boolean addCancer(String pHistorial, java.util.Date date,
+			String pTipo, String pMama, String pTratamiento) {
+		return CatalogoPacientes.getPacientes().addCancer(pHistorial,date,pTipo,pMama,pTratamiento);
 	}
 
 }

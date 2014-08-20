@@ -223,8 +223,8 @@ public class IU_Pacientes extends JFrame {
 					//listar cáncer dado paciente.
 					else if(chckbxCancer.isSelected()){						
 						if(!listPacientes.isSelectionEmpty()){
-							IU_FormCancer IU_C= new IU_FormCancer();			
-							IU_C.setVisible(true);	
+							IU_ListaCancer_Paciente IU_Lista= new IU_ListaCancer_Paciente(historial);		
+							IU_Lista.setVisible(true);	
 						}
 						else{
 							JOptionPane.showMessageDialog(null, "No ha escogido un paciente para consultar");

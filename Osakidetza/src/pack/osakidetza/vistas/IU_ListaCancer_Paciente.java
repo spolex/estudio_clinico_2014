@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 
 import java.awt.Font;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -17,8 +18,13 @@ import javax.swing.AbstractListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.ButtonGroup;
+
+import pack.osakidetza.controladoras.C_Doctor;
+import pack.osakidetza.controladoras.Cancer;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.Iterator;
 
 @SuppressWarnings({"serial" })
 public class IU_ListaCancer_Paciente extends JFrame {
@@ -33,7 +39,7 @@ public class IU_ListaCancer_Paciente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IU_ListaCancer_Paciente frame = new IU_ListaCancer_Paciente();
+					IU_ListaCancer_Paciente frame = new IU_ListaCancer_Paciente("");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,9 +50,10 @@ public class IU_ListaCancer_Paciente extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param pistorial 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public IU_ListaCancer_Paciente() {
+	public IU_ListaCancer_Paciente(final String pHistorial) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 479, 306);
 		contentPane = new JPanel();
@@ -83,6 +90,15 @@ public class IU_ListaCancer_Paciente extends JFrame {
 			}
 		});
 		scrollPane.setViewportView(list);
+		if(pHistorial!=null){
+			Iterator<Cancer> itr =C_Doctor.getMiDoctor().listarCancer(pHistorial);
+			DefaultListModel modelo = new DefaultListModel();
+			while(itr.hasNext()){
+				Cancer cancer = itr.next();
+				modelo.addElement(cancer.getTipo()+";"+cancer.getFecha());
+			}
+			list.setModel(modelo);
+		}
 		
 		final JCheckBox chckbxEliminar = new JCheckBox("Eliminar");
 		buttonGroup.add(chckbxEliminar);
@@ -113,7 +129,7 @@ public class IU_ListaCancer_Paciente extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==btnAceptar){
 					if(chckbxAadir.isSelected()){
-						IU_FormCancer IU_FC = new IU_FormCancer();
+						IU_FormCancer IU_FC = new IU_FormCancer(pHistorial);
 						IU_FC.setVisible(true);
 					}
 					else if(chckbxActualizar.isSelected()){

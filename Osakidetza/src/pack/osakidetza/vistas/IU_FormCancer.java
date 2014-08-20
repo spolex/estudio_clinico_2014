@@ -1,13 +1,15 @@
 package pack.osakidetza.vistas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -16,11 +18,24 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JButton;
 
+import pack.osakidetza.controladoras.C_Doctor;
+import pack.osakidetza.enumerados.TipoCancer;
+
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+
+import com.toedter.calendar.JDateChooser;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.util.Date;
+
+@SuppressWarnings("serial")
 public class IU_FormCancer extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textHistorial;
+	private String historial;
 
 	/**
 	 * Launch the application.
@@ -29,7 +44,7 @@ public class IU_FormCancer extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IU_FormCancer frame = new IU_FormCancer();
+					IU_FormCancer frame = new IU_FormCancer("");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,14 +55,18 @@ public class IU_FormCancer extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param historial 
 	 */
-	public IU_FormCancer() {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public IU_FormCancer(final String pHistorial) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 453, 431);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setResizable(false);
+		
 		
 		JLabel lblCancer = new JLabel("Cancer");
 		lblCancer.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
@@ -62,10 +81,12 @@ public class IU_FormCancer extends JFrame {
 		lblPaciente.setBounds(25, 81, 99, 15);
 		contentPane.add(lblPaciente);
 		
-		textField = new JTextField();
-		textField.setBounds(186, 78, 114, 19);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textHistorial = new JTextField();
+		textHistorial.setBounds(186, 78, 114, 19);
+		contentPane.add(textHistorial);
+		textHistorial.setColumns(10);
+		textHistorial.setText(pHistorial);
+		textHistorial.setEnabled(false);
 		
 		JLabel lblTipo = new JLabel("Tipo");
 		lblTipo.setBounds(25, 121, 70, 15);
@@ -75,30 +96,29 @@ public class IU_FormCancer extends JFrame {
 		lblFecha.setBounds(25, 159, 70, 15);
 		contentPane.add(lblFecha);
 		
-		JLabel lblGenSecuenciado = new JLabel("Gen secuenciado");
-		lblGenSecuenciado.setBounds(25, 201, 138, 15);
-		contentPane.add(lblGenSecuenciado);
+		final JComboBox comboBox_tipo_Mama = new JComboBox();
+		comboBox_tipo_Mama.setModel(new DefaultComboBoxModel(new String[] {"izquierda", "derecha"}));	
+		comboBox_tipo_Mama.setBounds(330, 116, 106, 24);
+		comboBox_tipo_Mama.setSelectedIndex(-1);
+		contentPane.add(comboBox_tipo_Mama);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Trompa", "Mama", "Ovario", "otros"}));
-		comboBox.setBounds(186, 116, 114, 20);
-		contentPane.add(comboBox);
-		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"izquierda", "derecha"}));
-		comboBox_1.setEnabled(false);
-		comboBox_1.setBounds(330, 116, 106, 24);
-		contentPane.add(comboBox_1);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(186, 157, 114, 19);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
-		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"BRCA1", "BRCA2", "CHEK6"}));
-		comboBox_2.setBounds(186, 196, 114, 24);
-		contentPane.add(comboBox_2);
+		final JComboBox comboBoxtipo = new JComboBox();
+		comboBoxtipo.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(!e.getItem().equals("mama"))
+				{					
+					comboBox_tipo_Mama.setVisible(false);					
+				}	
+				else
+				{
+					comboBox_tipo_Mama.setVisible(true);
+				}
+			}
+		});
+		comboBoxtipo.setModel(new DefaultComboBoxModel(new String[] {"trompa", "mama", "ovario", "otro"}));
+		comboBoxtipo.setBounds(186, 116, 114, 20);
+		comboBoxtipo.setSelectedIndex(-1);
+		contentPane.add(comboBoxtipo);
 		
 		JLabel lblTratamiento = new JLabel("Tratamiento");
 		lblTratamiento.setBounds(25, 258, 125, 15);
@@ -108,15 +128,61 @@ public class IU_FormCancer extends JFrame {
 		scrollPane.setBounds(25, 285, 386, 66);
 		contentPane.add(scrollPane);
 		
-		JTextPane textPane = new JTextPane();
-		scrollPane.setViewportView(textPane);
+		final JTextPane textTratamiento = new JTextPane();
+		scrollPane.setViewportView(textTratamiento);
 		
-		JButton btnAceptar = new JButton("Aceptar");
+		final JDateChooser dateFecha = new JDateChooser();
+		dateFecha.setBounds(186, 159, 114, 19);
+		contentPane.add(dateFecha);
+		
+		final JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==btnAceptar){
+					if(textHistorial.getText().length()>0 && textTratamiento.getText().length()>0 && comboBoxtipo.getSelectedItem()!=null)
+					{
+						java.util.Date fecha=null;
+						if(dateFecha.getDate()==null){
+							fecha=new Date();
+						}
+						else
+						{
+							fecha=dateFecha.getDate();
+						}
+						String mama=null;
+						if(comboBox_tipo_Mama.getSelectedItem()!=null)
+						{
+							mama=comboBox_tipo_Mama.getSelectedItem().toString();
+						}
+						boolean add=C_Doctor.getMiDoctor().addCancer(pHistorial,fecha,comboBoxtipo.getSelectedItem().toString(),mama,textTratamiento.getText());
+						if(add){
+							JOptionPane.showMessageDialog(null, "Añadido con éxito");
+						}
+						else{
+							JOptionPane.showMessageDialog(null, "No se ha podido añadir");
+						}
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Faltan campos obligatorios por rellenar.");
+					}
+				}
+			}
+		});
 		btnAceptar.setBounds(319, 368, 117, 25);
 		contentPane.add(btnAceptar);
 		
-		JButton btnCancelar = new JButton("Cancelar");
+		final JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==btnCancelar){
+					dispose();
+				}
+			}
+		});
 		btnCancelar.setBounds(183, 368, 117, 25);
 		contentPane.add(btnCancelar);
+		
+		
 	}
 }
