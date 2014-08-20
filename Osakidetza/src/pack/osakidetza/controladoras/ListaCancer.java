@@ -4,6 +4,7 @@ package pack.osakidetza.controladoras;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import pack.osakidetza.enumerados.Mama;
 import pack.osakidetza.enumerados.TipoCancer;
@@ -76,6 +77,17 @@ public class ListaCancer extends ArrayList<Cancer> {
 		RdoSQL.close();
 		return false;
 	}
+
+	public boolean eliminarCancer(Cancer pCancer) {	
+	
+			String delete="DELETE FROM Cancer WHERE historial='"+pCancer.getPaciente()+"' AND fechaCancer = '"+pCancer.getFecha()+"' AND tipo = '"+pCancer.getTipo().toString()+"'";
+			SGBD.getSGBD().execSQL(delete);
+			this.remove(pCancer);
+		
+		return true;
+	}
+	
+	 
 	
 	
 	

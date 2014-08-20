@@ -245,4 +245,8 @@ public class Paciente {
 		return this.getCanceres().añadirCancer(cancer);
 	}
 
+	public boolean eliminarCancer(Cancer pCancer) {
+		return this.getCanceres().eliminarCancer(pCancer);
+	}
+
 }

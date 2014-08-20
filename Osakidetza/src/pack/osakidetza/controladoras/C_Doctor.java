@@ -68,4 +68,8 @@ public class C_Doctor {
 		return CatalogoPacientes.getPacientes().addCancer(pHistorial,date,pTipo,pMama,pTratamiento);
 	}
 
+	public boolean eliminarCancer(Cancer pCancer) {
+		return CatalogoPacientes.getPacientes().eliminarCancer(pCancer);
+	}
+
 }

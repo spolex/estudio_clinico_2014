@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
-import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
@@ -79,7 +79,7 @@ public class IU_ListaCancer_Paciente extends JFrame {
 		scrollPane.setBounds(87, 67, 272, 76);
 		contentPane.add(scrollPane);
 		
-		JList list = new JList();
+		final JList list = new JList();
 		list.setModel(new AbstractListModel() {
 			String[] values = new String[] {};
 			public int getSize() {
@@ -136,7 +136,27 @@ public class IU_ListaCancer_Paciente extends JFrame {
 						
 					}
 					else if(chckbxEliminar.isSelected()){
-						
+						//Comprobamos que existe 
+						Iterator<Cancer> itr = C_Doctor.getMiDoctor().listarCancer(pHistorial);
+						boolean enc = false;
+						boolean eliminado=false;
+						while(itr.hasNext()&&!enc){
+							String cancer= (String) list.getSelectedValue();
+							Cancer pCancer=itr.next();
+							String[] cancerAux = cancer.split(";");
+							if(cancerAux[0].equals(pCancer.getTipo().toString()) && cancerAux[1].equals(pCancer.getFecha().toString())){
+							    eliminado = C_Doctor.getMiDoctor().eliminarCancer(pCancer);
+								enc=true;
+							}
+						}
+						if(eliminado){
+							JOptionPane.showMessageDialog(null, "Eliminado con éxito");
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "No ha sido posible eliminar");
+
+						}
 					}
 				}
 			}

@@ -297,4 +297,8 @@ public class CatalogoPacientes extends ArrayList<Paciente>{
 		if(pTipo!=null)tipo=TipoCancer.valueOf(pTipo);
 		return CatalogoPacientes.getPacientes().obtenerPaciente(pHistorial).addCancer(new Cancer(pHistorial, new java.sql.Date(dateFecha.getTime()), tipo, pTratamiento,mama));
 	}
+
+	public boolean eliminarCancer(Cancer pCancer) {
+		return CatalogoPacientes.getPacientes().obtenerPaciente(pCancer.getPaciente()).eliminarCancer(pCancer);
+	}
 }
