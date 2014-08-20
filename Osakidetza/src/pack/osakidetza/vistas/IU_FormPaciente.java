@@ -23,7 +23,7 @@ import pack.osakidetza.enumerados.SiNo;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.text.SimpleDateFormat;
+import java.sql.Date;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -153,11 +153,13 @@ public class IU_FormPaciente extends JFrame {
 		final JComboBox comboBoxFamiliarCI = new JComboBox();
 		comboBoxFamiliarCI.setModel(new DefaultComboBoxModel(new String[] {"no", "si"}));
 		comboBoxFamiliarCI.setBounds(173, 323, 114, 24);
+		comboBoxFamiliarCI.setSelectedIndex(-1);//Para no seleccionar ninguno por defecto.
 		contentPane.add(comboBoxFamiliarCI);
 		
 		final JComboBox comboBoxSex = new JComboBox();
 		comboBoxSex.setModel(new DefaultComboBoxModel(new String[] {"hombre", "mujer"}));
 		comboBoxSex.setBounds(173, 201, 114, 24);
+		comboBoxSex.setSelectedIndex(-1);
 		contentPane.add(comboBoxSex);
 		
 		textCriteriosCI = new JTextField();
@@ -173,26 +175,31 @@ public class IU_FormPaciente extends JFrame {
 		final JComboBox comboBoxCI = new JComboBox();
 		comboBoxCI.setModel(new DefaultComboBoxModel(new String[] {"no", "si"}));
 		comboBoxCI.setBounds(173, 158, 114, 24);
+		comboBoxCI.setSelectedIndex(-1);
 		contentPane.add(comboBoxCI);
 		
 		final JComboBox comboBoxRelacionCI = new JComboBox();
 		comboBoxRelacionCI.setModel(new DefaultComboBoxModel(new String[] {"ninguno", "herman@", "hij@", "padre", "madre", "prim@", "ti@", "familiar"}));
 		comboBoxRelacionCI.setBounds(173, 366, 114, 24);
+		comboBoxRelacionCI.setSelectedIndex(-1);
 		contentPane.add(comboBoxRelacionCI);
 		
 		final JComboBox comboBoxLugarNace = new JComboBox();
 		comboBoxLugarNace.setModel(new DefaultComboBoxModel(new String[] {"Araba/Álava", "Albacete", "Alicante/Alacant", "Almería", "Ávila", "Badajoz", "Balears (Illes)", "Barcelona", "Burgos", "Cáceres", "Cádiz", "Castellón/Castelló", "Ciudad Real", "Córdoba", "Coruña (A)", "Cuenca", "Girona", "Granada", "Guadalajara", "Gipuzkoa", "Huelva", "Huesca", "Jaén", "León", "Lleida", "Rioja (La)", "Lugo", "Madrid", "Málaga", "Murcia", "Navarra", "Ourense", "Asturias", "Palencia", "Palmas (Las)", "Pontevedra", "Salamanca", "Santa Cruz de Tenerife", "Cantabria", "Segovia", "Sevilla", "Soria", "Tarragona", "Teruel", "Toledo", "Valencia/València", "Valladolid", "Bizkaia", "Zamora", "Zaragoza", "Ceuta", "Melilla"}));
 		comboBoxLugarNace.setBounds(540, 83, 114, 24);
+		comboBoxLugarNace.setSelectedIndex(-1);
 		contentPane.add(comboBoxLugarNace);
 		
 		final JComboBox comboBoxMaterno = new JComboBox();
 		comboBoxMaterno.setModel(new DefaultComboBoxModel(new String[] {"Araba/Álava", "Albacete", "Alicante/Alacant", "Almería", "Ávila", "Badajoz", "Balears (Illes)", "Barcelona", "Burgos", "Cáceres", "Cádiz", "Castellón/Castelló", "Ciudad Real", "Córdoba", "Coruña (A)", "Cuenca", "Girona", "Granada", "Guadalajara", "Gipuzkoa", "Huelva", "Huesca", "Jaén", "León", "Lleida", "Rioja (La)", "Lugo", "Madrid", "Málaga", "Murcia", "Navarra", "Ourense", "Asturias", "Palencia", "Palmas (Las)", "Pontevedra", "Salamanca", "Santa Cruz de Tenerife", "Cantabria", "Segovia", "Sevilla", "Soria", "Tarragona", "Teruel", "Toledo", "Valencia/València", "Valladolid", "Bizkaia", "Zamora", "Zaragoza", "Ceuta", "Melilla"}));
 		comboBoxMaterno.setBounds(540, 127, 114, 24);
+		comboBoxMaterno.setSelectedIndex(-1);
 		contentPane.add(comboBoxMaterno);
 		
 		final JComboBox comboBoxPaterno = new JComboBox();
 		comboBoxPaterno.setModel(new DefaultComboBoxModel(new String[] {"Araba/Álava", "Albacete", "Alicante/Alacant", "Almería", "Ávila", "Badajoz", "Balears (Illes)", "Barcelona", "Burgos", "Cáceres", "Cádiz", "Castellón/Castelló", "Ciudad Real", "Córdoba", "Coruña (A)", "Cuenca", "Girona", "Granada", "Guadalajara", "Gipuzkoa", "Huelva", "Huesca", "Jaén", "León", "Lleida", "Rioja (La)", "Lugo", "Madrid", "Málaga", "Murcia", "Navarra", "Ourense", "Asturias", "Palencia", "Palmas (Las)", "Pontevedra", "Salamanca", "Santa Cruz de Tenerife", "Cantabria", "Segovia", "Sevilla", "Soria", "Tarragona", "Teruel", "Toledo", "Valencia/València", "Valladolid", "Bizkaia", "Zamora", "Zaragoza", "Ceuta", "Melilla"}));
 		comboBoxPaterno.setBounds(540, 163, 114, 24);
+		comboBoxPaterno.setSelectedIndex(-1);
 		contentPane.add(comboBoxPaterno);
 		
 		textFieldAnovu = new JTextField();
@@ -203,6 +210,7 @@ public class IU_FormPaciente extends JFrame {
 		final JComboBox comboBoxNumGesta = new JComboBox();
 		comboBoxNumGesta.setModel(new DefaultComboBoxModel(new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"}));
 		comboBoxNumGesta.setBounds(540, 279, 114, 24);
+		comboBoxNumGesta.setSelectedIndex(0);
 		contentPane.add(comboBoxNumGesta);
 		
 		final JDateChooser dateFNacimiento = new JDateChooser();
@@ -241,7 +249,7 @@ public class IU_FormPaciente extends JFrame {
 		
 		final JComboBox comboBoxCasosI = new JComboBox(C_Doctor.getMiDoctor().listarCasosIndice().toArray());
 		comboBoxCasosI.setBounds(173, 451, 122, 19);
-		comboBoxCasosI.setSelectedIndex(-1);//Para que no se seleccione ningún elemento por defecto
+		comboBoxCasosI.setSelectedIndex(-1);
 		contentPane.add(comboBoxCasosI);
 		
 		if(pacienteCurrent!=null)
@@ -280,32 +288,56 @@ public class IU_FormPaciente extends JFrame {
 						if(C_Doctor.getMiDoctor().buscarPaciente(pHist)==null)
 						{
 							String pNom = textNombre.getText();
-							String CI = comboBoxCI.getSelectedItem().toString();
-							String sexo = comboBoxSex.getSelectedItem().toString();
-							String criteriosCI = textCriteriosCI.getText();
-							String numFamilia = textNumFamilia.getText();
-							String familiarCi = comboBoxFamiliarCI.getSelectedItem().toString();
-							String relacionCi = comboBoxRelacionCI.getSelectedItem().toString();
-							//Para dar formato a la fecha
-							String fechaNacimiento="";
-							if(dateFNacimiento.getDate()!=null)fechaNacimiento = new SimpleDateFormat("yyyy-MM-dd").format(dateFNacimiento.getDate());
-							String lugarNace = comboBoxLugarNace.getSelectedItem().toString();
-							String origenMaterno = comboBoxMaterno.getSelectedItem().toString();
-							String origenPaterno = comboBoxPaterno.getSelectedItem().toString();
-							String fechaSeguimiento="";
-							if(dateFechaSeg.getDate()!=null)fechaSeguimiento = new SimpleDateFormat("yyyy-MM-dd").format(dateFechaSeg.getDate());
-							String anovulatorios = textFieldAnovu.getText();
-							String numGest = comboBoxNumGesta.getSelectedItem().toString();
-							String fechaPrimerEmbarazo="";
-							if(datePrimerEmbarazo.getDate()!=null)fechaPrimerEmbarazo = new SimpleDateFormat("yyyy-MM-dd").format(datePrimerEmbarazo.getDate());
-							String fechaMenopausia="";
-							if(dateMenopausia.getDate()!=null)fechaMenopausia = new SimpleDateFormat("yyyy-MM-dd").format(dateMenopausia.getDate());
-							String fechaMenarquia="";
-							if(dateMenarquia.getDate()!=null)fechaMenarquia = new SimpleDateFormat("yyyy-MM-dd").format(dateMenarquia.getDate());
-							String histCI = comboBoxCasosI.getSelectedItem().toString();
 							
-							boolean añadido = C_Doctor.getMiDoctor().addPaciente(pNom,pHist,CI,sexo,histCI,criteriosCI,numFamilia,familiarCi,relacionCi,fechaNacimiento,lugarNace,origenMaterno,origenPaterno
-								,fechaSeguimiento,anovulatorios,numGest,fechaPrimerEmbarazo,fechaMenopausia, fechaMenarquia);
+							String CI = null;
+							if(comboBoxCI.getSelectedItem()!=null) CI = comboBoxCI.getSelectedItem().toString();
+							
+							String sexo = null;
+							if(comboBoxSex.getSelectedItem()!=null) sexo = comboBoxSex.getSelectedItem().toString();
+							
+							String familiarCi = null;
+							if(comboBoxFamiliarCI.getSelectedItem()!=null) familiarCi = comboBoxFamiliarCI.getSelectedItem().toString();	
+							
+							String relacionCi = null;
+							if(comboBoxRelacionCI.getSelectedItem()!=null) relacionCi = comboBoxRelacionCI.getSelectedItem().toString();
+							
+							String origenMaterno=null;
+							if(comboBoxMaterno.getSelectedItem()!=null) origenMaterno = comboBoxMaterno.getSelectedItem().toString();
+							
+							String origenPaterno = null;
+							if(comboBoxPaterno.getSelectedItem()!=null)origenPaterno=comboBoxPaterno.getSelectedItem().toString();
+							
+							String numGest=null;
+							if(comboBoxNumGesta.getSelectedItem()!=null)numGest = comboBoxNumGesta.getSelectedItem().toString();
+							
+							String lugarNace = null;
+							if(comboBoxLugarNace.getSelectedItem()!=null)lugarNace = comboBoxLugarNace.getSelectedItem().toString();
+							
+							String histCI = null;
+							if(comboBoxCasosI.getSelectedItem()!=null)histCI=comboBoxCasosI.toString();			
+							
+							String criteriosCI = textCriteriosCI.getText();
+							String numFamilia = textNumFamilia.getText();							
+							String anovulatorios = textFieldAnovu.getText();
+										
+							Date fNacimiento=null;
+							if(dateFNacimiento.getDate()!=null) fNacimiento =new Date(dateFNacimiento.getDate().getTime());
+							
+							Date fSeguimiento=null;;
+							if(dateFechaSeg.getDate()!=null)fSeguimiento = new Date(dateFechaSeg.getDate().getTime());
+							
+							Date fPrimerEm=null;
+							if(datePrimerEmbarazo.getDate()!=null)fPrimerEm = new Date(datePrimerEmbarazo.getDate().getTime());
+							
+							Date fMeno=null;
+							if(datePrimerEmbarazo.getDate()!=null)fMeno = new Date(datePrimerEmbarazo.getDate().getTime());
+							
+							Date fMenar=null;
+							if(dateMenarquia.getDate()!=null)fMenar = new Date(dateMenarquia.getDate().getTime());
+							
+							boolean añadido = C_Doctor.getMiDoctor().addPaciente(pNom,pHist,CI,sexo,histCI,criteriosCI,numFamilia,familiarCi,relacionCi,fNacimiento,
+									lugarNace,origenMaterno,origenPaterno,fSeguimiento,anovulatorios,numGest,fPrimerEm,
+									fMeno, fMenar);
 							if(añadido){
 								JOptionPane.showMessageDialog(null, "El paciente: "+pNom+" con el nº de historial: "+ pHist + " ha sido registrado en el sistema");
 							}
@@ -314,29 +346,39 @@ public class IU_FormPaciente extends JFrame {
 							}
 						}
 						else{
+							
 							JOptionPane.showMessageDialog(null, "El número de historial ya está registrado en el sistema");
 						}
 					}
 					else if(pacienteCurrent!=null && textNombre.getText().length()>0){
-						pacienteCurrent.setNombre(textNombre.getText());
-						pacienteCurrent.setCi(SiNo.valueOf(comboBoxCI.getSelectedItem().toString()));
-						pacienteCurrent.setSexo(Sexo.valueOf(comboBoxSex.getSelectedItem().toString()));
-						pacienteCurrent.setCriteriosCI(textCriteriosCI.getText());
-						pacienteCurrent.setNumFamilia(textNumFamilia.getText());
-						pacienteCurrent.setFamiliarCI(SiNo.valueOf(comboBoxFamiliarCI.getSelectedItem().toString()));
-						pacienteCurrent.setRelacionCI(comboBoxRelacionCI.getSelectedItem().toString());
-						pacienteCurrent.setFechaNace(dateFNacimiento.getDate());
-						pacienteCurrent.setHistorialCI(comboBoxCasosI.getSelectedItem().toString());
-						pacienteCurrent.setLugarNace(comboBoxLugarNace.getSelectedItem().toString());
-						pacienteCurrent.setOrigenMaterno(comboBoxMaterno.getSelectedItem().toString());
-						pacienteCurrent.setOrigenPaterno(comboBoxPaterno.getSelectedItem().toString());
-						pacienteCurrent.setFechaSeguimiento(dateFechaSeg.getDate());
-						pacienteCurrent.setAnovulatorios(textFieldAnovu.getText());
-						pacienteCurrent.setNumGestaciones(Integer.parseInt(comboBoxNumGesta.getSelectedItem().toString()));
-						pacienteCurrent.setPrimerEmbarazo(datePrimerEmbarazo.getDate());
-						pacienteCurrent.setMenopausia(dateMenopausia.getDate());
-						pacienteCurrent.setMenarquia(dateMenarquia.getDate());
-						C_Doctor.getMiDoctor().actualizarPaciente(pacienteCurrent);
+						try{
+								pacienteCurrent.setNombre(textNombre.getText());
+								if(comboBoxCI.getSelectedItem()!=null)pacienteCurrent.setCi(SiNo.valueOf(comboBoxCI.getSelectedItem().toString()));
+								if(comboBoxSex.getSelectedItem()!=null)pacienteCurrent.setSexo(Sexo.valueOf(comboBoxSex.getSelectedItem().toString()));
+								pacienteCurrent.setCriteriosCI(textCriteriosCI.getText());
+								pacienteCurrent.setNumFamilia(textNumFamilia.getText());
+								if(comboBoxFamiliarCI.getSelectedItem()!=null)pacienteCurrent.setFamiliarCI(SiNo.valueOf(comboBoxFamiliarCI.getSelectedItem().toString()));
+								if(comboBoxRelacionCI.getSelectedItem()!=null)pacienteCurrent.setRelacionCI(comboBoxRelacionCI.getSelectedItem().toString());
+								pacienteCurrent.setFechaNace(dateFNacimiento.getDate());
+								if(comboBoxCasosI.getSelectedItem()!=null)pacienteCurrent.setHistorialCI(comboBoxCasosI.getSelectedItem().toString());
+								pacienteCurrent.setLugarNace(comboBoxLugarNace.getSelectedItem().toString());
+								if(comboBoxMaterno.getSelectedItem()!=null)pacienteCurrent.setOrigenMaterno(comboBoxMaterno.getSelectedItem().toString());
+								if(comboBoxPaterno.getSelectedItem()!=null)pacienteCurrent.setOrigenPaterno(comboBoxPaterno.getSelectedItem().toString());
+								pacienteCurrent.setFechaSeguimiento(dateFechaSeg.getDate());
+								pacienteCurrent.setAnovulatorios(textFieldAnovu.getText());
+								pacienteCurrent.setNumGestaciones(Integer.parseInt(comboBoxNumGesta.getSelectedItem().toString()));
+								pacienteCurrent.setPrimerEmbarazo(datePrimerEmbarazo.getDate());
+								pacienteCurrent.setMenopausia(dateMenopausia.getDate());
+								pacienteCurrent.setMenarquia(dateMenarquia.getDate());
+								C_Doctor.getMiDoctor().actualizarPaciente(pacienteCurrent);
+								JOptionPane.showMessageDialog(null, "Datos del paciente "+pacienteCurrent.getNombre()+" actualizados.");
+							}
+						catch(NullPointerException e1){
+							JOptionPane.showMessageDialog(null, "Error al intentar actualizar usuario, el sistema se cerrara");
+						}
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "Faltan campos obligatorios por rellenar");
 					}
 				}
 			}

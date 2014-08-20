@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JButton;
 
-public class IU_Cancer extends JFrame {
+public class IU_FormCancer extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -29,7 +29,7 @@ public class IU_Cancer extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IU_Cancer frame = new IU_Cancer();
+					IU_FormCancer frame = new IU_FormCancer();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,7 +41,7 @@ public class IU_Cancer extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IU_Cancer() {
+	public IU_FormCancer() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 453, 431);
 		contentPane = new JPanel();

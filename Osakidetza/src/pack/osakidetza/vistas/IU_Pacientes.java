@@ -25,14 +25,8 @@ import pack.osakidetza.controladoras.Paciente;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import com.toedter.calendar.JDateChooser;
-
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -95,7 +89,7 @@ public class IU_Pacientes extends JFrame {
 		JCheckBox chckbxVisitas = new JCheckBox("Visitas");
 		buttonGroup.add(chckbxVisitas);
 		
-		JCheckBox chckbxCancer = new JCheckBox("Cancer\n");
+		final JCheckBox chckbxCancer = new JCheckBox("Cancer\n");
 		buttonGroup.add(chckbxCancer);
 		
 		final JCheckBox chckbxNuevo = new JCheckBox("Añadir nuevo");
@@ -155,6 +149,7 @@ public class IU_Pacientes extends JFrame {
 				}
 			}
 		});
+		listPacientes.setSelectedIndex(-1);
 		scrollPane.setViewportView(listPacientes);
 		listPacientes.setModel(new AbstractListModel() {
 			String[] values = new String[] {};
@@ -219,11 +214,21 @@ public class IU_Pacientes extends JFrame {
 					    	listPacientes.setModel(modelo);
 					    }
 				    }
-					if(chckbxActualizar.isSelected()){
-						
+					//actualizar paciente
+					else if(chckbxActualizar.isSelected()){						
 						Paciente pacienteCurrent = C_Doctor.getMiDoctor().obtenerPaciente(historial);
 						IU_FormPaciente IU_FP= new IU_FormPaciente(pacienteCurrent);
-						IU_FP.setVisible(true);
+						IU_FP.setVisible(true);						
+					}
+					//listar cáncer dado paciente.
+					else if(chckbxCancer.isSelected()){						
+						if(!listPacientes.isSelectionEmpty()){
+							IU_FormCancer IU_C= new IU_FormCancer();			
+							IU_C.setVisible(true);	
+						}
+						else{
+							JOptionPane.showMessageDialog(null, "No ha escogido un paciente para consultar");
+						}
 						
 					}
 				}

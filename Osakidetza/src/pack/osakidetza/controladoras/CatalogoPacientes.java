@@ -1,13 +1,13 @@
 package pack.osakidetza.controladoras;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import pack.osakidetza.gestorBD.ResultadoSQL;
 import pack.osakidetza.gestorBD.SGBD;
 
-public class CatalogoPacientes {
+@SuppressWarnings("serial")
+public class CatalogoPacientes extends ArrayList<Paciente>{
 
 	private static CatalogoPacientes misPacientes = new CatalogoPacientes();
 	
@@ -44,48 +44,83 @@ public class CatalogoPacientes {
 	 */
 	public boolean addPaciente(String pNom, String pHist, String cI, String sexo, String histCI,
 			String criteriosCI, String numFamilia, String familiarCi,
-			String relacionCi, String fechaNacimiento, String lugarNace,
+			String relacionCi, Date fechaNacimiento, String lugarNace,
 			String origenMaterno, String origenPaterno,
-			String fechaSeguimiento, String anovulatorios, String numGest,
-			String fechaPrimerEmbarazo, String fechaMenopausia, String fechaMenarquia) {
+			Date fechaSeguimiento, String anovulatorios, String numGest,
+			Date fechaPrimerEmbarazo, Date fechaMenopausia, Date fechaMenarquia) {		
 		
 		int numGes= Integer.parseInt(numGest);
 		
-		SGBD.getSGBD().execSQL("INSERT INTO Paciente(historial, nombre, fechaAlta, casoIndice, sexo, criteriosCI,numeroFamilia, familiarCI, relacionCI"
-				+ ", lugarNacimiento, origenMaterno, origenPaterno, consumoAnovulatorios, numeroGestaciones)"
-				+ "VALUES('"+pHist+"','"+pNom+"','"+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"'"
-				+ ", '"+cI+"', '"+sexo+"', '"+criteriosCI+"', '"+numFamilia+"','"+familiarCi+"', '"+relacionCi+"','"+lugarNace+"','"+origenMaterno+"', '"+origenPaterno+"', '"+anovulatorios+"','"+numGes+"')");
+		SGBD.getSGBD().execSQL("INSERT INTO Paciente(historial, nombre, fechaAlta, criteriosCI, numeroFamilia"
+				+ ", consumoAnovulatorios, numeroGestaciones)"
+				+ "VALUES('"+pHist+"','"+pNom+"','"+new java.sql.Date(new Date().getTime())+"'"
+				+ ", '"+criteriosCI+"', '"+numFamilia+"', '"+anovulatorios+"','"+numGes+"')");
 		
-		
-		if(!fechaNacimiento.equals("")){
-			SGBD.getSGBD().execSQL("UPDATE Paciente SET fechaNacimiento = '"+fechaNacimiento+"' WHERE historial = '"+pHist+"'");
+		if(origenPaterno!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET origenPaterno = '"+origenPaterno+"' WHERE historial = '"+pHist+"'");
 		}
 		
-		if(!fechaSeguimiento.equals("")){
-			SGBD.getSGBD().execSQL("UPDATE Paciente SET fechaSeguimiento = '"+fechaSeguimiento+"' WHERE historial = '"+pHist+"'");
+		if(origenMaterno!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET origenMaterno = '"+origenMaterno+"' WHERE historial = '"+pHist+"'");
 		}
 		
-		if(!fechaPrimerEmbarazo.equals("")){
-			SGBD.getSGBD().execSQL("UPDATE Paciente SET primerEmbarazo = '"+fechaPrimerEmbarazo+"' WHERE historial = '"+pHist+"'");
-			
-			if(!fechaMenarquia.equals("")){
-				SGBD.getSGBD().execSQL("UPDATE Paciente SET menarquia = '"+fechaMenarquia+"' WHERE historial = '"+pHist+"'");
-			}
+		if(lugarNace!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET lugarNacimiento = '"+lugarNace+"' WHERE historial = '"+pHist+"'");
 		}
 		
-		if(!fechaMenopausia.equals("")){
-			SGBD.getSGBD().execSQL("UPDATE Paciente SET menopausia = '"+fechaMenopausia+"' WHERE historial = '"+pHist+"'");
+		if(relacionCi!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET relacionCI = '"+relacionCi+"' WHERE historial = '"+pHist+"'");
 		}
 		
-		if(!numFamilia.equals("")){
+		if(familiarCi!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET familiarCI = '"+familiarCi+"' WHERE historial = '"+pHist+"'");
+		}
+		
+		if(numFamilia!=null){
 			SGBD.getSGBD().execSQL("UPDATE Paciente SET numeroFamilia = '"+numFamilia+"' WHERE historial = '"+pHist+"'");
 		}
 		
-		if(!histCI.equals("")){
-			SGBD.getSGBD().execSQL("UPDATE Paciente SET historialCI = '"+histCI+"' WHERE historial = '"+pHist+"'");
+		if(sexo!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET sexo = '"+sexo+"' WHERE historial = '"+pHist+"'");
 		}
 		
-		return buscarPaciente(pHist)!=null;
+		if(cI!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET casoIndice = '"+cI+"' WHERE historial = '"+pHist+"'");
+		}
+		
+		if(numFamilia!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET numeroFamilia = '"+numFamilia+"' WHERE historial = '"+pHist+"'");
+		}
+		
+		if(histCI!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET historialCI = '"+histCI+"' WHERE historial = '"+pHist+"'");
+		}
+		if(fechaNacimiento!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET fechaNacimiento = '"+new java.sql.Date(fechaNacimiento.getTime())+"' WHERE historial = '"+pHist+"'");
+		}
+		if(fechaSeguimiento!=null) {
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET fechaSeguimiento = '"+new java.sql.Date(fechaSeguimiento.getTime())+"' WHERE historial = '"+pHist+"'");
+		}
+		if(fechaPrimerEmbarazo!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET primerEmbarazo = '"+new java.sql.Date(fechaPrimerEmbarazo.getTime())+"' WHERE historial = '"+pHist+"'");
+		}
+		if(fechaMenopausia!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET menopausia = '"+new java.sql.Date(fechaMenopausia.getTime())+"' WHERE historial = '"+pHist+"'");
+		}
+		if(fechaMenarquia!=null) {
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET menarquia = '"+new java.sql.Date(fechaMenarquia.getTime())+"' WHERE historial = '"+pHist+"'");
+		}
+		
+		if(buscarPaciente(pHist)!=null)
+		{
+			CatalogoPacientes.getPacientes().add(new Paciente(pNom, pHist, cI, sexo, criteriosCI, numFamilia, familiarCi, relacionCi, 
+												fechaNacimiento, histCI, lugarNace, origenMaterno, 
+												origenPaterno, fechaSeguimiento, anovulatorios, numGes, fechaPrimerEmbarazo, fechaMenopausia, fechaMenarquia));
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	/**
@@ -207,25 +242,34 @@ public class CatalogoPacientes {
 		
 	public void actualizarPaciente(Paciente pacienteCurrent) {
 		
-		String fechaNacimiento = "0000-00-00";
-		if(pacienteCurrent.getFechaNace()!=null){ 
-			fechaNacimiento = new SimpleDateFormat("yyyy-MM-dd").format(pacienteCurrent.getFechaNace());
-					}
-		String fechaSeguimiento = "0000-00-00";
-		if(pacienteCurrent.getFechaSeguimiento()!=null) fechaSeguimiento = new SimpleDateFormat("yyyy-MM-dd").format(pacienteCurrent.getFechaSeguimiento());
-		String primer = "0000-00-00"; 
-		if(pacienteCurrent.getPrimerEmbarazo()!=null)primer= new SimpleDateFormat("yyyy-MM-dd").format(pacienteCurrent.getPrimerEmbarazo());
-		String menopausia="0000-00-00";
-		if(pacienteCurrent.getMenopausia()!=null) menopausia = new SimpleDateFormat("yyyy-MM-dd").format(pacienteCurrent.getMenopausia());
-		String menarquia = "0000-00-00";
-		if(pacienteCurrent.getMenarquia()!=null) menarquia = new SimpleDateFormat("yyyy-MM-dd").format(pacienteCurrent.getMenarquia());
+		if(pacienteCurrent.getFechaNace()!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET fechaNacimiento = '"+new java.sql.Date(pacienteCurrent.getFechaNace().getTime())+"' WHERE historial = '"+pacienteCurrent.getHistorial()+"'");
+		}
+					
+		
+		if(pacienteCurrent.getFechaSeguimiento()!=null) {
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET fechaSeguimiento = '"+new java.sql.Date(pacienteCurrent.getFechaSeguimiento().getTime())+"' WHERE historial = '"+pacienteCurrent.getHistorial()+"'");
+		}
+		
+		if(pacienteCurrent.getPrimerEmbarazo()!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET primerEmbarazo = '"+new java.sql.Date(pacienteCurrent.getPrimerEmbarazo().getTime())+"' WHERE historial = '"+pacienteCurrent.getHistorial()+"'");
+		}
+		
+		if(pacienteCurrent.getMenopausia()!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET menopausia = '"+new java.sql.Date(pacienteCurrent.getMenopausia().getTime())+"' WHERE historial = '"+pacienteCurrent.getHistorial()+"'");
+
+		}
+		
+		if(pacienteCurrent.getMenarquia()!=null){
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET menarquia = '"+new java.sql.Date(pacienteCurrent.getMenarquia().getTime())+"' WHERE historial = '"+pacienteCurrent.getHistorial()+"'");
+		}
+		
 		String orden = "UPDATE Paciente SET nombre ='"+pacienteCurrent.getNombre()+"', casoIndice = '"+pacienteCurrent.getCi().toString()+"', "+ 
 						"sexo = '"+pacienteCurrent.getSexo().toString()+"', historialCI = '"+pacienteCurrent.getHistorialCI()+"', numeroFamilia = '"+pacienteCurrent.getNumFamilia()+"',"
 						+ "familiarCI = '"+pacienteCurrent.getFamiliarCI().toString()+"', relacionCI = '"+pacienteCurrent.getRelacionCI()+"', "
-						+ "fechaNacimiento = '"+fechaNacimiento+"', lugarNacimiento = '"+pacienteCurrent.getLugarNace()+"', origenMaterno = '"+pacienteCurrent.getOrigenMaterno()+"',"
-						+ "origenPaterno = '"+pacienteCurrent.getOrigenPaterno()+"', fechaSeguimiento= '"+fechaSeguimiento+"', consumoAnovulatorios = '"+pacienteCurrent.getAnovulatorios()+"',"
-						+ " numeroGestaciones = '"+pacienteCurrent.getNumGestaciones()+"', primerEmbarazo = '"+primer+"',"
-						+ " menarquia = '"+menarquia+"', menopausia = '"+menopausia+"'"
+						+ "lugarNacimiento = '"+pacienteCurrent.getLugarNace()+"', origenMaterno = '"+pacienteCurrent.getOrigenMaterno()+"',"
+						+ "origenPaterno = '"+pacienteCurrent.getOrigenPaterno()+"', consumoAnovulatorios = '"+pacienteCurrent.getAnovulatorios()+"',"
+						+ " numeroGestaciones = '"+pacienteCurrent.getNumGestaciones()+"'"
 						+ "WHERE historial= '"+pacienteCurrent.getHistorial()+"'";
 		SGBD.getSGBD().execSQL(orden);
 	}

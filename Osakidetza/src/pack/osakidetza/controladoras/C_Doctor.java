@@ -1,5 +1,6 @@
 package pack.osakidetza.controladoras;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class C_Doctor {
@@ -15,10 +16,10 @@ public class C_Doctor {
 
 	public boolean addPaciente(String pNom, String pHist, String cI, String sexo, String histCI,
 			String criteriosCI, String numFamilia, String familiarCi,
-			String relacionCi, String fechaNacimiento, String lugarNace,
+			String relacionCi, Date fechaNacimiento, String lugarNace,
 			String origenMaterno, String origenPaterno,
-			String fechaSeguimiento, String anovulatorios, String numGest,
-			String fechaPrimerEmbarazo, String fechaMenopausia, String fechaMenarquia) {
+			Date fechaSeguimiento, String anovulatorios, String numGest,
+			Date fechaPrimerEmbarazo, Date fechaMenopausia, Date fechaMenarquia) {
 		return CatalogoPacientes.getPacientes().addPaciente( pNom, pHist,  cI,  sexo, histCI,
 				 criteriosCI,  numFamilia,  familiarCi,
 				 relacionCi,  fechaNacimiento,  lugarNace,

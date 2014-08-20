@@ -26,7 +26,30 @@ public class Paciente {
 	private Date primerEmbarazo;
 	private Date menopausia;
 	private Date menarquia;
+	private ListaCancerPaciente listaCancer;
 
+	/**
+	 * La constructora se encarga de convertir a enumerados
+	 * @param pNom
+	 * @param historial
+	 * @param pCI
+	 * @param pSex
+	 * @param pCriterios
+	 * @param pNumFam
+	 * @param pFamCI
+	 * @param pRelacionCI
+	 * @param pFechaNace
+	 * @param pHistCI
+	 * @param pLugNace
+	 * @param pMater
+	 * @param pPater
+	 * @param pSeguimiento
+	 * @param pAnovu
+	 * @param pNumGest
+	 * @param pPrimer
+	 * @param pMeno
+	 * @param pMenar
+	 */
 	public Paciente(String pNom, String historial, String pCI, String pSex,
 			String pCriterios, String pNumFam, String pFamCI,
 			String pRelacionCI, Date pFechaNace, String pHistCI,
@@ -34,11 +57,11 @@ public class Paciente {
 			String pAnovu, int pNumGest, Date pPrimer, Date pMeno, Date pMenar) {
 		this.nombre = pNom;
 		this.historial = historial;
-		this.ci = SiNo.valueOf(pCI);
-		this.sexo = Sexo.valueOf(pSex);
+		if(pCI!=null)this.ci = SiNo.valueOf(pCI);
+		if(pSex!=null)this.sexo = Sexo.valueOf(pSex);
 		this.criteriosCI = pCriterios;
 		this.numFamilia = pNumFam;
-		this.familiarCI = SiNo.valueOf(pFamCI);
+		if(pFamCI!=null)this.familiarCI = SiNo.valueOf(pFamCI);
 		this.relacionCI = pRelacionCI;
 		this.fechaNace = pFechaNace;
 		this.historialCI = pHistCI;
@@ -51,6 +74,7 @@ public class Paciente {
 		this.primerEmbarazo = pPrimer;
 		this.menopausia = pMeno;
 		this.menarquia = pMenar;
+		this.listaCancer = new ListaCancerPaciente();
 	}
 
 	public void setNombre(String nombre) {
@@ -204,6 +228,15 @@ public class Paciente {
 
 	public void setMenarquia(Date menarquia) {
 		this.menarquia = menarquia;
+	}
+	
+	public java.util.Iterator<Cancer> listarCancerPaciente()
+	{
+		return this.getCanceres().listarCancerPaciente(this.historial);
+	}
+	
+	private ListaCancerPaciente getCanceres(){
+		return this.listaCancer;
 	}
 
 }
