@@ -249,4 +249,8 @@ public class Paciente {
 		return this.getCanceres().eliminarCancer(pCancer);
 	}
 
+	public int actualizarCancer(Cancer cancerOld, Cancer cancerNew) {
+		return this.getCanceres().actualizarCancer(cancerOld,cancerNew);
+	}
+
 }

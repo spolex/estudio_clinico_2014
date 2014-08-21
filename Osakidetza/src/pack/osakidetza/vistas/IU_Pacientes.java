@@ -173,7 +173,7 @@ public class IU_Pacientes extends JFrame {
 					//borrar paciente
 					if(chckbxEliminar.isSelected()){
 						if(!listPacientes.isSelectionEmpty()){
-							IU_FastIdent IU_FI= new IU_FastIdent("",historial,false,true);					
+							IU_FastIdent IU_FI= new IU_FastIdent("",historial,false,true,null);					
 							IU_FI.setVisible(true);	
 						}
 						else{

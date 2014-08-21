@@ -108,12 +108,14 @@ public class IU_Principal extends JFrame {
 							IU_Doctor IU_DR = new IU_Doctor(textUsuario.getText());
 							IU_DR.setVisible(true);
 							passUsuario.setText("");
+							dispose();
 						}
 						else if (identificado.equalsIgnoreCase("1"))
 						{
 							IU_Admin IU_admin= new IU_Admin(textUsuario.getText());
 							IU_admin.setVisible(true);
 							passUsuario.setText("");
+							dispose();
 						}					
 					}
 					else{

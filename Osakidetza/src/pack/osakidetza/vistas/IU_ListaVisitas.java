@@ -1,19 +1,20 @@
 package pack.osakidetza.vistas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+
 import java.awt.Font;
-import javax.swing.SwingConstants;
+
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
 
+@SuppressWarnings("serial")
 public class IU_ListaVisitas extends JFrame {
 
 	private JPanel contentPane;
@@ -37,6 +38,7 @@ public class IU_ListaVisitas extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public IU_ListaVisitas() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 409, 533);

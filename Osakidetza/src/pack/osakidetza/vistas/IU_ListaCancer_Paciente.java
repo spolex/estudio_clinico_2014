@@ -129,11 +129,22 @@ public class IU_ListaCancer_Paciente extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==btnAceptar){
 					if(chckbxAadir.isSelected()){
-						IU_FormCancer IU_FC = new IU_FormCancer(pHistorial);
+						IU_FormCancer IU_FC = new IU_FormCancer(pHistorial,null);
 						IU_FC.setVisible(true);
 					}
 					else if(chckbxActualizar.isSelected()){
-						
+						Iterator<Cancer> itr = C_Doctor.getMiDoctor().listarCancer(pHistorial);
+						boolean enc = false;
+						while(itr.hasNext()&&!enc){
+							String cancer= (String) list.getSelectedValue();
+							Cancer pCancer=itr.next();
+							String[] cancerAux = cancer.split(";");
+							if(cancerAux[0].equals(pCancer.getTipo().toString()) && cancerAux[1].equals(pCancer.getFecha().toString())){
+								enc=true;
+								IU_FormCancer IU_FC= new IU_FormCancer(pHistorial, pCancer);
+								IU_FC.setVisible(true);
+							}
+						}
 					}
 					else if(chckbxEliminar.isSelected()){
 						//Comprobamos que existe 

@@ -51,7 +51,7 @@ public class SGBD {
 	/**
 	 * ejecuta ordenes SQL que no devuelvan resultado
 	 */
-	public void execSQL(String orden)
+	public boolean execSQL(String orden)
 	{
 		Connection conexion = this.getConexion();
 		
@@ -62,16 +62,17 @@ public class SGBD {
 				//creamos la sentencia
 				Statement s = conexion.createStatement();
 				//ejecutamos la orden
-				s.executeUpdate(orden);
+				boolean updated =s.executeUpdate(orden)!=0;
 				//cerramos la conexion
 				conexion.close();
+				return updated;
 			
 			} catch (SQLException e) {
 				System.out.println("Error al ejecutar la sentencia SQL");
 				e.printStackTrace();
 			}
-	
 		}
+		return false;
 	}
 	
 	/**

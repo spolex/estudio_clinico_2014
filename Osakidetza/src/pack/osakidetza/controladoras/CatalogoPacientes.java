@@ -301,4 +301,8 @@ public class CatalogoPacientes extends ArrayList<Paciente>{
 	public boolean eliminarCancer(Cancer pCancer) {
 		return CatalogoPacientes.getPacientes().obtenerPaciente(pCancer.getPaciente()).eliminarCancer(pCancer);
 	}
+
+	public int actualizarCancer(Cancer cancerCurrent, Cancer cancerNew) {
+		return CatalogoPacientes.getPacientes().obtenerPaciente(cancerCurrent.getPaciente()).actualizarCancer(cancerCurrent,cancerNew);
+	}
 }

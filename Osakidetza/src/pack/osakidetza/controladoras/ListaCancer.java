@@ -78,13 +78,75 @@ public class ListaCancer extends ArrayList<Cancer> {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param pCancer
+	 * @return
+	 */
 	public boolean eliminarCancer(Cancer pCancer) {	
 	
 			String delete="DELETE FROM Cancer WHERE historial='"+pCancer.getPaciente()+"' AND fechaCancer = '"+pCancer.getFecha()+"' AND tipo = '"+pCancer.getTipo().toString()+"'";
 			SGBD.getSGBD().execSQL(delete);
 			this.remove(pCancer);
+			
+			String consulta="Select * FROM Cancer WHERE historial='"+pCancer.getPaciente()+"' AND fechaCancer = '"+pCancer.getFecha()+"' AND tipo = '"+pCancer.getTipo().toString()+"'";
+			ResultadoSQL RdoSQL = SGBD.getSGBD().consultaSQL(consulta);
+			boolean eliminado=RdoSQL.next();
+			RdoSQL.close();
 		
-		return true;
+		return eliminado;
+	}
+
+	/**
+	 * pre:el cancer a actualizar (oCancerOld) existe en el sistema
+	 * pos:actualiza todos los campos que varían de pCancerOld a pCancerNew.
+	 * @param pCancerOld
+	 * @param pCancerNew
+	 * @return
+	 */
+	public int actualizarCancer(Cancer pCancerOld, Cancer pCancerNew) {		
+		
+		int actualizado = 0;
+		java.util.Date fecha= new Date(new java.util.Date().getTime()); 
+		
+		String update="UPDATE Cancer SET fechaCancer = '"+pCancerNew.getFecha()+"' WHERE historial='"+pCancerOld.getPaciente()+"' AND fechaCancer = '"+pCancerOld.getFecha()+"' AND tipo = '"+pCancerOld.getTipo().toString()+"'";
+		if(pCancerNew.getFecha()!=null && !pCancerOld.getFecha().equals(pCancerNew.getFecha())){
+			if (SGBD.getSGBD().execSQL(update))actualizado++;
+			fecha=pCancerNew.getFecha();
+		}
+		else
+		{
+			fecha=pCancerOld.getFecha();
+		}
+
+		boolean mismoTipo=false;
+		String tipo= null; 
+		String update1="UPDATE Cancer SET tipo = '"+pCancerNew.getTipo().toString()+"' WHERE historial='"+pCancerOld.getPaciente()+"' AND fechaCancer = '"+fecha+"' AND tipo = '"+pCancerOld.getTipo().toString()+"'";
+		if(pCancerNew.getTipo()!=null && !pCancerNew.getTipo().equals(pCancerOld.getTipo())){
+			if(SGBD.getSGBD().execSQL(update1))actualizado++;
+			tipo=pCancerNew.getTipo().toString();
+		}
+		else
+		{
+			tipo=pCancerOld.getTipo().toString();
+		    mismoTipo = true;
+		}
+		
+		if(tipo!=null && !mismoTipo)
+		{
+			String mama="ninguna";
+			if(tipo.equals("mama"))mama=pCancerNew.getMama().toString();
+			String update2="UPDATE Cancer SET mama = '"+mama+"' WHERE historial='"+pCancerOld.getPaciente()+"' AND fechaCancer = '"+fecha+"' AND tipo = '"+tipo+"'";
+			if(SGBD.getSGBD().execSQL(update2))actualizado++;
+		}
+		
+		String update3="UPDATE Cancer SET tratamiento = '"+pCancerNew.getTratamiento()+"' WHERE historial='"+pCancerOld.getPaciente()+"' AND fechaCancer = '"+fecha+"' AND tipo = '"+tipo+"'";
+		if(pCancerNew.getTratamiento()!=null && !pCancerNew.getTratamiento().equalsIgnoreCase(pCancerOld.getTratamiento()))
+		{
+			if(SGBD.getSGBD().execSQL(update3))actualizado++;
+		}
+		
+		return actualizado;
 	}
 	
 	 

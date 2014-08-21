@@ -4,8 +4,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.toedter.calendar.JDateChooser;
-
 public class C_Doctor {
 	
 	private static C_Doctor miDoctor=new C_Doctor();
@@ -70,6 +68,18 @@ public class C_Doctor {
 
 	public boolean eliminarCancer(Cancer pCancer) {
 		return CatalogoPacientes.getPacientes().eliminarCancer(pCancer);
+	}
+
+	public int actualizarCancer(Cancer cancerCurrent, Cancer cancerNew) {
+		return CatalogoPacientes.getPacientes().actualizarCancer(cancerCurrent,cancerNew);
+	}
+
+	public boolean addVisita(Visita visita) {
+		return CatalogoVisitas.getMisvisitas().addVisita(visita);
+	}
+
+	public boolean existeVisita(Visita visita) {
+		return CatalogoVisitas.getMisvisitas().existe(visita);
 	}
 
 }

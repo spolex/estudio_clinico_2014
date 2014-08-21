@@ -51,6 +51,10 @@ public class C_Administracion {
 	public Usuario obtenerUsuario(String pEmail) {
 		return CatalogoUsuarios.getMisUsuarios().obtenerUsuario(pEmail);
 	}
+
+	public String identificarseEmail(String pEmail, String pPass) {
+		return CatalogoUsuarios.getMisUsuarios().identificarseEmail(pEmail, pPass);
+	}
 	
 	
 

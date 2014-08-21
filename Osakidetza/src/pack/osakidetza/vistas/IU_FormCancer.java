@@ -19,6 +19,8 @@ import javax.swing.JTextPane;
 import javax.swing.JButton;
 
 import pack.osakidetza.controladoras.C_Doctor;
+import pack.osakidetza.controladoras.Cancer;
+import pack.osakidetza.enumerados.Mama;
 import pack.osakidetza.enumerados.TipoCancer;
 
 import java.awt.event.ItemListener;
@@ -35,8 +37,6 @@ public class IU_FormCancer extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textHistorial;
-	private String historial;
-
 	/**
 	 * Launch the application.
 	 */
@@ -44,7 +44,7 @@ public class IU_FormCancer extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IU_FormCancer frame = new IU_FormCancer("");
+					IU_FormCancer frame = new IU_FormCancer("",null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -58,7 +58,7 @@ public class IU_FormCancer extends JFrame {
 	 * @param historial 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public IU_FormCancer(final String pHistorial) {
+	public IU_FormCancer(final String pHistorial,final Cancer pCancer) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 453, 431);
 		contentPane = new JPanel();
@@ -70,7 +70,7 @@ public class IU_FormCancer extends JFrame {
 		
 		JLabel lblCancer = new JLabel("Cancer");
 		lblCancer.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
-		lblCancer.setBounds(5, 5, 158, 40);
+		lblCancer.setBounds(15, 12, 158, 40);
 		contentPane.add(lblCancer);
 		
 		JSeparator separator = new JSeparator();
@@ -106,7 +106,8 @@ public class IU_FormCancer extends JFrame {
 		comboBoxtipo.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(!e.getItem().equals("mama"))
-				{					
+				{	
+					comboBox_tipo_Mama.setSelectedIndex(-1);
 					comboBox_tipo_Mama.setVisible(false);					
 				}	
 				else
@@ -135,37 +136,83 @@ public class IU_FormCancer extends JFrame {
 		dateFecha.setBounds(186, 159, 114, 19);
 		contentPane.add(dateFecha);
 		
+		if(pCancer!=null){
+			textHistorial.setText(pCancer.getPaciente());
+			comboBoxtipo.setSelectedItem(pCancer.getTipo().toString());
+			comboBox_tipo_Mama.setSelectedItem(pCancer.getMama().toString());
+			dateFecha.setDate(new java.util.Date(pCancer.getFecha().getTime()));
+			textTratamiento.setText(pCancer.getTratamiento());
+		}
+		
 		final JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource()==btnAceptar){
+				if(e.getSource()==btnAceptar){					
 					if(textHistorial.getText().length()>0 && textTratamiento.getText().length()>0 && comboBoxtipo.getSelectedItem()!=null)
 					{
-						java.util.Date fecha=null;
-						if(dateFecha.getDate()==null){
-							fecha=new Date();
-						}
-						else
-						{
-							fecha=dateFecha.getDate();
-						}
-						String mama=null;
-						if(comboBox_tipo_Mama.getSelectedItem()!=null)
-						{
-							mama=comboBox_tipo_Mama.getSelectedItem().toString();
-						}
-						boolean add=C_Doctor.getMiDoctor().addCancer(pHistorial,fecha,comboBoxtipo.getSelectedItem().toString(),mama,textTratamiento.getText());
-						if(add){
-							JOptionPane.showMessageDialog(null, "Añadido con éxito");
-						}
-						else{
-							JOptionPane.showMessageDialog(null, "No se ha podido añadir");
-						}
+							if(pCancer==null)
+							{
+								java.util.Date fecha=null;
+								if(dateFecha.getDate()==null)
+								{
+									fecha=new Date();
+								}
+								else
+								{
+									fecha=dateFecha.getDate();
+								}
+								String mama=null;
+								if(comboBox_tipo_Mama.getSelectedItem()!=null)
+								{
+									mama=comboBox_tipo_Mama.getSelectedItem().toString();
+								}
+								String tipo=null;
+								if(comboBoxtipo.getSelectedItem()!=null)
+								{
+									tipo=comboBoxtipo.getSelectedItem().toString();
+								}
+								boolean add=C_Doctor.getMiDoctor().addCancer(pHistorial,fecha,tipo,mama,textTratamiento.getText());
+								if(add)
+								{
+									JOptionPane.showMessageDialog(null, "Añadido con éxito");
+								}
+								else
+								{
+									JOptionPane.showMessageDialog(null, "No se ha podido añadir");
+								}
+							}
+							else
+							{
+								java.util.Date fecha=null;
+								if(dateFecha.getDate()==null)
+								{
+									fecha=new Date();
+								}
+								else
+								{
+									fecha=dateFecha.getDate();
+								}
+								Mama mama=null;
+								if(comboBox_tipo_Mama.getSelectedItem()!=null)
+								{
+									mama=Mama.valueOf(comboBox_tipo_Mama.getSelectedItem().toString());
+								}
+								TipoCancer tipo=null;
+								if(comboBoxtipo.getSelectedItem()!=null)
+								{
+									tipo=TipoCancer.valueOf(comboBoxtipo.getSelectedItem().toString());
+								}
+			
+								int actualizados = C_Doctor.getMiDoctor().actualizarCancer(pCancer,new Cancer(pHistorial, new java.sql.Date(fecha.getTime()), tipo, textTratamiento.getText(), mama));
+								JOptionPane.showMessageDialog(null, "Se han actualizado "+actualizados+" campos");
+								dispose();
+								
+							}
 					}
 					else
-					{
+					{	
 						JOptionPane.showMessageDialog(null, "Faltan campos obligatorios por rellenar.");
-					}
+					}					
 				}
 			}
 		});

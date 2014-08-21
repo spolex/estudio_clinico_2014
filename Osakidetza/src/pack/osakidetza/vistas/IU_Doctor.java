@@ -42,7 +42,7 @@ public class IU_Doctor extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IU_Doctor(String nombre) {
+	public IU_Doctor(final String nombre) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 504, 330);
 		contentPane = new JPanel();
@@ -89,6 +89,12 @@ public class IU_Doctor extends JFrame {
 		contentPane.add(btnEstadsticas);
 		
 		JButton btnVisitas = new JButton("Visitas");
+		btnVisitas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				IU_FormVisita IU_FV = new IU_FormVisita(nombre);
+				IU_FV.setVisible(true);
+			}
+		});
 		btnVisitas.setBounds(351, 262, 117, 25);
 		contentPane.add(btnVisitas);
 	}
