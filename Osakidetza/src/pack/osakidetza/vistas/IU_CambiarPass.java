@@ -107,6 +107,10 @@ public class IU_CambiarPass extends JFrame {
 							JOptionPane.showMessageDialog(null, "Imposible actualizar la contraseña, intentelo de nuevo");
 						}
 					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden, intentelo de nuevo.");
+					}
 				}
 				else{
 					JOptionPane.showMessageDialog(null, "Algunos campos necesarios están vacíos");

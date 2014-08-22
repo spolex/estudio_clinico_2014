@@ -125,7 +125,7 @@ public class IU_Principal extends JFrame {
 				}
 			}
 		});
-		btnEntrar.setBounds(27, 160, 215, 25);
+		btnEntrar.setBounds(27, 160, 219, 25);
 		contentPane.add(btnEntrar);
 		
 		final JButton btnCambiarPass = new JButton("Cambiar contraseña");
@@ -138,15 +138,16 @@ public class IU_Principal extends JFrame {
 				}
 			}
 		});
-		btnCambiarPass.setBounds(27, 197, 215, 25);
+		btnCambiarPass.setBounds(27, 197, 219, 25);
 		contentPane.add(btnCambiarPass);
 		/*
-		 * Para restablecer la contraseña es necesario introducir el email de la cuenta con la que estamo registrados en el campo usuario.
+		 * Para restablecer la contraseña es necesario introducir el email de la cuenta con la que estamos registrados en el campo usuario.
 		 */
-		final JButton btnRecuperarPass = new JButton("Restablecer contraseña");
+		final JButton btnRecuperarPass = new JButton("¿Olvidaste tu contraseña?");
 		btnRecuperarPass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == btnRecuperarPass && EmailValidator.validateEmail(textUsuario.getText())){
+				if(e.getSource() == btnRecuperarPass && EmailValidator.validateEmail(textUsuario.getText()))
+				{
 					String email = textUsuario.getText();
 					String pregunta = C_Administracion.getMiAdmin().obtenerPregunta(email);
 					if(pregunta!=null)
@@ -159,12 +160,13 @@ public class IU_Principal extends JFrame {
 						JOptionPane.showMessageDialog(null, "El email no está registrado");
 					}
 				}
-				else{
-					JOptionPane.showMessageDialog(null, "Introduzca su email en el campo Usuario");
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Formato de email no soportado");
 				}
 			}
 		});
-		btnRecuperarPass.setBounds(27, 237, 215, 25);
+		btnRecuperarPass.setBounds(27, 237, 219, 25);
 		contentPane.add(btnRecuperarPass);
 	}
 }

@@ -117,16 +117,20 @@ public class CatalogoUsuarios {
 	public boolean restablecerPass(String pEmail, String pRespSeg,
 			String pNuevoPass) 
 	{
+	
 		ResultadoSQL rdoSQL=SGBD.getSGBD().consultaSQL("SELECT respuesta FROM Usuario WHERE email='" +pEmail+ "'");
 		
 		if(rdoSQL.next())
 		{
-			if(rdoSQL.get("respuesta").equals(pRespSeg)){
-				SGBD.getSGBD().execSQL("UPDATE Usuario SET pass = sha1('"+ pNuevoPass+ "') WHERE email = '" +pEmail+ "'");	
+			if(rdoSQL.get("respuesta").equalsIgnoreCase(pRespSeg))
+			{
+				SGBD.getSGBD().execSQL("UPDATE Usuario SET pass = sha1('"+pNuevoPass+ "') WHERE email = '" +pEmail+ "'");
+				rdoSQL.close();
+				return true;
 			}
 		}
 		rdoSQL.close();
-		return CatalogoUsuarios.getMisUsuarios().identificarseEmail(pEmail, pNuevoPass)!=null;
+		return false;
 	}
 
 	/**
