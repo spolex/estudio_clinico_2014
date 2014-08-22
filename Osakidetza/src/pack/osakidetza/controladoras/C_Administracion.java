@@ -36,8 +36,8 @@ public class C_Administracion {
 		return CatalogoUsuarios.getMisUsuarios().listarMedicos();
 	}
 
-	public boolean actualizarUsuario(String pNom, String pEmailViejo,String pEmailNuevo, String pEspec) {
-				return CatalogoUsuarios.getMisUsuarios().actualizarUsuario(pNom,pEmailViejo,pEmailNuevo,pEspec);
+	public boolean actualizarUsuario(String pEmailViejo,String pEmailNuevo,String pNombreNuevo, String pEspec) {
+				return CatalogoUsuarios.getMisUsuarios().actualizarUsuario(pEmailViejo,pEmailNuevo,pNombreNuevo,pEspec);
 	}
 
 	public boolean darDeBajaUsuario(String pNom, String pEmail){

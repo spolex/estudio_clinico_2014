@@ -121,7 +121,7 @@ public class IU_FormMedico extends JFrame {
 								}
 								else
 								{
-									JOptionPane.showMessageDialog(null, "No ha sido posible añadir usuario nuevo");
+									JOptionPane.showMessageDialog(null, "No ha sido posible añadir nuevo usuario");
 								}
 							}
 							else{
@@ -137,13 +137,16 @@ public class IU_FormMedico extends JFrame {
 					}
 				}
 				else if(e.getSource()==btnAceptar && !pass.isEnabled() && !passRep.isEnabled()){
-					if(EmailValidator.validateEmail(textEmail.getText())){
-						if(C_Administracion.getMiAdmin().actualizarUsuario(pNom, pEmail, textEmail.getText(), textEsp.getText())){
+					if(EmailValidator.validateEmail(textEmail.getText()))
+					{
+						if(C_Administracion.getMiAdmin().actualizarUsuario(pEmail, textEmail.getText(),texNom.getText(), textEsp.getText()))
+						{
 							JOptionPane.showMessageDialog(null, "Los datos del usuario han sido actualizados");
 							dispose();
 						}
 					}
-					else{
+					else
+					{
 						JOptionPane.showMessageDialog(null, "El formato del email no está soportado por el sistema");
 					}
 				}
@@ -176,8 +179,8 @@ public class IU_FormMedico extends JFrame {
 		textEmail.setColumns(10);
 		textEmail.setText(pEmail);
 		
-		if(pEmail.length()>0 && pEsp.length()>0 && pNom.length() >0){			
-			texNom.setEnabled(false);
+		if(pEmail.length()>0 && pEsp.length()>0 && pNom.length() >0)
+		{			
 			pass.setEnabled(false);
 			passRep.setEnabled(false);
 		}

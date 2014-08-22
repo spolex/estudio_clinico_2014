@@ -215,10 +215,17 @@ public class IU_Pacientes extends JFrame {
 					    }
 				    }
 					//actualizar paciente
-					else if(chckbxActualizar.isSelected()){						
-						Paciente pacienteCurrent = C_Doctor.getMiDoctor().obtenerPaciente(historial);
-						IU_FormPaciente IU_FP= new IU_FormPaciente(pacienteCurrent);
-						IU_FP.setVisible(true);						
+					else if(chckbxActualizar.isSelected()){	
+						if(listPacientes.getSelectedValue()!=null)
+						{							
+							Paciente pacienteCurrent = C_Doctor.getMiDoctor().obtenerPaciente(historial);
+							IU_FormPaciente IU_FP= new IU_FormPaciente(pacienteCurrent);
+							IU_FP.setVisible(true);	
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "Seleccione el paciente que desea actualizar.");
+						}
 					}
 					//listar cáncer dado paciente.
 					else if(chckbxCancer.isSelected()){						

@@ -9,6 +9,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -78,27 +79,6 @@ public class IU_Admin extends JFrame {
 				}
 			}
 		});
-		btnSalir.setBounds(402, 381, 117, 25);
-		contentPane.add(btnSalir);
-		
-		JScrollPane scrollPaneMedicos = new JScrollPane();
-		scrollPaneMedicos.setBounds(12, 89, 507, 197);
-		contentPane.add(scrollPaneMedicos);
-		
-
-		final JButton btnBorrar = new JButton("Borrar");
-		btnBorrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(e.getSource()==btnBorrar){					
-					if(IU_Admin.this.doctor != null && IU_Admin.this.emailDoctor != null){
-						IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,true, false,null);					
-						IU_FI.setVisible(true);									
-					}
-				}
-			}
-		});
-		btnBorrar.setBounds(145, 311, 117, 25);
-		contentPane.add(btnBorrar);
 		
 		final JList listMedicos = new JList();
 		listMedicos.addListSelectionListener(new ListSelectionListener() {
@@ -111,6 +91,38 @@ public class IU_Admin extends JFrame {
 				}
 			}
 		});
+		
+		btnSalir.setBounds(402, 381, 117, 25);
+		contentPane.add(btnSalir);
+		
+		JScrollPane scrollPaneMedicos = new JScrollPane();
+		scrollPaneMedicos.setBounds(12, 89, 507, 197);
+		contentPane.add(scrollPaneMedicos);
+		
+
+		final JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.addActionListener(new ActionListener() {
+			//borrar médico
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==btnBorrar){		
+					if(listMedicos.getSelectedValue()!=null)
+					{
+						if(IU_Admin.this.doctor != null && IU_Admin.this.emailDoctor != null){
+							IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,true, false,null);					
+							IU_FI.setVisible(true);									
+						}
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Seleccione el médico que desea dar de baja del sistema.");
+					}
+				}
+			}
+		});
+		btnBorrar.setBounds(145, 311, 117, 25);
+		contentPane.add(btnBorrar);
+		
+		
 		listMedicos.setModel(new AbstractListModel() {
 			String[] values = new String[] {};
 			public int getSize() {
@@ -125,6 +137,7 @@ public class IU_Admin extends JFrame {
 		final JButton btnListar = new JButton("Listar");
 		btnListar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Listar los médicos del sistema.
 				if(e.getSource()==btnListar){
 					ArrayList<Usuario> medicos=C_Administracion.getMiAdmin().listarMedicos();
 					Iterator<Usuario> itr = medicos.iterator();
@@ -144,6 +157,7 @@ public class IU_Admin extends JFrame {
 		
 		final JButton btnNuevo = new JButton("Nuevo");
 		btnNuevo.addActionListener(new ActionListener() {
+			//Añadir médico.
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==btnNuevo){
 					IU_FormMedico IU_NM = new IU_FormMedico(pNomAdmin,"","","");
@@ -157,6 +171,7 @@ public class IU_Admin extends JFrame {
 		final JButton btnActualizar = new JButton("Actualizar");
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Actualizar médico.
 				if(e.getSource()==btnActualizar){
 					if(IU_Admin.this.doctor != null && IU_Admin.this.emailDoctor != null){
 						IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,false,false,null);					

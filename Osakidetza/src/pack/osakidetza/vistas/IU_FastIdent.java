@@ -44,7 +44,7 @@ public class IU_FastIdent extends JFrame {
 	}
 
 	/**
-	 * Create the frame. El parámetro pEmail_Historial se utiliza para el email del usuario a manipular o el historial del paciente.
+	 * Create the frame. El parámetro pEmail_Historial se utiliza para el email del usuario a manipular (borrar) o el historial del paciente.
 	 */
 	//
 	public IU_FastIdent(final String pNom,final String pEmail_Historial,final boolean darDeBajaU,final boolean darDeBajaP, final Visita visita) {
@@ -87,11 +87,16 @@ public class IU_FastIdent extends JFrame {
 		final JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource()==btnAceptar && darDeBajaU && !darDeBajaP && visita==null){
-					if(textUsuario.getText().length()!=0 && pass.getPassword().length!=0 && EmailValidator.validateEmail(textUsuario.getText())){
-						String rdo=C_Administracion.getMiAdmin().identificarse(textUsuario.getText(), String.valueOf(pass.getPassword()));
-						if(rdo!=null){
-							if(rdo.equals("1")){
+				//Dar de baja médico.
+				if(e.getSource()==btnAceptar && darDeBajaU && !darDeBajaP && visita==null && pEmail_Historial!=null)
+				{
+					if(textUsuario.getText().length()>0 && pass.getPassword().length>0 && EmailValidator.validateEmail(textUsuario.getText()))
+					{
+						String rdo=C_Administracion.getMiAdmin().identificarseEmail(textUsuario.getText(), String.valueOf(pass.getPassword()));
+						if(rdo!=null)
+						{
+							if(rdo.equals("1"))
+							{
 								if(C_Administracion.getMiAdmin().darDeBajaUsuario(pNom,pEmail_Historial)){
 									JOptionPane.showMessageDialog(null, "Usuario dado de baja con éxito");
 									dispose();
@@ -102,14 +107,17 @@ public class IU_FastIdent extends JFrame {
 								}								
 							}
 						}
-						else{
+						else
+						{
 							JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
 						}
 					}
-					else{
+					else
+					{
 						JOptionPane.showMessageDialog(null, "Faltan campos por rellenar o el formato del email es incorrecto");
 					}
 				}
+				//Dar de baja paciente.
 				else if (e.getSource()==btnAceptar && !darDeBajaU && darDeBajaP && visita==null){
 					if(textUsuario.getText().length()>0 && pass.getPassword().length>0 && EmailValidator.validateEmail(textUsuario.getText()))
 					{
@@ -123,13 +131,15 @@ public class IU_FastIdent extends JFrame {
 									JOptionPane.showMessageDialog(null, "Paciente dado de baja con éxito");
 									dispose();
 								}
-								else{
-									JOptionPane.showMessageDialog(null, "No ha sido posible dar de baja al paciente");
+								else
+								{
+									JOptionPane.showMessageDialog(null, "No ha sido posible dar de baja al paciente, usted no es médico");
 								}
 							}
 						}
-						else{
-						JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+						else
+						{
+							JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
 						}
 					}
 					else
@@ -137,18 +147,43 @@ public class IU_FastIdent extends JFrame {
 						JOptionPane.showMessageDialog(null, "Faltan campos o el formato del email es incorrecto");
 					}
 				}
-				else if (e.getSource()==btnAceptar && !darDeBajaU && !darDeBajaP && visita==null){
-					Usuario user=C_Administracion.getMiAdmin().obtenerUsuario(pEmail_Historial);
-					IU_FormMedico IU_FM = new IU_FormMedico(textUsuario.getText(), user.getNombre(), user.getEmail(), user.getEsp());
-					IU_FM.setVisible(true);
-					dispose();
+				//Actualizar datos de usuario.
+				else if (e.getSource()==btnAceptar && !darDeBajaU && !darDeBajaP && visita==null)
+				{
+					if(textUsuario.getText().length()>0 && pass.getPassword().length>0 && EmailValidator.validateEmail(textUsuario.getText()))
+					{
+						String rdo=C_Administracion.getMiAdmin().identificarseEmail(textUsuario.getText(), String.valueOf(pass.getPassword()));
+						if(rdo!=null)
+						{
+							if(rdo.equals("1"))
+							{
+								Usuario user=C_Administracion.getMiAdmin().obtenerUsuario(pEmail_Historial);
+								IU_FormMedico IU_FM = new IU_FormMedico(textUsuario.getText(), user.getNombre(), user.getEmail(), user.getEsp());
+								IU_FM.setVisible(true);
+								dispose();
+							}
+							else
+							{
+								JOptionPane.showMessageDialog(null, "No ha sido actualizar los datos del usuario, usted no es administrador");
+							}
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+						}
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Faltan campos o el formato del email es incorrecto");
+					}
 				}
 				
+				//Añadir visita.
 				else if(e.getSource()==btnAceptar && visita!=null)
 				{
-					textUsuario.setText("Introduzca email");
 					if(textUsuario.getText().length()>0 && pass.getPassword().length>0 && EmailValidator.validateEmail(textUsuario.getText())){
 						String rdo=C_Administracion.getMiAdmin().identificarseEmail(textUsuario.getText(), String.valueOf(pass.getPassword()));
+						System.out.println(rdo);
 						if(rdo!=null)
 						{
 							visita.setEmail(textUsuario.getText());

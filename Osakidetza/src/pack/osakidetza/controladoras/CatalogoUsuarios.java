@@ -52,9 +52,8 @@ public class CatalogoUsuarios {
 	 */
 		public String identificarseEmail(String pEmail, String pPass) {
 			String rdo = null;	
-			ResultadoSQL rdoSQL = SGBD.getSGBD().consultaSQL("SELECT esAdmin,activo FROM Usuario  WHERE email='" +pEmail+ "' AND pass=sha1('" +pPass+ "')");
+			ResultadoSQL rdoSQL = SGBD.getSGBD().consultaSQL("SELECT esAdmin,activo FROM Usuario  WHERE email='" +pEmail+ "' AND pass = sha1('" +pPass+ "')");
 			if(rdoSQL.next()){
-				rdo = rdoSQL.get("esAdmin");
 				if(rdoSQL.getBoolean("activo")){
 					rdo = rdoSQL.get("esAdmin");
 				}
@@ -252,12 +251,12 @@ public class CatalogoUsuarios {
 		return null;
 	}
 
-	public boolean actualizarUsuario(String pNom, String pEmailViejo,String pEmailNuevo, String pEspec) {
+	public boolean actualizarUsuario(String pEmailViejo,String pEmailNuevo, String pNomNuevo,String pEspec) {
 		
-		SGBD.getSGBD().execSQL("UPDATE Usuario SET email='"+pEmailNuevo+"', especialidad='"+pEspec+"' WHERE email='" +pEmailViejo+ "'");
+		SGBD.getSGBD().execSQL("UPDATE Usuario SET nombre='"+pNomNuevo+"', email='"+pEmailNuevo+"', especialidad='"+pEspec+"' WHERE email='" +pEmailViejo+ "'");
 		ResultadoSQL RdoSQL=SGBD.getSGBD().consultaSQL("SELECT nombre FROM Usuario WHERE email='" +pEmailNuevo+ "'");
 		if(RdoSQL.next()){
-			boolean rdo= pNom.equals(RdoSQL.get("nombre"));
+			boolean rdo= pNomNuevo.equals(RdoSQL.get("nombre"));
 			RdoSQL.close();
 			return rdo;
 		}
