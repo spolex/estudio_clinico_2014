@@ -249,29 +249,40 @@ public class CatalogoPacientes extends ArrayList<Paciente>{
 	 * pre:actualiza los datos del paciente que recibe como parámetro.
 	 * post:todos los datos del paciente se actualizan en el modelo.	
 	 * @param pacienteCurrent
+	 * @param historialOld 
+	 * @return 
 	 */
-	public void actualizarPaciente(Paciente pacienteCurrent) {
+	public boolean actualizarPaciente(Paciente pacienteCurrent, String historialOld) {
 		
+		String historial="";
+		if(historialOld.equals(pacienteCurrent.getHistorial()))
+		{
+			historial=pacienteCurrent.getHistorial();
+		}
+		else
+		{
+			historial = historialOld;
+		}
 		if(pacienteCurrent.getFechaNace()!=null){
-			SGBD.getSGBD().execSQL("UPDATE Paciente SET fechaNacimiento = '"+new java.sql.Date(pacienteCurrent.getFechaNace().getTime())+"' WHERE historial = '"+pacienteCurrent.getHistorial()+"'");
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET fechaNacimiento = '"+new java.sql.Date(pacienteCurrent.getFechaNace().getTime())+"' WHERE historial = '"+historial+"'");
 		}
 					
 		
 		if(pacienteCurrent.getFechaSeguimiento()!=null) {
-			SGBD.getSGBD().execSQL("UPDATE Paciente SET fechaSeguimiento = '"+new java.sql.Date(pacienteCurrent.getFechaSeguimiento().getTime())+"' WHERE historial = '"+pacienteCurrent.getHistorial()+"'");
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET fechaSeguimiento = '"+new java.sql.Date(pacienteCurrent.getFechaSeguimiento().getTime())+"' WHERE historial = '"+historial+"'");
 		}
 		
 		if(pacienteCurrent.getPrimerEmbarazo()!=null){
-			SGBD.getSGBD().execSQL("UPDATE Paciente SET primerEmbarazo = '"+new java.sql.Date(pacienteCurrent.getPrimerEmbarazo().getTime())+"' WHERE historial = '"+pacienteCurrent.getHistorial()+"'");
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET primerEmbarazo = '"+new java.sql.Date(pacienteCurrent.getPrimerEmbarazo().getTime())+"' WHERE historial = '"+historial+"'");
 		}
 		
 		if(pacienteCurrent.getMenopausia()!=null){
-			SGBD.getSGBD().execSQL("UPDATE Paciente SET menopausia = '"+new java.sql.Date(pacienteCurrent.getMenopausia().getTime())+"' WHERE historial = '"+pacienteCurrent.getHistorial()+"'");
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET menopausia = '"+new java.sql.Date(pacienteCurrent.getMenopausia().getTime())+"' WHERE historial = '"+historial+"'");
 
 		}
 		
 		if(pacienteCurrent.getMenarquia()!=null){
-			SGBD.getSGBD().execSQL("UPDATE Paciente SET menarquia = '"+new java.sql.Date(pacienteCurrent.getMenarquia().getTime())+"' WHERE historial = '"+pacienteCurrent.getHistorial()+"'");
+			SGBD.getSGBD().execSQL("UPDATE Paciente SET menarquia = '"+new java.sql.Date(pacienteCurrent.getMenarquia().getTime())+"' WHERE historial = '"+historial+"'");
 		}
 		
 		String orden = "UPDATE Paciente SET nombre ='"+pacienteCurrent.getNombre()+"', casoIndice = '"+pacienteCurrent.getCi().toString()+"', "+ 
@@ -280,8 +291,8 @@ public class CatalogoPacientes extends ArrayList<Paciente>{
 						+ "lugarNacimiento = '"+pacienteCurrent.getLugarNace()+"', origenMaterno = '"+pacienteCurrent.getOrigenMaterno()+"',"
 						+ "origenPaterno = '"+pacienteCurrent.getOrigenPaterno()+"', consumoAnovulatorios = '"+pacienteCurrent.getAnovulatorios()+"',"
 						+ " numeroGestaciones = '"+pacienteCurrent.getNumGestaciones()+"'"
-						+ "WHERE historial= '"+pacienteCurrent.getHistorial()+"'";
-		SGBD.getSGBD().execSQL(orden);
+						+ "WHERE historial= '"+historial+"'";
+		return SGBD.getSGBD().execSQL(orden);
 	}
 
 	public Iterator<Cancer> listarCancer(String pHistorial) {

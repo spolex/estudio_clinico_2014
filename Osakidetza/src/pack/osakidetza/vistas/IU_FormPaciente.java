@@ -24,6 +24,8 @@ import java.awt.event.ActionEvent;
 import java.sql.Date;
 
 import com.toedter.calendar.JDateChooser;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 @SuppressWarnings("serial")
 public class IU_FormPaciente extends JFrame {
@@ -34,6 +36,7 @@ public class IU_FormPaciente extends JFrame {
 	private JTextField textNumFamilia;
 	private JTextField textFieldAnovu;
 	private JTextField textNombre;
+	
 
 	
 
@@ -50,6 +53,8 @@ public class IU_FormPaciente extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setResizable(false);
+		
+		
 		
 		JLabel lblPaciente = new JLabel("Paciente");
 		lblPaciente.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 15));
@@ -156,11 +161,7 @@ public class IU_FormPaciente extends JFrame {
 		contentPane.add(textNumFamilia);
 		textNumFamilia.setColumns(10);
 		
-		final JComboBox comboBoxCI = new JComboBox();
-		comboBoxCI.setModel(new DefaultComboBoxModel(new String[] {"no", "si"}));
-		comboBoxCI.setBounds(173, 158, 114, 24);
-		comboBoxCI.setSelectedIndex(-1);
-		contentPane.add(comboBoxCI);
+		
 		
 		final JComboBox comboBoxRelacionCI = new JComboBox();
 		comboBoxRelacionCI.setModel(new DefaultComboBoxModel(new String[] {"ninguno", "herman@", "hij@", "padre", "madre", "prim@", "ti@", "familiar"}));
@@ -231,10 +232,27 @@ public class IU_FormPaciente extends JFrame {
 		btnCancelar.setBounds(367, 498, 117, 25);
 		contentPane.add(btnCancelar);
 		
-		final JComboBox comboBoxCasosI = new JComboBox(C_Doctor.getMiDoctor().listarCasosIndice().toArray());
-		comboBoxCasosI.setBounds(173, 451, 122, 19);
-		comboBoxCasosI.setSelectedIndex(-1);
-		contentPane.add(comboBoxCasosI);
+		final JComboBox comboBoxHistI = new JComboBox(C_Doctor.getMiDoctor().listarCasosIndice().toArray());
+		comboBoxHistI.setBounds(173, 451, 122, 19);
+		comboBoxHistI.setSelectedIndex(-1);
+		contentPane.add(comboBoxHistI);
+		
+		final JComboBox comboBoxCI = new JComboBox();
+		comboBoxCI.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e)
+			{
+				if(e.getItem().toString().equals("si"))
+				{
+					comboBoxHistI.setSelectedIndex(-1);
+					comboBoxHistI.setEnabled(false);
+				}
+			}
+		});
+		comboBoxCI.setModel(new DefaultComboBoxModel(new String[] {"no", "si"}));
+		comboBoxCI.setBounds(173, 158, 114, 24);
+		comboBoxCI.setSelectedIndex(-1);
+		contentPane.add(comboBoxCI);
+		
 		
 		if(pacienteCurrent!=null)
 		{
@@ -248,7 +266,7 @@ public class IU_FormPaciente extends JFrame {
 			comboBoxRelacionCI.setSelectedItem(pacienteCurrent.getRelacionCI().toString());
 			dateFNacimiento.setDate(pacienteCurrent.getFechaNace());
 			if(pacienteCurrent.getHistorialCI()!=null && pacienteCurrent.getHistorialCI().length()>0){
-				comboBoxCasosI.setSelectedItem(pacienteCurrent.getHistorialCI());
+				comboBoxHistI.setSelectedItem(pacienteCurrent.getHistorialCI());
 			}
 			comboBoxLugarNace.setSelectedItem(pacienteCurrent.getLugarNace());
 			comboBoxMaterno.setSelectedItem(pacienteCurrent.getOrigenMaterno());
@@ -298,7 +316,7 @@ public class IU_FormPaciente extends JFrame {
 							if(comboBoxLugarNace.getSelectedItem()!=null)lugarNace = comboBoxLugarNace.getSelectedItem().toString();
 							
 							String histCI = null;
-							if(comboBoxCasosI.getSelectedItem()!=null)histCI=comboBoxCasosI.toString();			
+							if(comboBoxHistI.getSelectedItem()!=null)histCI=comboBoxHistI.toString();			
 							
 							String criteriosCI = textCriteriosCI.getText();
 							String numFamilia = textNumFamilia.getText();							
@@ -325,7 +343,8 @@ public class IU_FormPaciente extends JFrame {
 							if(añadido){
 								JOptionPane.showMessageDialog(null, "El paciente: "+pNom+" con el nº de historial: "+ pHist + " ha sido registrado en el sistema");
 							}
-							else{
+							else
+							{
 								JOptionPane.showMessageDialog(null, "Error, imposible dar de alta al paciente en el sistema!!");
 							}
 						}
@@ -336,6 +355,8 @@ public class IU_FormPaciente extends JFrame {
 					}
 					else if(pacienteCurrent!=null && textNombre.getText().length()>0){
 						try{
+								String historialOld=pacienteCurrent.getHistorial();
+								pacienteCurrent.setHistorialCI(textHist.getText());
 								pacienteCurrent.setNombre(textNombre.getText());
 								if(comboBoxCI.getSelectedItem()!=null)pacienteCurrent.setCi(SiNo.valueOf(comboBoxCI.getSelectedItem().toString()));
 								if(comboBoxSex.getSelectedItem()!=null)pacienteCurrent.setSexo(Sexo.valueOf(comboBoxSex.getSelectedItem().toString()));
@@ -344,7 +365,7 @@ public class IU_FormPaciente extends JFrame {
 								if(comboBoxFamiliarCI.getSelectedItem()!=null)pacienteCurrent.setFamiliarCI(SiNo.valueOf(comboBoxFamiliarCI.getSelectedItem().toString()));
 								if(comboBoxRelacionCI.getSelectedItem()!=null)pacienteCurrent.setRelacionCI(comboBoxRelacionCI.getSelectedItem().toString());
 								pacienteCurrent.setFechaNace(dateFNacimiento.getDate());
-								if(comboBoxCasosI.getSelectedItem()!=null)pacienteCurrent.setHistorialCI(comboBoxCasosI.getSelectedItem().toString());
+								if(comboBoxHistI.getSelectedItem()!=null)pacienteCurrent.setHistorialCI(comboBoxHistI.getSelectedItem().toString());
 								pacienteCurrent.setLugarNace(comboBoxLugarNace.getSelectedItem().toString());
 								if(comboBoxMaterno.getSelectedItem()!=null)pacienteCurrent.setOrigenMaterno(comboBoxMaterno.getSelectedItem().toString());
 								if(comboBoxPaterno.getSelectedItem()!=null)pacienteCurrent.setOrigenPaterno(comboBoxPaterno.getSelectedItem().toString());
@@ -354,10 +375,12 @@ public class IU_FormPaciente extends JFrame {
 								pacienteCurrent.setPrimerEmbarazo(datePrimerEmbarazo.getDate());
 								pacienteCurrent.setMenopausia(dateMenopausia.getDate());
 								pacienteCurrent.setMenarquia(dateMenarquia.getDate());
-								C_Doctor.getMiDoctor().actualizarPaciente(pacienteCurrent);
+								C_Doctor.getMiDoctor().actualizarPaciente(pacienteCurrent,historialOld);
 								JOptionPane.showMessageDialog(null, "Datos del paciente "+pacienteCurrent.getNombre()+" actualizados.");
+								dispose();
 							}
-						catch(NullPointerException e1){
+						catch(NullPointerException e1)
+						{
 							JOptionPane.showMessageDialog(null, "Error al intentar actualizar usuario, el sistema se cerrara");
 						}
 					}
@@ -367,6 +390,7 @@ public class IU_FormPaciente extends JFrame {
 				}
 			}
 		});
+		
 		btnAceptar.setBounds(227, 498, 117, 25);
 		contentPane.add(btnAceptar);
 		

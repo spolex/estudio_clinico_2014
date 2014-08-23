@@ -104,7 +104,7 @@ public class IU_FastIdent extends JFrame {
 				{
 					if(textUsuario.getText().length()>0 && pass.getPassword().length>0 && EmailValidator.validateEmail(textUsuario.getText()))
 					{
-						String rdo=C_Administracion.getMiAdmin().identificarse(textUsuario.getText(), String.valueOf(pass.getPassword()));
+						String rdo=C_Administracion.getMiAdmin().identificarseEmail(textUsuario.getText(), String.valueOf(pass.getPassword()));
 						if(rdo!=null)
 						{						//Un medico solo tiene cuenta de medico, si además es administrador necesita cuenta una diferente.
 							if(rdo.equals("0"))

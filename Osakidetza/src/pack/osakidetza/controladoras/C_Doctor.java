@@ -53,8 +53,8 @@ public class C_Doctor {
 		return CatalogoPacientes.getPacientes().obtenerPaciente(historial);
 	}
 
-	public void actualizarPaciente(Paciente pacienteCurrent) {
-		CatalogoPacientes.getPacientes().actualizarPaciente(pacienteCurrent);
+	public boolean actualizarPaciente(Paciente pacienteCurrent, String historialOld) {
+		return CatalogoPacientes.getPacientes().actualizarPaciente(pacienteCurrent,historialOld);
 	}
 
 	public Iterator<Cancer> listarCancer(String pHistorial) {
