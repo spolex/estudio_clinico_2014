@@ -1,51 +1,45 @@
 package pack.osakidetza.vistas;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 
 import java.awt.Font;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
-import javax.swing.AbstractListModel;
 import javax.swing.JButton;
+
+import pack.osakidetza.controladoras.C_Doctor;
+import pack.osakidetza.controladoras.Visita;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import javax.swing.ListSelectionModel;
 
 @SuppressWarnings("serial")
 public class IU_ListaVisitas extends JFrame {
 
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IU_ListaVisitas frame = new IU_ListaVisitas();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public IU_ListaVisitas() {
+	public IU_ListaVisitas(final String pEmail) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 409, 533);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setResizable(false);
 		
 		JLabel lblListaDeVisitas = new JLabel("Lista de visitas");
 		lblListaDeVisitas.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
@@ -56,23 +50,63 @@ public class IU_ListaVisitas extends JFrame {
 		scrollPanevisit.setBounds(26, 69, 259, 305);
 		contentPane.add(scrollPanevisit);
 		
-		JList listvisit = new JList();
-		listvisit.setModel(new AbstractListModel() {
-			String[] values = new String[] {"1315;15/10/02", "1315;15/10/02", "1315;15/10/02", "1315;15/10/02", "1315;15/10/02", "1315;15/10/02", "1315;15/10/02", "1315;15/10/02", "1315;15/10/02", "1315;15/10/02", "1315;15/10/02", "1315;15/10/02"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+		final JList listvisit = new JList();
+		listvisit.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		C_Doctor.getMiDoctor().resetVisitas();
+		final DefaultListModel modelo= new DefaultListModel();
+		Iterator<Visita> itr = C_Doctor.getMiDoctor().listarVisitas(pEmail);
+		while(itr.hasNext()){
+			Visita visita =itr.next();
+			modelo.addElement(visita.getPaciente()+";"+visita.getMedico()+";"+visita.getFecha());
+		}
+		listvisit.setModel(modelo);
 		scrollPanevisit.setViewportView(listvisit);
 		
-		JButton btnVolver = new JButton("Volver");
+		final JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==btnVolver){
+					dispose();
+					modelo.removeAllElements();
+				}
+			}
+		});
 		btnVolver.setBounds(278, 459, 117, 25);
 		contentPane.add(btnVolver);
 		
-		JButton btnEliminar = new JButton("Eliminar");
+		final JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==btnEliminar){
+					if(listvisit.getSelectedValue()!=null)
+					{
+						String visita= (String) listvisit.getSelectedValue();
+						String[] pVisita = visita.split(";");
+						java.util.Date fecha = new Date();
+						try 
+						{
+							fecha = new SimpleDateFormat("yyyy-MM-dd").parse(pVisita[2]);
+						} catch (ParseException e1) {
+							JOptionPane.showMessageDialog(null, "Error en el formato de fecha", "Control de formato", ERROR);
+						}
+						Visita borraVisita = new Visita(pVisita[0], new java.sql.Date(fecha.getTime()), pVisita[1], pEmail);
+						if(C_Doctor.getMiDoctor().eliminarVisita(borraVisita))
+						{
+							JOptionPane.showMessageDialog(null, "Visita borrada del sistema", "Control de visitas", JOptionPane.INFORMATION_MESSAGE);
+							dispose();
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "No ha sido posible borrar del sistema la visita", "Control de visitas", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Seleccione la visita que desea borrar", "Control de visitas", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
 		btnEliminar.setBounds(149, 459, 117, 25);
 		contentPane.add(btnEliminar);
 		

@@ -54,8 +54,7 @@ public class IU_Restablecer extends JFrame {
 				if(e.getSource()==btnCancel){
 					dispose();
 					IU_Principal IU_P = new IU_Principal();
-					IU_P.setVisible(true);
-					
+					IU_P.setVisible(true);					
 				}
 			}
 		});

@@ -1,7 +1,5 @@
 package pack.osakidetza.vistas;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -23,6 +21,8 @@ import javax.swing.JCheckBox;
 import javax.swing.ButtonGroup;
 import javax.swing.JSeparator;
 
+import pack.osakidetza.aux.EmailValidator;
+import pack.osakidetza.controladoras.C_Administracion;
 import pack.osakidetza.controladoras.C_Doctor;
 import pack.osakidetza.controladoras.Visita;
 
@@ -33,22 +33,7 @@ public class IU_FormVisita extends JFrame {
 	private JTextField textFieldHist;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IU_FormVisita frame = new IU_FormVisita("");
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the frame.
 	 */
@@ -59,6 +44,7 @@ public class IU_FormVisita extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setResizable(false);
 		
 		JLabel lblVisitas = new JLabel("Visitas");
 		lblVisitas.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
@@ -78,19 +64,14 @@ public class IU_FormVisita extends JFrame {
 		lblObservaciones.setBounds(12, 141, 105, 15);
 		contentPane.add(lblObservaciones);
 		
-		final JCheckBox chckbxBorrar = new JCheckBox("Borrar");
-		buttonGroup.add(chckbxBorrar);
-		chckbxBorrar.setBounds(12, 268, 105, 23);
-		contentPane.add(chckbxBorrar);
-		
 		final JCheckBox chckbxBuscar = new JCheckBox("Buscar");
 		buttonGroup.add(chckbxBuscar);
-		chckbxBuscar.setBounds(145, 268, 129, 23);
+		chckbxBuscar.setBounds(266, 268, 129, 23);
 		contentPane.add(chckbxBuscar);
 		
 		final JCheckBox chckbxNueva = new JCheckBox("Nueva");
 		buttonGroup.add(chckbxNueva);
-		chckbxNueva.setBounds(278, 268, 129, 23);
+		chckbxNueva.setBounds(399, 268, 129, 23);
 		contentPane.add(chckbxNueva);
 				
 		JTextPane textPane = new JTextPane();
@@ -101,16 +82,34 @@ public class IU_FormVisita extends JFrame {
 		dateChooser.setBounds(366, 78, 104, 19);
 		contentPane.add(dateChooser);
 		
-		JButton btnIntroducir = new JButton("Aceptar");
+		final JButton btnIntroducir = new JButton("Aceptar");
 		btnIntroducir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(chckbxNueva.isSelected()){
+				if(chckbxNueva.isSelected() && e.getSource()==btnIntroducir)
+				{
 					if(textFieldHist.getText().length()>0 && dateChooser.getDate()!=null){
 						if(C_Doctor.getMiDoctor().buscarPaciente(textFieldHist.getText())!=null)
 						{
-						Visita visita = new Visita(textFieldHist.getText(),new java.sql.Date(dateChooser.getDate().getTime()),nombre,null);
-						IU_FastIdent IU_FI= new IU_FastIdent(null, null, false, false, visita); 
-						IU_FI.setVisible(true);
+							String pEmail =null;
+							int cont = 3;
+							while(pEmail==null && cont > 0){
+								pEmail = JOptionPane.showInputDialog("Introduzca su email doctor/a "+nombre+", le quedan "+cont+" intentos");
+								cont--;
+							}									
+							if(cont > 0)
+							{
+							   Visita visita = new Visita(textFieldHist.getText(),new java.sql.Date(dateChooser.getDate().getTime()),nombre,pEmail);
+							   if(C_Doctor.getMiDoctor().addVisita(visita)){
+								   JOptionPane.showMessageDialog(null, "Visita añadida con éxito al sistema", "Control de visitas", JOptionPane.INFORMATION_MESSAGE);
+							   }
+							   else{
+								   JOptionPane.showMessageDialog(null, "Imposible añadir la visita", "Control de visitas", JOptionPane.ERROR_MESSAGE);
+							   }
+							}
+							else
+							{
+								JOptionPane.showMessageDialog(null, "Ha superado el número de intentos", "Control de visitas", JOptionPane.ERROR_MESSAGE);
+							}
 						}
 						else
 						{
@@ -120,6 +119,37 @@ public class IU_FormVisita extends JFrame {
 					else
 					{
 						JOptionPane.showMessageDialog(null, "Introduzca el número de historial del paciente o la fecha");
+					}
+				}
+				else if(chckbxBuscar.isSelected())
+				{
+					String pEmail =null;
+					int cont = 3;
+					while((pEmail==null && cont > 0) ){
+						pEmail = JOptionPane.showInputDialog("Introduzca su email doctor/a "+nombre+", le quedan "+cont+" intentos");
+						cont--;
+					}									
+					if(cont > 0 && pEmail!=null)
+					{						
+							if(EmailValidator.validateEmail(pEmail)){
+								if(C_Administracion.getMiAdmin().obtenerUsuario(pEmail)!=null)
+								{
+									IU_ListaVisitas IU_LV = new IU_ListaVisitas(pEmail);
+									IU_LV.setVisible(true);
+								}
+								else
+								{
+									JOptionPane.showMessageDialog(null, "El email no está registrado en el sistema", "Control de visitas", JOptionPane.ERROR_MESSAGE);
+								}
+							}
+							else
+							{
+								JOptionPane.showMessageDialog(null, "El formato de email no es soportado por el sistema", "Control de visitas", JOptionPane.ERROR_MESSAGE);
+							}						
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Ha superado el número de intentos", "Control de visitas", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}

@@ -1,7 +1,5 @@
 package pack.osakidetza.vistas;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -15,8 +13,6 @@ import pack.osakidetza.aux.EmailValidator;
 import pack.osakidetza.controladoras.C_Administracion;
 import pack.osakidetza.controladoras.C_Doctor;
 import pack.osakidetza.controladoras.Usuario;
-import pack.osakidetza.controladoras.Visita;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -27,27 +23,12 @@ public class IU_FastIdent extends JFrame {
 	private JPasswordField pass;
 	private JTextField textUsuario;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IU_FastIdent frame = new IU_FastIdent(null,null,false,false,null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame. El parámetro pEmail_Historial se utiliza para el email del usuario a manipular (borrar) o el historial del paciente.
 	 */
-	//
-	public IU_FastIdent(final String pNom,final String pEmail_Historial,final boolean darDeBajaU,final boolean darDeBajaP, final Visita visita) {
+	
+	public IU_FastIdent(final String pNom,final String pEmail_Historial,final boolean darDeBajaU,final boolean darDeBajaP) {
 		setTitle("Verificar identidad");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -55,6 +36,7 @@ public class IU_FastIdent extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setResizable(false);
 		
 		JLabel lblUsuario = new JLabel("Usuario");
 		lblUsuario.setBounds(59, 67, 98, 15);
@@ -88,7 +70,7 @@ public class IU_FastIdent extends JFrame {
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Dar de baja médico.
-				if(e.getSource()==btnAceptar && darDeBajaU && !darDeBajaP && visita==null && pEmail_Historial!=null)
+				if(e.getSource()==btnAceptar && darDeBajaU && !darDeBajaP  && pEmail_Historial!=null)
 				{
 					if(textUsuario.getText().length()>0 && pass.getPassword().length>0 && EmailValidator.validateEmail(textUsuario.getText()))
 					{
@@ -118,7 +100,8 @@ public class IU_FastIdent extends JFrame {
 					}
 				}
 				//Dar de baja paciente.
-				else if (e.getSource()==btnAceptar && !darDeBajaU && darDeBajaP && visita==null){
+				else if (e.getSource()==btnAceptar && !darDeBajaU && darDeBajaP)
+				{
 					if(textUsuario.getText().length()>0 && pass.getPassword().length>0 && EmailValidator.validateEmail(textUsuario.getText()))
 					{
 						String rdo=C_Administracion.getMiAdmin().identificarse(textUsuario.getText(), String.valueOf(pass.getPassword()));
@@ -148,7 +131,7 @@ public class IU_FastIdent extends JFrame {
 					}
 				}
 				//Actualizar datos de usuario.
-				else if (e.getSource()==btnAceptar && !darDeBajaU && !darDeBajaP && visita==null)
+				else if (e.getSource()==btnAceptar && !darDeBajaU && !darDeBajaP)
 				{
 					if(textUsuario.getText().length()>0 && pass.getPassword().length>0 && EmailValidator.validateEmail(textUsuario.getText()))
 					{
@@ -177,47 +160,9 @@ public class IU_FastIdent extends JFrame {
 						JOptionPane.showMessageDialog(null, "Faltan campos o el formato del email es incorrecto");
 					}
 				}
-				
-				//Añadir visita.
-				else if(e.getSource()==btnAceptar && visita!=null)
-				{
-					if(textUsuario.getText().length()>0 && pass.getPassword().length>0 && EmailValidator.validateEmail(textUsuario.getText())){
-						String rdo=C_Administracion.getMiAdmin().identificarseEmail(textUsuario.getText(), String.valueOf(pass.getPassword()));
-						System.out.println(rdo);
-						if(rdo!=null)
-						{
-							visita.setEmail(textUsuario.getText());
-							if(!C_Doctor.getMiDoctor().existeVisita(visita))
-							{
-								if(C_Doctor.getMiDoctor().addVisita(visita))
-								{
-									JOptionPane.showMessageDialog(null, "Visita añadida al sistema");
-									dispose();
-								}
-								else
-								{
-									JOptionPane.showMessageDialog(null, "Error al intentar añadir visita");
-								}
-							}
-							else
-							{
-								JOptionPane.showMessageDialog(null, "La visita ya se encuentra registrada en el sistema");
-							}
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos incorrecto");
-						}
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(null, "Falta campos por rellenar o el formato del email es incorrecto");
-					}
-				}
-			}
+			}				
 		});
 		btnAceptar.setBounds(81, 237, 117, 25);
 		contentPane.add(btnAceptar);
 	}
-	
 }

@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import pack.osakidetza.enumerados.Sexo;
 import pack.osakidetza.enumerados.SiNo;
-import pack.osakidetza.gestorBD.SGBD;
 
 public class Paciente {
 
@@ -29,6 +28,7 @@ public class Paciente {
 	private Date menopausia;
 	private Date menarquia;
 	private ListaCancer listaCancer;
+	private ListaDiagnosticos diagnosticos;
 
 	/**
 	 * La constructora se encarga de convertir a enumerados
@@ -77,6 +77,7 @@ public class Paciente {
 		this.menopausia = pMeno;
 		this.menarquia = pMenar;
 		this.listaCancer = new ListaCancer();
+		this.diagnosticos = new ListaDiagnosticos();
 	}
 
 	public void setNombre(String nombre) {
@@ -251,6 +252,26 @@ public class Paciente {
 
 	public int actualizarCancer(Cancer cancerOld, Cancer cancerNew) {
 		return this.getCanceres().actualizarCancer(cancerOld,cancerNew);
+	}
+
+	public Iterator<Diagnostico> listarDiagnosticos(String historial) {
+		return this.getDiagnosticos().listarDiagnosticos(historial);
+	}
+
+	private ListaDiagnosticos getDiagnosticos() {
+		return this.diagnosticos;
+	}
+
+	public boolean eliminarDiagnostico(Diagnostico diag) {
+		return this.getDiagnosticos().eliminarDiagnostico(diag);
+	}
+
+	public boolean actualizarDiagnostico(Diagnostico diagOld, Diagnostico actualizado) {
+		return this.getDiagnosticos().actualizarDiagnostico(diagOld,actualizado);
+	}
+
+	public boolean addDiagnostico(Diagnostico nuevo) {
+		return this.getDiagnosticos().addDiagnostico(nuevo);
 	}
 
 }

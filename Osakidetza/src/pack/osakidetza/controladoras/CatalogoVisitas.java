@@ -1,6 +1,7 @@
 package pack.osakidetza.controladoras;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import pack.osakidetza.gestorBD.ResultadoSQL;
 import pack.osakidetza.gestorBD.SGBD;
@@ -47,5 +48,37 @@ public class CatalogoVisitas extends ArrayList<Visita>{
 				+ "VALUES('"+paciente+"','"+fecha +"','"+nombre+"', '"+email+"')";
 		SGBD.getSGBD().execSQL(orden);
 		return existe(visita);
+	}
+	
+	/**
+	 * 
+	 * @param pEmail 
+	 * @return Iterator de todas las visitas del sistema.
+	 */
+	
+	public Iterator<Visita> listarVisitas(String pEmail){
+		String consulta = "SELECT * FROM Visita WHERE emailMedico = '"+pEmail+"'";
+		ResultadoSQL RdoSQL = SGBD.getSGBD().consultaSQL(consulta);
+		while(RdoSQL.next()){
+			CatalogoVisitas.getMisvisitas().add(new Visita(RdoSQL.get("pacienteHistorial"), RdoSQL.getDate("fecha"), RdoSQL.get("nombreUsuario"), RdoSQL.get("emailMedico")));			
+		}
+		RdoSQL.close();
+		return this.iterator();
+	}
+	
+	public boolean eliminarVisita(Visita pVisita){
+		System.out.println(pVisita.getFecha());
+		String delete="DELETE FROM Visita WHERE pacienteHistorial = '"+pVisita.getPaciente()+"' AND fecha = '"+pVisita.getFecha()+"' AND nombreUsuario = '"+pVisita.getMedico()+"' AND emailMedico = '"+pVisita.getEmailMedico()+"'";
+		SGBD.getSGBD().execSQL(delete);
+		
+		String consulta="SELECT * FROM Visita WHERE pacienteHistorial = '"+pVisita.getPaciente()+"' AND fecha = '"+pVisita.getFecha()+"' AND nombreUsuario = '"+pVisita.getMedico()+"' AND emailMedico = '"+pVisita.getEmailMedico()+"'";;
+		ResultadoSQL RdoSQL = SGBD.getSGBD().consultaSQL(consulta);
+		boolean rdo = RdoSQL.next();
+		RdoSQL.close();
+		return !rdo;
+	}
+	
+	public boolean resetVisitas(){
+		return CatalogoVisitas.getMisvisitas().removeAll(getMisvisitas());
 	}
 }

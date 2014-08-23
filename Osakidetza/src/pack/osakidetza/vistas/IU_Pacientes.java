@@ -40,22 +40,7 @@ public class IU_Pacientes extends JFrame {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private String historial;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IU_Pacientes frame = new IU_Pacientes();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the frame.
 	 */
@@ -66,6 +51,7 @@ public class IU_Pacientes extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setResizable(false);
 		historial=new String();
 		
 		
@@ -83,7 +69,7 @@ public class IU_Pacientes extends JFrame {
 		JPanel funcionalidadesPanel = new JPanel();
 		
 		
-		JCheckBox chckbxDiagnosticos = new JCheckBox("Diagnósticos");
+		final JCheckBox chckbxDiagnosticos = new JCheckBox("Diagnósticos");
 		buttonGroup.add(chckbxDiagnosticos);
 		
 		JCheckBox chckbxVisitas = new JCheckBox("Visitas");
@@ -142,6 +128,7 @@ public class IU_Pacientes extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 
 		final JList listPacientes = new JList();
+		listPacientes.setSelectedIndex(-1);
 		listPacientes.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				if(e.getValueIsAdjusting()){
@@ -149,7 +136,6 @@ public class IU_Pacientes extends JFrame {
 				}
 			}
 		});
-		listPacientes.setSelectedIndex(-1);
 		scrollPane.setViewportView(listPacientes);
 		listPacientes.setModel(new AbstractListModel() {
 			String[] values = new String[] {};
@@ -173,7 +159,7 @@ public class IU_Pacientes extends JFrame {
 					//borrar paciente
 					if(chckbxEliminar.isSelected()){
 						if(!listPacientes.isSelectionEmpty()){
-							IU_FastIdent IU_FI= new IU_FastIdent("",historial,false,true,null);					
+							IU_FastIdent IU_FI= new IU_FastIdent("",historial,false,true);					
 							IU_FI.setVisible(true);	
 						}
 						else{
@@ -221,6 +207,7 @@ public class IU_Pacientes extends JFrame {
 							Paciente pacienteCurrent = C_Doctor.getMiDoctor().obtenerPaciente(historial);
 							IU_FormPaciente IU_FP= new IU_FormPaciente(pacienteCurrent);
 							IU_FP.setVisible(true);	
+							dispose();
 						}
 						else
 						{
@@ -230,13 +217,26 @@ public class IU_Pacientes extends JFrame {
 					//listar cáncer dado paciente.
 					else if(chckbxCancer.isSelected()){						
 						if(!listPacientes.isSelectionEmpty()){
-							IU_ListaCancer_Paciente IU_Lista= new IU_ListaCancer_Paciente(historial);		
+							IU_ListaCancer IU_Lista= new IU_ListaCancer(historial);		
 							IU_Lista.setVisible(true);	
 						}
 						else{
 							JOptionPane.showMessageDialog(null, "No ha escogido un paciente para consultar");
 						}
 						
+					}
+					//listar diagnosticos paciente
+					else if(chckbxDiagnosticos.isSelected())
+					{
+						if(!listPacientes.isSelectionEmpty())
+						{
+						    IU_Diagnosticos IU_D = new IU_Diagnosticos(historial);
+							IU_D.setVisible(true);
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "Seleccione el paciente al que desea añadir el diagnóstico genético");
+						}
 					}
 				}
 			}

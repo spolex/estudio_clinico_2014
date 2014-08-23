@@ -1,7 +1,5 @@
 package pack.osakidetza.vistas;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -37,21 +35,7 @@ public class IU_FormPaciente extends JFrame {
 	private JTextField textFieldAnovu;
 	private JTextField textNombre;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IU_FormPaciente frame = new IU_FormPaciente(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	/**
 	 * Create the frame.

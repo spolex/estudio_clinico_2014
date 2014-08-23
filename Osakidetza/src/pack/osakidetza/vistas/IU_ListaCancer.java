@@ -1,7 +1,5 @@
 package pack.osakidetza.vistas;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -18,6 +16,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.ButtonGroup;
+import javax.swing.ListSelectionModel;
 
 import pack.osakidetza.controladoras.C_Doctor;
 import pack.osakidetza.controladoras.Cancer;
@@ -27,33 +26,17 @@ import java.awt.event.ActionEvent;
 import java.util.Iterator;
 
 @SuppressWarnings({"serial" })
-public class IU_ListaCancer_Paciente extends JFrame {
+public class IU_ListaCancer extends JFrame {
 
 	private JPanel contentPane;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IU_ListaCancer_Paciente frame = new IU_ListaCancer_Paciente("");
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
-	 * @param pistorial 
+	 * @param pHistorial 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public IU_ListaCancer_Paciente(final String pHistorial) {
+	public IU_ListaCancer(final String pHistorial) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 479, 306);
 		contentPane = new JPanel();
@@ -80,6 +63,7 @@ public class IU_ListaCancer_Paciente extends JFrame {
 		contentPane.add(scrollPane);
 		
 		final JList list = new JList();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setModel(new AbstractListModel() {
 			String[] values = new String[] {};
 			public int getSize() {
@@ -91,6 +75,7 @@ public class IU_ListaCancer_Paciente extends JFrame {
 		});
 		scrollPane.setViewportView(list);
 		if(pHistorial!=null){
+			
 			Iterator<Cancer> itr =C_Doctor.getMiDoctor().listarCancer(pHistorial);
 			DefaultListModel modelo = new DefaultListModel();
 			while(itr.hasNext()){
@@ -128,10 +113,12 @@ public class IU_ListaCancer_Paciente extends JFrame {
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==btnAceptar){
+					//añadir cancer
 					if(chckbxAadir.isSelected()){
 						IU_FormCancer IU_FC = new IU_FormCancer(pHistorial,null);
 						IU_FC.setVisible(true);
 					}
+					//Actualizar cancer
 					else if(chckbxActualizar.isSelected()){
 						Iterator<Cancer> itr = C_Doctor.getMiDoctor().listarCancer(pHistorial);
 						boolean enc = false;
@@ -143,6 +130,10 @@ public class IU_ListaCancer_Paciente extends JFrame {
 								enc=true;
 								IU_FormCancer IU_FC= new IU_FormCancer(pHistorial, pCancer);
 								IU_FC.setVisible(true);
+							}
+							else
+							{
+								JOptionPane.showMessageDialog(null, "El cancer seleccionado no se encuentra en el sistema", "Control cáncer", JOptionPane.ERROR_MESSAGE);
 							}
 						}
 					}

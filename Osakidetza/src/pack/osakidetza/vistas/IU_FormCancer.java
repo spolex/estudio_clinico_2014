@@ -1,7 +1,5 @@
 package pack.osakidetza.vistas;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -37,22 +35,7 @@ public class IU_FormCancer extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textHistorial;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IU_FormCancer frame = new IU_FormCancer("",null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the frame.
 	 * @param historial 
@@ -175,6 +158,7 @@ public class IU_FormCancer extends JFrame {
 								if(add)
 								{
 									JOptionPane.showMessageDialog(null, "Añadido con éxito");
+									dispose();
 								}
 								else
 								{

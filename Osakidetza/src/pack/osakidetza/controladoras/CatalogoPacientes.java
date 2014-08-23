@@ -305,4 +305,20 @@ public class CatalogoPacientes extends ArrayList<Paciente>{
 	public int actualizarCancer(Cancer cancerCurrent, Cancer cancerNew) {
 		return CatalogoPacientes.getPacientes().obtenerPaciente(cancerCurrent.getPaciente()).actualizarCancer(cancerCurrent,cancerNew);
 	}
+
+	public Iterator<Diagnostico> listarDiagnosticos(String historial) {
+		return CatalogoPacientes.getPacientes().obtenerPaciente(historial).listarDiagnosticos(historial);
+	}
+
+	public boolean eliminarDiagnostico(Diagnostico diag) {
+		return CatalogoPacientes.getPacientes().obtenerPaciente(diag.getPaciente()).eliminarDiagnostico(diag);
+	}
+
+	public boolean actualizarDiagnostico(Diagnostico diagOld, Diagnostico actualizado) {
+		return CatalogoPacientes.getPacientes().obtenerPaciente(actualizado.getPaciente()).actualizarDiagnostico(diagOld,actualizado);
+	}
+
+	public boolean addDiagnostico(Diagnostico nuevo) {
+		return CatalogoPacientes.getPacientes().obtenerPaciente(nuevo.getPaciente()).addDiagnostico(nuevo);
+	}
 }

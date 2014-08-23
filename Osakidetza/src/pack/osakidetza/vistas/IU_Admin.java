@@ -108,7 +108,7 @@ public class IU_Admin extends JFrame {
 					if(listMedicos.getSelectedValue()!=null)
 					{
 						if(IU_Admin.this.doctor != null && IU_Admin.this.emailDoctor != null){
-							IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,true, false,null);					
+							IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,true, false);					
 							IU_FI.setVisible(true);									
 						}
 					}
@@ -174,7 +174,7 @@ public class IU_Admin extends JFrame {
 				//Actualizar médico.
 				if(e.getSource()==btnActualizar){
 					if(IU_Admin.this.doctor != null && IU_Admin.this.emailDoctor != null){
-						IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,false,false,null);					
+						IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,false,false);					
 						IU_FI.setVisible(true);									
 					}
 				}

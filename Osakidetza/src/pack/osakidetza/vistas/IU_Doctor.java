@@ -1,6 +1,5 @@
 package pack.osakidetza.vistas;
 
-import java.awt.EventQueue;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -23,21 +22,6 @@ public class IU_Doctor extends JFrame {
 
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IU_Doctor frame = new IU_Doctor("Doctor");
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -48,8 +32,7 @@ public class IU_Doctor extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
+		contentPane.setLayout(null);		
 		setResizable(false);
 		
 		JLabel lblBienvenidoDoctor = new JLabel("Bienvenido Dr/a. "+nombre);

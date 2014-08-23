@@ -4,8 +4,6 @@ package pack.osakidetza.controladoras;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-
 import pack.osakidetza.enumerados.Mama;
 import pack.osakidetza.enumerados.TipoCancer;
 import pack.osakidetza.gestorBD.ResultadoSQL;

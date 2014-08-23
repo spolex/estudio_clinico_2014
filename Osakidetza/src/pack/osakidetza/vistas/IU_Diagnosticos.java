@@ -5,22 +5,49 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JButton;
 import javax.swing.JList;
-import javax.swing.AbstractListModel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.ButtonGroup;
+
+import com.toedter.calendar.JDateChooser;
+
+import java.awt.Font;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Iterator;
+
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+
+import pack.osakidetza.controladoras.C_Doctor;
+import pack.osakidetza.controladoras.Cancer;
+import pack.osakidetza.controladoras.Diagnostico;
+import pack.osakidetza.enumerados.Gen;
+import pack.osakidetza.enumerados.TipoCancer;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 @SuppressWarnings("serial")
 public class IU_Diagnosticos extends JFrame {
 
 	private JPanel contentPane;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JTextField textMutacion;
 
 	/**
 	 * Launch the application.
@@ -29,7 +56,7 @@ public class IU_Diagnosticos extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IU_Diagnosticos frame = new IU_Diagnosticos();
+					IU_Diagnosticos frame = new IU_Diagnosticos(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,88 +67,335 @@ public class IU_Diagnosticos extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param historial 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public IU_Diagnosticos() {
+	public IU_Diagnosticos(final String pHistorial) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 557, 415);
+		setBounds(100, 100, 638, 493);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setResizable(false);
 		
 		JLabel lblDiagnsticos = new JLabel("Diagnósticos genéticos\n");
-		lblDiagnsticos.setBounds(12, 12, 166, 15);
+		lblDiagnsticos.setFont(new Font("Dialog", Font.BOLD, 18));
+		lblDiagnsticos.setBounds(12, 12, 236, 22);
 		contentPane.add(lblDiagnsticos);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(121, 33, 298, 75);
-		contentPane.add(scrollPane);
-		
-		JList list = new JList();
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {"1315;BRCA1;12/05/2001", "1315;BRCA1;05/05/2003"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		scrollPane.setViewportView(list);
-		
-		JButton btnNuevo = new JButton("Aceptar");
-		btnNuevo.setBounds(288, 352, 117, 25);
-		contentPane.add(btnNuevo);
-		
-		JButton btnVolver = new JButton("Volver");
-		btnVolver.setBounds(417, 352, 117, 25);
-		contentPane.add(btnVolver);
+		JScrollPane scrollDiagnosticos = new JScrollPane();
+		scrollDiagnosticos.setBounds(127, 69, 298, 75);
+		contentPane.add(scrollDiagnosticos);
 		
 		JLabel lblGenSecuenciado = new JLabel("Gen secuenciado");
-		lblGenSecuenciado.setBounds(12, 120, 161, 15);
+		lblGenSecuenciado.setBounds(12, 189, 161, 15);
 		contentPane.add(lblGenSecuenciado);
 		
-		JLabel lblTipoCancer = new JLabel("Tipo mutación");
-		lblTipoCancer.setBounds(12, 163, 133, 15);
+		JLabel lblTipoCancer = new JLabel("Tipo ");
+		lblTipoCancer.setBounds(341, 194, 133, 15);
 		contentPane.add(lblTipoCancer);
 		
 		JLabel lblObservaciones = new JLabel("Observaciones :");
-		lblObservaciones.setBounds(12, 233, 114, 15);
+		lblObservaciones.setBounds(12, 287, 114, 15);
 		contentPane.add(lblObservaciones);
 		
-		JTextPane txtpnNoClaro = new JTextPane();
-		txtpnNoClaro.setEnabled(false);
-		txtpnNoClaro.setEditable(false);
-		txtpnNoClaro.setText("No claro");
-		txtpnNoClaro.setBounds(121, 257, 298, 83);
-		contentPane.add(txtpnNoClaro);
+		final JComboBox comboBoxGen = new JComboBox();
+		comboBoxGen.setModel(new DefaultComboBoxModel(new String[] {"BRCA1","BRCA2","BRCA1_BRCA2","CHEK2","CDKN2A","CDH1","OTROS"}));
+		comboBoxGen.setBounds(168, 184, 143, 25);
+		comboBoxGen.setSelectedIndex(-1);
+		contentPane.add(comboBoxGen);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setEnabled(false);
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"BRCA1", "BRCA2", "CHEK6"}));
-		comboBox_1.setBounds(168, 120, 143, 25);
-		contentPane.add(comboBox_1);
+		final JComboBox comboBoxTipo = new JComboBox();
+		comboBoxTipo.setBounds(471, 189, 143, 25);
+		contentPane.add(comboBoxTipo);
+		comboBoxTipo.setSelectedIndex(-1);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setEnabled(false);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Si", "Ninguna"}));
-		comboBox.setBounds(167, 158, 144, 24);
-		contentPane.add(comboBox);
-		
-		JCheckBox chckbxNuevo = new JCheckBox("Nuevo");
-		buttonGroup.add(chckbxNuevo);
-		chckbxNuevo.setBounds(418, 121, 129, 23);
+		final JCheckBox chckbxNuevo = new JCheckBox("Nuevo");
+		chckbxNuevo.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getItem()==chckbxNuevo)
+				{
+					if(chckbxNuevo.isSelected())
+					{
+						Iterator itrCancer1 = C_Doctor.getMiDoctor().listarCancer(pHistorial);
+						while(itrCancer1.hasNext())
+						{
+							Cancer pCancer = (Cancer) itrCancer1.next();
+							String item = pCancer.getTipo().toString();
+							comboBoxTipo.addItem(item);								
+						}
+						if(comboBoxTipo.getComponentCount()==0)JOptionPane.showMessageDialog(null, "Necesita registrar un cáncer para éste paciente en el sistema.", "Control diagnósticos", JOptionPane.ERROR_MESSAGE);
+						
+					}
+				}
+			}
+		});
+		buttonGroup.add(chckbxNuevo);		
+		chckbxNuevo.setBounds(441, 69, 129, 23);
 		contentPane.add(chckbxNuevo);
 		
-		JCheckBox chckbxActualizar = new JCheckBox("Actualizar");
+		final JCheckBox chckbxActualizar = new JCheckBox("Actualizar");
 		buttonGroup.add(chckbxActualizar);
-		chckbxActualizar.setBounds(418, 159, 129, 23);
+		chckbxActualizar.setBounds(441, 121, 129, 23);
 		contentPane.add(chckbxActualizar);
 		
-		JCheckBox chckbxBorrar = new JCheckBox("Borrar");
+		final JCheckBox chckbxBorrar = new JCheckBox("Borrar");
 		buttonGroup.add(chckbxBorrar);
-		chckbxBorrar.setBounds(417, 195, 129, 23);
+		chckbxBorrar.setBounds(441, 94, 129, 23);
 		contentPane.add(chckbxBorrar);
+		
+		JScrollPane scrollPaneObservaciones = new JScrollPane();
+		scrollPaneObservaciones.setBounds(74, 316, 496, 75);
+		contentPane.add(scrollPaneObservaciones);
+		
+		final JTextPane textObservaciones = new JTextPane();
+		scrollPaneObservaciones.setViewportView(textObservaciones);
+		
+		JLabel lblFecha = new JLabel("Fecha");
+		lblFecha.setBounds(12, 245, 70, 15);
+		contentPane.add(lblFecha);
+		
+		final JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(168, 245, 143, 25);
+		contentPane.add(dateChooser);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(12, 39, 602, 22);
+		contentPane.add(separator);
+		
+		textMutacion = new JTextField();
+		textMutacion.setBounds(471, 248, 143, 22);
+		contentPane.add(textMutacion);
+		textMutacion.setColumns(10);		
+		
+		final JList listDiagnosticos = new JList();		
+		if(pHistorial!=null)
+		{
+		    DefaultListModel modelo= new DefaultListModel();	
+			Iterator<Diagnostico>itr = C_Doctor.getMiDoctor().listarDiagnosticos(pHistorial);
+			while(itr.hasNext())
+			{
+				Diagnostico diag =itr.next();
+				modelo.addElement(diag.getCancer()+";"+diag.getFecha()+";"+diag.getGenSecuenciado());
+			}
+			listDiagnosticos.setModel(modelo);
+		}
+		scrollDiagnosticos.setViewportView(listDiagnosticos);	
+		
+		final JButton btnNuevo = new JButton("Aceptar");
+		btnNuevo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				if(e.getSource()==btnNuevo)
+				{
+					//añadir diagnostico.
+					//Sólo se podran añadir diagnósticos para pacientes o cánceres ya existentes en el sistema para cumplir las restricciones de integridad.
+					if(chckbxNuevo.isSelected())
+					{
+						
+						TipoCancer tipo=null;
+						if(comboBoxTipo.getSelectedItem()!=null)
+					    {
+					    	tipo =TipoCancer.valueOf(comboBoxTipo.getSelectedItem().toString());
+					    }
+						
+						Gen genSecuenciado=null;
+						if(comboBoxGen.getSelectedItem()!=null)
+						{
+							genSecuenciado = Gen.valueOf(comboBoxGen.getSelectedItem().toString());
+						}
+						
+						java.sql.Date fechaDiag = new Date(0);
+						if(dateChooser.getDate()!=null)
+						{
+							fechaDiag = new java.sql.Date (dateChooser.getDate().getTime());
+						}
+						
+						Diagnostico nuevo = new Diagnostico(pHistorial, tipo, genSecuenciado, textMutacion.getText(), textObservaciones.getText(),
+								fechaDiag);
+						if(C_Doctor.getMiDoctor().addDiagnostico(nuevo))
+						{
+							JOptionPane.showMessageDialog(null, "Diagnóstico genético añadido con éxito al sistema", "Control diagnóstico genético", JOptionPane.INFORMATION_MESSAGE);
+							dispose();
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "Error al intentar añadir el diagnóstico genético", "Control diagnóstico genético", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					//borrar diagnostico.
+					if(chckbxBorrar.isSelected())
+					{
+						if(!listDiagnosticos.isSelectionEmpty())
+						{
+							Iterator<Diagnostico> itr = C_Doctor.getMiDoctor().listarDiagnosticos(pHistorial);
+							String seleccionado = (String) listDiagnosticos.getSelectedValue();
+							String[] diagnostico = seleccionado.split(";");
+							boolean enc=false;
+							while(itr.hasNext() && !enc)
+							{
+								Diagnostico diag =itr.next();
+								
+								String tipoCancer = "";
+								if(diag.getCancer()!=null)tipoCancer=diag.getCancer().toString();
+								
+								String gen = "";
+								if(diag.getGenSecuenciado()!=null)gen = diag.getGenSecuenciado().toString();
+								
+								java.sql.Date fecha = new Date(0);
+								try 
+								{
+									fecha = new java.sql.Date (new SimpleDateFormat("yyyy-MM-dd").parse(diagnostico[1]).getTime());
+								} 
+								catch (ParseException e1) 
+								{
+									JOptionPane.showMessageDialog(null, "Error en el formato de la fecha", "Control de diagnósticos", JOptionPane.ERROR_MESSAGE);
+								}
+								java.sql.Date fechaDiag = new Date(0);
+								if(diag.getFecha()!=null)fechaDiag=diag.getFecha();								
+
+								if(pHistorial.equals(diag.getPaciente()) && diagnostico[0].equals(tipoCancer) && diagnostico[2].equals(gen) && fecha.equals(fechaDiag))
+								{
+									enc=true;
+									if(C_Doctor.getMiDoctor().eliminarDiagnostico(diag))
+									{
+										JOptionPane.showMessageDialog(null, "Diagnóstico genético eliminado!!", "Control de diagnósticos genéticos", JOptionPane.INFORMATION_MESSAGE);
+									}
+									else
+									{
+										JOptionPane.showMessageDialog(null, "Imposible eliminar diagnóstico genético", "Control diagnósticos genéticos", JOptionPane.ERROR_MESSAGE);
+									}
+								}
+							}
+							if(!enc)JOptionPane.showMessageDialog(null, "El diagnóstico genético no se encuentra registrado en el sistema", "Control diagnósticos genéticos", JOptionPane.ERROR_MESSAGE);
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "Seleccione el diagnóstico genético que desea borrar", "Control diagnósticos genéticos", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					//actualizar diagnóstico.
+					if(chckbxActualizar.isSelected())
+					{
+						Diagnostico diag1 = null;
+						if(!listDiagnosticos.isSelectionEmpty())
+						{
+							Iterator<Diagnostico> itrDiagnostico = C_Doctor.getMiDoctor().listarDiagnosticos(pHistorial);
+							String seleccionado = (String) listDiagnosticos.getSelectedValue();
+							String[] diagnostico = seleccionado.split(";");
+							boolean enc=false;
+							while(itrDiagnostico.hasNext() && !enc)
+							{
+							     diag1 =itrDiagnostico.next();
+								
+								String tipoCancer = "";
+								if(diag1.getCancer()!=null)tipoCancer=diag1.getCancer().toString();
+								
+								String gen = "";
+								if(diag1.getGenSecuenciado()!=null)gen = diag1.getGenSecuenciado().toString();
+								
+								java.sql.Date fecha = new Date(0);
+								try 
+								{
+									fecha = new java.sql.Date (new SimpleDateFormat("yyyy-MM-dd").parse(diagnostico[1]).getTime());
+								} 
+								catch (ParseException e1) 
+								{
+									JOptionPane.showMessageDialog(null, "Error en el formato de la fecha", "Control de diagnósticos", JOptionPane.ERROR_MESSAGE);
+								}
+								java.sql.Date fechaDiag = new Date(0);
+								if(diag1.getFecha()!=null)fechaDiag=diag1.getFecha();								
+
+								if(pHistorial.equals(diag1.getPaciente()) && diagnostico[0].equals(tipoCancer) && diagnostico[2].equals(gen) && fecha.equals(fechaDiag))
+								{
+									Iterator <Cancer> itrCancer = C_Doctor.getMiDoctor().listarCancer(pHistorial);
+									while(itrCancer.hasNext())
+									{
+										Cancer cancer = itrCancer.next();
+										String item = cancer.getTipo().toString();
+										comboBoxTipo.addItem(item);										
+										comboBoxGen.setSelectedItem(gen);										
+										dateChooser.setDate(fechaDiag);
+										textMutacion.setText(diag1.getMutacion());
+										textObservaciones.setText(diag1.getResultado());										
+									}
+									//listener key Enter para actualizar.
+									final Diagnostico diagOld=diag1;
+									KeyListener	keyListen =new KeyAdapter(){
+										public void keyPressed(KeyEvent key){
+											if(key.getKeyCode() == KeyEvent.VK_ENTER){
+												
+												TipoCancer tipo=null;
+												if(comboBoxTipo.getSelectedItem()!=null)
+											    {
+											    	tipo =TipoCancer.valueOf(comboBoxTipo.getSelectedItem().toString());
+											    }
+												
+												Gen genSecuenciado=null;
+												if(comboBoxGen.getSelectedItem()!=null)
+												{
+													genSecuenciado = Gen.valueOf(comboBoxGen.getSelectedItem().toString());
+												}
+												
+												java.sql.Date fechaDiag = new Date(0);
+												if(dateChooser.getDate()!=null)
+												{
+													fechaDiag = new java.sql.Date (dateChooser.getDate().getTime());
+												}
+												
+												Diagnostico actualizado = new Diagnostico(pHistorial, tipo, genSecuenciado, textMutacion.getText(), textObservaciones.getText(),
+														fechaDiag);
+											    
+												if(C_Doctor.getMiDoctor().actualizarDiagnostico(diagOld,actualizado))
+												{
+													JOptionPane.showMessageDialog(null, "Diagnóstico genético actualizado con éxito", "Control diagnóstico genético", JOptionPane.INFORMATION_MESSAGE);
+													dispose();
+												}
+												else
+												{
+													JOptionPane.showMessageDialog(null, "Imposible actualizar el diagnóstico genético", "Control diagnóstico genético", JOptionPane.ERROR_MESSAGE);
+												}
+											}
+										}
+									};
+									btnNuevo.addKeyListener(keyListen);
+									chckbxActualizar.addKeyListener(keyListen);
+									addKeyListener(keyListen);
+									textObservaciones.addKeyListener(keyListen);
+									textMutacion.addKeyListener(keyListen);
+									comboBoxGen.addKeyListener(keyListen);
+									comboBoxTipo.addKeyListener(keyListen);
+									listDiagnosticos.addKeyListener(keyListen);
+									
+									enc=true;
+								}									
+							}
+							if(!enc)JOptionPane.showMessageDialog(null, "El diagnóstico genético no se encuentra registrado en el sistema", "Control diagnósticos genéticos", JOptionPane.ERROR_MESSAGE);
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "Seleccione el diagnóstico genético que desea actualizar", "Control diagnósticos genéticos", JOptionPane.ERROR_MESSAGE);
+						}																
+					}
+				}
+			}
+		});
+		btnNuevo.setBounds(182, 430, 117, 25);
+		contentPane.add(btnNuevo);
+		
+		final JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==btnVolver)dispose();
+			}
+		});
+		btnVolver.setBounds(332, 430, 117, 25);
+		contentPane.add(btnVolver);
+		
+		JLabel lblMutacon = new JLabel("Mutación");
+		lblMutacon.setBounds(332, 255, 70, 15);
+		contentPane.add(lblMutacon);	
+		
 	}
 }

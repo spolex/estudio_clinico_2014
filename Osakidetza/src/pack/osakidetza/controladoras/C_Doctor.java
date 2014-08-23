@@ -81,5 +81,32 @@ public class C_Doctor {
 	public boolean existeVisita(Visita visita) {
 		return CatalogoVisitas.getMisvisitas().existe(visita);
 	}
+	
+	public Iterator<Visita> listarVisitas(String pEmail){
+		return CatalogoVisitas.getMisvisitas().listarVisitas(pEmail);
+	}
+	
+	public boolean eliminarVisita(Visita pVisita){
+		return CatalogoVisitas.getMisvisitas().eliminarVisita(pVisita);
+	}
+	
+	public boolean resetVisitas(){
+		return CatalogoVisitas.getMisvisitas().removeAll(CatalogoVisitas.getMisvisitas());
+	}
 
+	public Iterator<Diagnostico> listarDiagnosticos(String historial) {
+		return CatalogoPacientes.getPacientes().listarDiagnosticos(historial);		
+	}
+
+	public boolean eliminarDiagnostico(Diagnostico diag) {
+		return CatalogoPacientes.getPacientes().eliminarDiagnostico(diag);
+	}
+
+	public boolean actualizarDiagnostico(Diagnostico diagOld, Diagnostico actualizado) {
+		return CatalogoPacientes.getPacientes().actualizarDiagnostico(diagOld,actualizado);
+	}
+
+	public boolean addDiagnostico(Diagnostico nuevo) {
+		return CatalogoPacientes.getPacientes().addDiagnostico(nuevo);
+	}
 }

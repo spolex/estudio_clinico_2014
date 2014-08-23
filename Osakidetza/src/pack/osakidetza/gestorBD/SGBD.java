@@ -62,7 +62,7 @@ public class SGBD {
 				//creamos la sentencia
 				Statement s = conexion.createStatement();
 				//ejecutamos la orden
-				boolean updated =s.executeUpdate(orden)!=0;
+				boolean updated =s.executeUpdate(orden)!=0;//Si se ejecuta correctamente el valor es 1, si no 0
 				//cerramos la conexion
 				conexion.close();
 				return updated;
