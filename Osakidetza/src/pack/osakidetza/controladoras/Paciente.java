@@ -84,8 +84,7 @@ public class Paciente {
 		this.nombre = nombre;
 	}
 
-	@SuppressWarnings("unused")
-	private void setHistorial(String historial) {
+	public void setHistorial(String historial) {
 		this.historial = historial;
 	}
 

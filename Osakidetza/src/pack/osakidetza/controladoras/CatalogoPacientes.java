@@ -285,7 +285,7 @@ public class CatalogoPacientes extends ArrayList<Paciente>{
 			SGBD.getSGBD().execSQL("UPDATE Paciente SET menarquia = '"+new java.sql.Date(pacienteCurrent.getMenarquia().getTime())+"' WHERE historial = '"+historial+"'");
 		}
 		
-		String orden = "UPDATE Paciente SET nombre ='"+pacienteCurrent.getNombre()+"', casoIndice = '"+pacienteCurrent.getCi().toString()+"', "+ 
+		String orden = "UPDATE Paciente SET historial = '"+pacienteCurrent.getHistorial()+"', nombre ='"+pacienteCurrent.getNombre()+"', casoIndice = '"+pacienteCurrent.getCi().toString()+"', "+ 
 						"sexo = '"+pacienteCurrent.getSexo().toString()+"', historialCI = '"+pacienteCurrent.getHistorialCI()+"', numeroFamilia = '"+pacienteCurrent.getNumFamilia()+"',"
 						+ "familiarCI = '"+pacienteCurrent.getFamiliarCI().toString()+"', relacionCI = '"+pacienteCurrent.getRelacionCI()+"', "
 						+ "lugarNacimiento = '"+pacienteCurrent.getLugarNace()+"', origenMaterno = '"+pacienteCurrent.getOrigenMaterno()+"',"
