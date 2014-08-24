@@ -205,6 +205,14 @@ public class IU_FormEstudio extends JFrame {
 						if(comboBoxT.getSelectedItem()!=null)estudio.setT(EstidiajeT.valueOf(comboBoxT.getSelectedItem().toString()));
 						if(comboBoxN.getSelectedItem()!=null)estudio.setN(EstidiajeN.valueOf(comboBoxN.getSelectedItem().toString()));
 						if(comboBoxM.getSelectedItem()!=null)estudio.setM(EstidiajeM.valueOf(comboBoxM.getSelectedItem().toString()));
+						try
+						{
+							Integer.parseInt(textki67.getText());
+						}
+						catch(NumberFormatException e2)
+						{
+							JOptionPane.showMessageDialog(null, "Error debe meter un número entre el 1 y el 100 en el campo Ki67", "Control Estudios patológicos", JOptionPane.ERROR_MESSAGE);
+						}
 						if(Integer.parseInt(textki67.getText())>=0 && Integer.parseInt(textki67.getText())<=100)
 						{
 							estudio.setKi676(Integer.parseInt(textki67.getText()));
@@ -212,6 +220,7 @@ public class IU_FormEstudio extends JFrame {
 						else
 						{
 							JOptionPane.showMessageDialog(null, "Debe introducir un porcentaje entre 1 y 100 en el campo Ki67", "Control Estudios patológicos", JOptionPane.ERROR_MESSAGE);
+							dispose();
 						}
 						if(dateChooser.getDate()!=null)
 						{

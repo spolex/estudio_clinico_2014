@@ -82,7 +82,8 @@ public class ListaEstudio extends ArrayList<Estudio>
 		boolean rdo=false;
 		if(SGBD.getSGBD().execSQL(orden))rdo=true;
 		//Fecha
-		if(estudio.getFecha()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET fecha = '"+estudio.getFecha()+"' WHERE codigo = '"+estudio.getCode()+"'");	
+		if(estudio.getFecha()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET fecha = '"+estudio.getFecha()+"' WHERE codigo = '"+estudio.getCode()+"'");
+		if(estudio.getKi676()>0)SGBD.getSGBD().execSQL("UPDATE Patologico SET Ki67 = '"+estudio.getKi676()+"' WHERE codigo = '"+estudio.getCode()+"'");
 		if(estudio.getSubHistologico()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET subtipoHistologico = '"+estudio.getSubHistologico()+"' WHERE codigo = '"+estudio.getCode()+"'");
 		if(estudio.getReceptoresEstrogenicos()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET receptoresEstrogenicos = '"+estudio.getReceptoresEstrogenicos()+"' WHERE codigo = '"+estudio.getCode()+"'");
 		if(estudio.getReceptoresProstagenicos()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET receptoresProgestagenicos = '"+estudio.getReceptoresProstagenicos()+"' WHERE codigo = '"+estudio.getCode()+"'");
