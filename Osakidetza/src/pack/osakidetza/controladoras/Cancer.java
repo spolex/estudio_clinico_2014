@@ -1,6 +1,7 @@
 package pack.osakidetza.controladoras;
 
 import java.sql.Date;
+import java.util.Iterator;
 
 import pack.osakidetza.enumerados.*;
 
@@ -11,6 +12,9 @@ public class Cancer
 	private Date fecha;
 	private Mama mama;
 	private String tratamiento;
+	private ListaEstudio estudios;
+	
+	
 	public Cancer(String pHistorial, Date pFecha, TipoCancer pTipo,
 			String pTratamiento, Mama pMama) {
 		this.historial= pHistorial;
@@ -18,6 +22,7 @@ public class Cancer
 		this.fecha=pFecha;
 		this.tratamiento= pTratamiento;
 		this.mama= pMama;
+		this.estudios=new ListaEstudio();
 	}
 	public void setTipo(TipoCancer tipo) {
 		this.tipo = tipo;
@@ -48,5 +53,11 @@ public class Cancer
 	}
 	public String getTratamiento() {
 		return tratamiento;
-	}	
+	}
+	private ListaEstudio getEstudios() {
+		return estudios;
+	}
+	public Iterator<Estudio> listarEstudios(){
+		return this.getEstudios().iterator();
+	}
 }
