@@ -4,6 +4,8 @@ package pack.osakidetza.controladoras;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+
 import pack.osakidetza.enumerados.Mama;
 import pack.osakidetza.enumerados.TipoCancer;
 import pack.osakidetza.gestorBD.ResultadoSQL;
@@ -146,6 +148,41 @@ public class ListaCancer extends ArrayList<Cancer> {
 		
 		return actualizado;
 	}
+	
+	public Iterator<Estudio> listarEstudios(String pHistorial, String tipo,
+			java.sql.Date fecha) 
+	{
+		return this.obtenerCancer(pHistorial, tipo, fecha).listarEstudios();
+	}
+	
+	/**
+	 * obtiene el cancer con los datos que se reciben como parámetros.
+	 * @param pHIst
+	 * @param tipo
+	 * @param fecha
+	 * @return Si éxiste el cáncer con dichos parámetros, en otro caso null.
+	 */
+	private Cancer obtenerCancer(String pHIst, String tipo, java.sql.Date fecha)
+	{
+		String consulta = "Select * From Cancer WHERE tipo = '"+tipo+"' AND historial = '"+pHIst+"' AND fechaCancer = '"+fecha+"'";
+		ResultadoSQL RdoSQL = SGBD.getSGBD().consultaSQL(consulta );
+		
+		if(RdoSQL.next())
+		{
+			Mama pMama=null;
+			if(RdoSQL.get("mama")!=null)pMama=Mama.valueOf(RdoSQL.get("mama"));
+			Cancer cancer = new Cancer(pHIst, fecha, TipoCancer.valueOf(tipo), RdoSQL.get("tratamiento"), pMama);
+			RdoSQL.close();
+			return  cancer;
+		}
+		RdoSQL.close();
+		return null;
+	}
+
+	public boolean addEstudios(Estudio estudio, Date pFechaCancer) {
+		return this.obtenerCancer(estudio.getPaciente(), estudio.getTipo().toString(),pFechaCancer).addEstudio(estudio);
+	}
+
 	
 	 
 	

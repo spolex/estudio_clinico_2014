@@ -332,4 +332,12 @@ public class CatalogoPacientes extends ArrayList<Paciente>{
 	public boolean addDiagnostico(Diagnostico nuevo) {
 		return CatalogoPacientes.getPacientes().obtenerPaciente(nuevo.getPaciente()).addDiagnostico(nuevo);
 	}
+
+	public Iterator<Estudio> listarEstudios(String pHistorial, String tipo, java.sql.Date fecha) {
+		return CatalogoPacientes.getPacientes().obtenerPaciente(pHistorial).listarEstudios(pHistorial,tipo, fecha);
+	}
+
+	public boolean addEstudio(Estudio estudio, java.sql.Date pFechaCancer) {
+		return CatalogoPacientes.getPacientes().obtenerPaciente(estudio.getPaciente()).addEstudio(estudio, pFechaCancer);
+	}
 }

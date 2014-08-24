@@ -29,7 +29,7 @@ public class Estudio
 			Subtipo subHistologico, String receptoresEstrogenicos,
 			String receptoresProstagenicos, String cerbE2, int ki676,
 			Grado gHistologico, EstidiajeT t, EstidiajeN n, EstidiajeM m) {
-		super();
+		
 		this.code = code;
 		this.tipo = tipo;
 		this.paciente = paciente;
@@ -42,6 +42,75 @@ public class Estudio
 		this.gHistologico = gHistologico;
 		this.t = t;
 		this.n = n;
+		this.m = m;
+	}
+
+	public Estudio() 
+	{
+		this.code = null;
+		this.tipo = null;
+		this.paciente = null;
+		this.fecha = null;
+		this.subHistologico = null;
+		this.receptoresEstrogenicos = null;
+		this.receptoresProstagenicos = null;
+		this.cerbE2 = null;
+		this.ki676 = 0;
+		this.gHistologico = null;
+		this.t = null;
+		this.n = null;
+		this.m = null;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public void setTipo(TipoCancer tipo) {
+		this.tipo = tipo;
+	}
+
+	public void setPaciente(String paciente) {
+		this.paciente = paciente;
+	}
+
+	public void setFecha(java.sql.Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public void setSubHistologico(Subtipo subHistologico) {
+		this.subHistologico = subHistologico;
+	}
+
+	public void setReceptoresEstrogenicos(String receptoresEstrogenicos) {
+		this.receptoresEstrogenicos = receptoresEstrogenicos;
+	}
+
+	public void setReceptoresProstagenicos(String receptoresProstagenicos) {
+		this.receptoresProstagenicos = receptoresProstagenicos;
+	}
+
+	public void setCerbE2(String cerbE2) {
+		this.cerbE2 = cerbE2;
+	}
+
+	public void setKi676(int ki676) {
+		this.ki676 = ki676;
+	}
+
+	public void setgHistologico(Grado gHistologico) {
+		this.gHistologico = gHistologico;
+	}
+
+	public void setT(EstidiajeT t) {
+		this.t = t;
+	}
+
+	public void setN(EstidiajeN n) {
+		this.n = n;
+	}
+
+	public void setM(EstidiajeM m) {
 		this.m = m;
 	}
 

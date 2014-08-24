@@ -57,7 +57,10 @@ public class Cancer
 	private ListaEstudio getEstudios() {
 		return estudios;
 	}
-	public Iterator<Estudio> listarEstudios(){
-		return this.getEstudios().iterator();
+	public Iterator<Estudio> listarEstudios(){			
+		return this.getEstudios().listarEstudios(this.getPaciente(), this.getTipo());
+	}
+	public boolean addEstudio(Estudio estudio) {
+		return this.getEstudios().addEstudio(estudio);
 	}
 }

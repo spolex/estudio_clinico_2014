@@ -109,4 +109,12 @@ public class C_Doctor {
 	public boolean addDiagnostico(Diagnostico nuevo) {
 		return CatalogoPacientes.getPacientes().addDiagnostico(nuevo);
 	}
+
+	public Iterator<Estudio> listarEstudios(String pHistorial, String tipo, java.sql.Date fecha) {
+		return CatalogoPacientes.getPacientes().listarEstudios(pHistorial,tipo, fecha);
+	}
+
+	public static boolean addEstudio(Estudio estudio, java.sql.Date pFechaCancer) {
+		return CatalogoPacientes.getPacientes().addEstudio(estudio,pFechaCancer);
+	}
 }

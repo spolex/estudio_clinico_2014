@@ -273,4 +273,12 @@ public class Paciente {
 		return this.getDiagnosticos().addDiagnostico(nuevo);
 	}
 
+	public Iterator<Estudio> listarEstudios(String pHistorial, String tipo, java.sql.Date fecha) {
+		return this.getCanceres().listarEstudios(pHistorial, tipo, fecha);
+	}
+
+	public boolean addEstudio(Estudio estudio, java.sql.Date pFechaCancer) {
+		return this.getCanceres().addEstudios(estudio, pFechaCancer);
+	}
+
 }

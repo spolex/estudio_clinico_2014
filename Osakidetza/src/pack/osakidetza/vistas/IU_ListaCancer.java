@@ -166,7 +166,19 @@ public class IU_ListaCancer extends JFrame {
 		btnAceptar.setBounds(348, 237, 117, 25);
 		contentPane.add(btnAceptar);		
 		
-		JButton btnEstudios = new JButton("Estudios");
+		final JButton btnEstudios = new JButton("Estudios");
+		btnEstudios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				if(e.getSource()==btnEstudios && !list.isSelectionEmpty())
+				{
+					String item = (String) list.getSelectedValue();
+					String[] seleccionado = item.split(";");
+					I_Estudios I_E= new I_Estudios(pHistorial,seleccionado[0],seleccionado[1]);
+					I_E.setVisible(true);
+				}
+			}
+		});
 		btnEstudios.setBounds(12, 237, 117, 25);
 		contentPane.add(btnEstudios);
 		
