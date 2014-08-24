@@ -82,14 +82,15 @@ public class ListaEstudio extends ArrayList<Estudio>
 		boolean rdo=false;
 		if(SGBD.getSGBD().execSQL(orden))rdo=true;
 		//Fecha
-		if(estudio.getFecha()!=null){
-			SGBD.getSGBD().execSQL("UPDATE Patologico SET fecha = '"+estudio.getFecha()+"' WHERE codigo = '"+estudio.getCode()+"'");
-		}
-		if(estudio.getSubHistologico()!=null)
-		{
-			SGBD.getSGBD().execSQL("UPDATE Patologico SET subtipoHistologico = '"+estudio.getSubHistologico()+"' WHERE codigo = '"+estudio.getCode()+"'");
-
-		}		
+		if(estudio.getFecha()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET fecha = '"+estudio.getFecha()+"' WHERE codigo = '"+estudio.getCode()+"'");	
+		if(estudio.getSubHistologico()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET subtipoHistologico = '"+estudio.getSubHistologico()+"' WHERE codigo = '"+estudio.getCode()+"'");
+		if(estudio.getReceptoresEstrogenicos()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET receptoresEstrogenicos = '"+estudio.getReceptoresEstrogenicos()+"' WHERE codigo = '"+estudio.getCode()+"'");
+		if(estudio.getReceptoresProstagenicos()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET receptoresProgestagenicos = '"+estudio.getReceptoresProstagenicos()+"' WHERE codigo = '"+estudio.getCode()+"'");
+		if(estudio.getCerbE2()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET cerbE2 = '"+estudio.getCerbE2()+"' WHERE codigo = '"+estudio.getCode()+"'");
+		if(estudio.getgHistologico()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET gradoHistologico = '"+estudio.getgHistologico()+"' WHERE codigo = '"+estudio.getCode()+"'");
+		if(estudio.getN()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET estidiajeN = '"+estudio.getN()+"' WHERE codigo = '"+estudio.getCode()+"'");
+		if(estudio.getT()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET estidiajeT = '"+estudio.getT()+"' WHERE codigo = '"+estudio.getCode()+"'");
+		if(estudio.getM()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET estidiajeM = '"+estudio.getM()+"' WHERE codigo = '"+estudio.getCode()+"'");
 		return rdo;
 	}
 

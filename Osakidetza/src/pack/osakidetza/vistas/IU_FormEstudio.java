@@ -120,7 +120,7 @@ public class IU_FormEstudio extends JFrame {
 		contentPane.add(lblKi);
 		
 		final JComboBox comboBoxCerbE2 = new JComboBox();
-		comboBoxCerbE2.setModel(new DefaultComboBoxModel(new String[] {"+", "-", "desconocido"}));
+		comboBoxCerbE2.setModel(new DefaultComboBoxModel(new String[] {"+", "-", "desconocidos"}));
 		comboBoxCerbE2.setBounds(108, 266, 128, 25);
 		contentPane.add(comboBoxCerbE2);
 		comboBoxCerbE2.setSelectedIndex(-1);
@@ -205,14 +205,14 @@ public class IU_FormEstudio extends JFrame {
 						if(comboBoxT.getSelectedItem()!=null)estudio.setT(EstidiajeT.valueOf(comboBoxT.getSelectedItem().toString()));
 						if(comboBoxN.getSelectedItem()!=null)estudio.setN(EstidiajeN.valueOf(comboBoxN.getSelectedItem().toString()));
 						if(comboBoxM.getSelectedItem()!=null)estudio.setM(EstidiajeM.valueOf(comboBoxM.getSelectedItem().toString()));
-						/*if(Integer.parseInt(textki67.getText())>=0 && Integer.parseInt(textki67.getText())<=100)
+						if(Integer.parseInt(textki67.getText())>=0 && Integer.parseInt(textki67.getText())<=100)
 						{
 							estudio.setKi676(Integer.parseInt(textki67.getText()));
 						}
 						else
 						{
 							JOptionPane.showMessageDialog(null, "Debe introducir un porcentaje entre 1 y 100 en el campo Ki67", "Control Estudios patológicos", JOptionPane.ERROR_MESSAGE);
-						}*/
+						}
 						if(dateChooser.getDate()!=null)
 						{
 							estudio.setFecha(new java.sql.Date(dateChooser.getDate().getTime()));
