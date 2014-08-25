@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -42,9 +41,10 @@ public class IU_FormEstudio extends JFrame {
 	 * Create the frame.
 	 * @param tipo 
 	 * @param pHistorial 
+	 * @param pEstudio 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public IU_FormEstudio(String pHistorial, String tipo, final java.sql.Date pFecha) {
+	public IU_FormEstudio(String pHistorial, String tipo, final java.sql.Date pFecha, Estudio pEstudio) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 566, 488);
 		contentPane = new JPanel();
@@ -188,57 +188,94 @@ public class IU_FormEstudio extends JFrame {
 		contentPane.add(comboBoxGrado);
 		comboBoxGrado.setSelectedIndex(-1);
 		
+		if(pEstudio!=null)
+		{
+			textFieldCodigo.setText(pEstudio.getCode());
+			textFieldCodigo.setEditable(false);
+			if(pEstudio.getPaciente()!=null)txtNHistorial.setText(pEstudio.getPaciente());
+			txtNHistorial.setEditable(false);
+			if(pEstudio.getTipo()!=null)textFieldTipo.setText(pEstudio.getTipo().toString());
+			textFieldTipo.setEditable(false);
+			if(pEstudio.getSubHistologico()!=null)comboBoxSubtipo.setSelectedItem(pEstudio.getgHistologico().toString());
+			comboBoxSubtipo.setEnabled(false);
+			if(pEstudio.getCerbE2()!=null)comboBoxCerbE2.setSelectedItem(pEstudio.getCerbE2());
+			comboBoxCerbE2.setEnabled(false);
+			textki67.setText(String.valueOf(pEstudio.getKi676()));
+			textki67.setEditable(false);
+			if(pEstudio.getFecha()!=null)dateChooser.setDate(new java.util.Date(pEstudio.getFecha().getTime()));
+			dateChooser.setEnabled(false);
+			if(pEstudio.getReceptoresEstrogenicos()!=null)comboBoxestrogenicos.setSelectedItem(pEstudio.getReceptoresEstrogenicos());
+			comboBoxestrogenicos.setEnabled(false);
+			if(pEstudio.getReceptoresProstagenicos()!=null)comboBoxProgestagenicos.setSelectedItem(pEstudio.getReceptoresProstagenicos());
+			comboBoxProgestagenicos.setEnabled(false);
+			if(pEstudio.getgHistologico()!=null)comboBoxGrado.setSelectedItem(pEstudio.getgHistologico().toString());
+			comboBoxGrado.setEnabled(false);
+			if(pEstudio.getN()!=null)comboBoxN.setSelectedItem(pEstudio.getN().toString());
+			comboBoxN.setEnabled(false);
+			if(pEstudio.getM()!=null)comboBoxM.setSelectedItem(pEstudio.getM().toString());
+			comboBoxM.setEnabled(false);
+			if(pEstudio.getT()!=null)comboBoxT.setSelectedItem(pEstudio.getT().toString());
+			comboBoxT.setEnabled(false);
+		}
+		
 		final JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
 				if(e.getSource()==btnAceptar)
 				{
-					if(textFieldCodigo.getText().length()>0)
+					if(estudio==null)
 					{
-						estudio.setCode(textFieldCodigo.getText());
-						if(comboBoxSubtipo.getSelectedItem()!=null)estudio.setSubHistologico(Subtipo.valueOf(comboBoxSubtipo.getSelectedItem().toString()));
-						if(comboBoxGrado.getSelectedItem()!=null)estudio.setgHistologico(Grado.valueOf(comboBoxGrado.getSelectedItem().toString()));
-						if(comboBoxCerbE2.getSelectedItem()!=null)estudio.setCerbE2(comboBoxCerbE2.getSelectedItem().toString());
-						if(comboBoxestrogenicos.getSelectedItem()!=null)estudio.setReceptoresEstrogenicos(comboBoxestrogenicos.getSelectedItem().toString());
-						if(comboBoxProgestagenicos.getSelectedItem()!=null)estudio.setReceptoresProstagenicos(comboBoxProgestagenicos.getSelectedItem().toString());
-						if(comboBoxT.getSelectedItem()!=null)estudio.setT(EstidiajeT.valueOf(comboBoxT.getSelectedItem().toString()));
-						if(comboBoxN.getSelectedItem()!=null)estudio.setN(EstidiajeN.valueOf(comboBoxN.getSelectedItem().toString()));
-						if(comboBoxM.getSelectedItem()!=null)estudio.setM(EstidiajeM.valueOf(comboBoxM.getSelectedItem().toString()));
-						try
+						if(textFieldCodigo.getText().length()>0)
 						{
-							Integer.parseInt(textki67.getText());
-						}
-						catch(NumberFormatException e2)
-						{
-							JOptionPane.showMessageDialog(null, "Error debe meter un número entre el 1 y el 100 en el campo Ki67", "Control Estudios patológicos", JOptionPane.ERROR_MESSAGE);
-						}
-						if(Integer.parseInt(textki67.getText())>=0 && Integer.parseInt(textki67.getText())<=100)
-						{
-							estudio.setKi676(Integer.parseInt(textki67.getText()));
+							estudio.setCode(textFieldCodigo.getText());
+							if(comboBoxSubtipo.getSelectedItem()!=null)estudio.setSubHistologico(Subtipo.valueOf(comboBoxSubtipo.getSelectedItem().toString()));
+							if(comboBoxGrado.getSelectedItem()!=null)estudio.setgHistologico(Grado.valueOf(comboBoxGrado.getSelectedItem().toString()));
+							if(comboBoxCerbE2.getSelectedItem()!=null)estudio.setCerbE2(comboBoxCerbE2.getSelectedItem().toString());
+							if(comboBoxestrogenicos.getSelectedItem()!=null)estudio.setReceptoresEstrogenicos(comboBoxestrogenicos.getSelectedItem().toString());
+							if(comboBoxProgestagenicos.getSelectedItem()!=null)estudio.setReceptoresProstagenicos(comboBoxProgestagenicos.getSelectedItem().toString());
+							if(comboBoxT.getSelectedItem()!=null)estudio.setT(EstidiajeT.valueOf(comboBoxT.getSelectedItem().toString()));
+							if(comboBoxN.getSelectedItem()!=null)estudio.setN(EstidiajeN.valueOf(comboBoxN.getSelectedItem().toString()));
+							if(comboBoxM.getSelectedItem()!=null)estudio.setM(EstidiajeM.valueOf(comboBoxM.getSelectedItem().toString()));
+							try
+							{
+								Integer.parseInt(textki67.getText());
+							}
+							catch(NumberFormatException e2)
+							{
+								JOptionPane.showMessageDialog(null, "Error debe meter un número entre el 1 y el 100 en el campo Ki67", "Control Estudios patológicos", JOptionPane.ERROR_MESSAGE);
+							}
+							if(Integer.parseInt(textki67.getText())>=0 && Integer.parseInt(textki67.getText())<=100)
+							{
+								estudio.setKi676(Integer.parseInt(textki67.getText()));
+							}
+							else
+							{
+								JOptionPane.showMessageDialog(null, "Debe introducir un porcentaje entre 1 y 100 en el campo Ki67", "Control Estudios patológicos", JOptionPane.ERROR_MESSAGE);
+								dispose();
+							}
+							if(dateChooser.getDate()!=null)
+							{
+								estudio.setFecha(new java.sql.Date(dateChooser.getDate().getTime()));
+							}
+							if(C_Doctor.addEstudio(estudio,pFecha))
+							{
+								JOptionPane.showMessageDialog(null, "Estudio Patológico añadido con éxito al sistema", "Control Estudioa Patológicos", JOptionPane.INFORMATION_MESSAGE);
+								dispose();
+							}
+							else
+							{
+								JOptionPane.showMessageDialog(null, "Imposible añadir Estudio Patológico al sistema", "Control Estudios Patológicos", JOptionPane.ERROR_MESSAGE);
+							}
 						}
 						else
 						{
-							JOptionPane.showMessageDialog(null, "Debe introducir un porcentaje entre 1 y 100 en el campo Ki67", "Control Estudios patológicos", JOptionPane.ERROR_MESSAGE);
-							dispose();
-						}
-						if(dateChooser.getDate()!=null)
-						{
-							estudio.setFecha(new java.sql.Date(dateChooser.getDate().getTime()));
-						}
-						if(C_Doctor.addEstudio(estudio,pFecha))
-						{
-							JOptionPane.showMessageDialog(null, "Estudio Patológico añadido con éxito al sistema", "Control Estudioa Patológicos", JOptionPane.INFORMATION_MESSAGE);
-							dispose();
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(null, "Imposible añadir Estudio Patológico al sistema", "Control Estudios Patológicos", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "El campo código es obligatorio", "Control Estudio patológico", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 					else
-					{
-						JOptionPane.showMessageDialog(null, "El campo código es obligatorio", "Control Estudio patológico", JOptionPane.ERROR_MESSAGE);
+					{	
+						dispose();
 					}
 				}
 			}

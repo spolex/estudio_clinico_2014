@@ -27,8 +27,8 @@ public class C_Administracion {
 				return CatalogoUsuarios.getMisUsuarios().restablecerPass(pEmail, pRespSeg, pNuevoPass);
 	}
 
-	public boolean addUsuario(String pNom,String pEmail,String pEsp, String pPass, String pEsmedico, String pNomAdmin){
-		return CatalogoUsuarios.getMisUsuarios().addUsuario(pNom, pEmail, pEsp, pPass, pEsmedico, pNomAdmin);
+	public boolean addUsuario(Usuario pUser,String pNomAdmin){
+		return CatalogoUsuarios.getMisUsuarios().addUsuario(pUser, pNomAdmin);
 	}
 	
 	public ArrayList<Usuario> listarMedicos()
@@ -54,6 +54,10 @@ public class C_Administracion {
 
 	public String identificarseEmail(String pEmail, String pPass) {
 		return CatalogoUsuarios.getMisUsuarios().identificarseEmail(pEmail, pPass);
+	}
+
+	public boolean darDeAltaUsuario(Usuario user, String pAdmin) {
+		return CatalogoUsuarios.darDeAltaUsuario(user, pAdmin);
 	}
 	
 	

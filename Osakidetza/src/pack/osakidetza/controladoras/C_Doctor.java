@@ -69,6 +69,11 @@ public class C_Doctor {
 	public boolean eliminarCancer(Cancer pCancer) {
 		return CatalogoPacientes.getPacientes().eliminarCancer(pCancer);
 	}
+	
+	public Cancer obtenerCancer(String pHistorial, java.sql.Date fecha,
+			String tipo) {
+	      return CatalogoPacientes.getPacientes().obtenerCancer(pHistorial, fecha, tipo);
+	}
 
 	public int actualizarCancer(Cancer cancerCurrent, Cancer cancerNew) {
 		return CatalogoPacientes.getPacientes().actualizarCancer(cancerCurrent,cancerNew);
@@ -126,6 +131,4 @@ public class C_Doctor {
 	public boolean eliminarEstudio(Estudio estudio, java.sql.Date fechaCancer) {
 		return CatalogoPacientes.getPacientes().eliminarEstudio(estudio, fechaCancer);
 	}
-
-	
 }

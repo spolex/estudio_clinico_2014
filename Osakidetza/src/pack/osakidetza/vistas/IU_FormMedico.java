@@ -19,6 +19,7 @@ import javax.swing.JPasswordField;
 
 import pack.osakidetza.aux.EmailValidator;
 import pack.osakidetza.controladoras.C_Administracion;
+import pack.osakidetza.controladoras.Usuario;
 
 @SuppressWarnings("serial")
 public class IU_FormMedico extends JFrame {
@@ -97,15 +98,13 @@ public class IU_FormMedico extends JFrame {
 							&& texNom.getText().length()!=0 && 
 							textEmail.getText().length()!=0 && textEsp.getText().length() != 0){
 						if(String.valueOf(pass.getPassword()).equals(String.valueOf(passRep.getPassword()))){
-							if(EmailValidator.validateEmail(textEmail.getText())){
-								if(C_Administracion.getMiAdmin().addUsuario(texNom.getText(),textEmail.getText(),textEsp.getText(), String.valueOf(pass.getPassword()),"1", pNomAdmin)){
-									JOptionPane.showMessageDialog(null, "Usuario añadido");
-									dispose();
-								}
-								else
-								{
-									JOptionPane.showMessageDialog(null, "No ha sido posible añadir nuevo usuario");
-								}
+							if(EmailValidator.validateEmail(textEmail.getText()))
+							{
+								Usuario user=new Usuario(texNom.getText(), textEmail.getText(), textEsp.getText());
+								user.setPass(String.valueOf(pass.getPassword()));
+								IU_FastIdent IU_FI = new IU_FastIdent(pNomAdmin, null,false,false,user);
+								IU_FI.setVisible(true);
+								dispose();
 							}
 							else{
 								JOptionPane.showMessageDialog(null, "El formato del email no está soportado por el sistema");

@@ -14,7 +14,7 @@ import pack.osakidetza.gestorBD.ResultadoSQL;
 import pack.osakidetza.gestorBD.SGBD;
 
 @SuppressWarnings("serial")
-public class ListaEstudio extends ArrayList<Estudio> 
+public class ListaEstudios extends ArrayList<Estudio> 
 {
 
 	/**

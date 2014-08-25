@@ -162,7 +162,7 @@ public class ListaCancer extends ArrayList<Cancer> {
 	 * @param fecha
 	 * @return Si éxiste el cáncer con dichos parámetros, en otro caso null.
 	 */
-	private Cancer obtenerCancer(String pHIst, String tipo, java.sql.Date fecha)
+	public Cancer obtenerCancer(String pHIst, String tipo, java.sql.Date fecha)
 	{
 		String consulta = "Select * From Cancer WHERE tipo = '"+tipo+"' AND historial = '"+pHIst+"' AND fechaCancer = '"+fecha+"'";
 		ResultadoSQL RdoSQL = SGBD.getSGBD().consultaSQL(consulta );
@@ -184,7 +184,7 @@ public class ListaCancer extends ArrayList<Cancer> {
 	}
 
 	public boolean eliminarEstudio(Estudio estudio, java.sql.Date fechaCancer) {
-		return this.obtenerCancer(estudio.getPaciente(), estudio.getTipo().toString(), fechaCancer).esliminarEstudio(estudio);
+		return this.obtenerCancer(estudio.getPaciente(), estudio.getTipo().toString(), fechaCancer).eliminarEstudio(estudio);
 	}
 
 	

@@ -343,4 +343,9 @@ public class CatalogoPacientes extends ArrayList<Paciente>{
 	public boolean eliminarEstudio(Estudio estudio, java.sql.Date fechaCancer) {
 		return CatalogoPacientes.getPacientes().obtenerPaciente(estudio.getPaciente()).eliminarEstudio(estudio, fechaCancer);
 	}
+
+	public Cancer obtenerCancer(String pHistorial, java.sql.Date fecha,
+			String tipo) {
+		return CatalogoPacientes.getPacientes().obtenerPaciente(pHistorial).obtenerCancer(pHistorial, fecha, tipo);
+	}
 }

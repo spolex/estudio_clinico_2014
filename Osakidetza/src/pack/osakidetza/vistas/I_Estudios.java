@@ -6,9 +6,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 
 import java.awt.Font;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -22,11 +19,13 @@ import javax.swing.JButton;
 import javax.swing.AbstractListModel;
 import javax.swing.JCheckBox;
 
+import pack.osakidetza.aux.MyFormatter;
 import pack.osakidetza.controladoras.C_Doctor;
 import pack.osakidetza.controladoras.Estudio;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ButtonGroup;
 
 @SuppressWarnings("serial")
 public class I_Estudios extends JFrame {
@@ -35,6 +34,7 @@ public class I_Estudios extends JFrame {
 	private JTextField txtNHistorial;
 	private JTextField txtTipoCancer;
 	private HashMap<String, Estudio> estudios;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 
 
@@ -81,14 +81,7 @@ public class I_Estudios extends JFrame {
 		});
 		final DefaultListModel model = new DefaultListModel();
 		java.sql.Date pFecha = new java.sql.Date(0);
-		try 
-		{
-			pFecha = new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(fecha).getTime());
-		} 
-		catch (ParseException e) 
-		{
-			JOptionPane.showMessageDialog(null, "Incompatibilidad en el formato de fechas", "Control Estudios patológicos", JOptionPane.ERROR_MESSAGE);
-		}
+		pFecha = MyFormatter.parseSQLDate(fecha);
 		Iterator <Estudio> itr = C_Doctor.getMiDoctor().listarEstudios(pHistorial,tipo, pFecha);
 		while(itr.hasNext())
 		{
@@ -116,13 +109,19 @@ public class I_Estudios extends JFrame {
 		txtTipoCancer.setText(tipo);
 		
 		final JCheckBox chckbxNuevo = new JCheckBox("Nuevo");
+		buttonGroup.add(chckbxNuevo);
 		chckbxNuevo.setBounds(22, 168, 129, 23);
 		contentPane.add(chckbxNuevo);
 		
 		final JCheckBox chckbxEliminar = new JCheckBox("Eliminar");
+		buttonGroup.add(chckbxEliminar);
 		chckbxEliminar.setBounds(158, 168, 129, 23);
 		contentPane.add(chckbxEliminar);
 		
+		final JCheckBox chckbxVer = new JCheckBox("Ver");
+		buttonGroup.add(chckbxVer);
+		chckbxVer.setBounds(291, 168, 129, 23);
+		contentPane.add(chckbxVer);		
 		
 		final JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
@@ -139,55 +138,54 @@ public class I_Estudios extends JFrame {
 			{
 				if (e.getSource()==btnAceptar)
 				{
-					//Borrar estudio
-					if(chckbxEliminar.isSelected())
+					if(list.isSelectionEmpty())
 					{
-						if(list.isSelectionEmpty())
+						JOptionPane.showMessageDialog(null, "Seleccione el Estudio Patológico que desea borrar", "Control de Estudios patológicos", JOptionPane.ERROR_MESSAGE);
+					}
+					else
+					{
+						//Borrar estudio
+						if(chckbxEliminar.isSelected())
 						{
-							JOptionPane.showMessageDialog(null, "Seleccione el Estudio Patológico que desea borrar", "Control de Estudios patológicos", JOptionPane.ERROR_MESSAGE);
-						}
-						else
-						{
+						
 							java.sql.Date pFecha = new java.sql.Date(0);
-							pFecha=parseSQLDate(fecha);
+							pFecha=MyFormatter.parseSQLDate(fecha);
 							String seleccionado = list.getSelectedValue().toString();
 							String[] key = seleccionado.split(";");
 							if(C_Doctor.getMiDoctor().eliminarEstudio(estudios.get(key[0]), pFecha))
-							{	
-								JOptionPane.showMessageDialog(null, "Estudio Patológico seleccionado eliminado del sistema", "Control Estudios Patológicos", JOptionPane.INFORMATION_MESSAGE);
-								dispose();
-							}
-							else
-							{
-								JOptionPane.showMessageDialog(null, "Imposible borrar del sistema el Estudio Patológico seleccionado","Control Estudios Patológicos",JOptionPane.ERROR_MESSAGE);
-							}
+								{	
+									JOptionPane.showMessageDialog(null, "Estudio Patológico seleccionado eliminado del sistema", "Control Estudios Patológicos", JOptionPane.INFORMATION_MESSAGE);
+									dispose();
+								}
+								else
+								{
+									JOptionPane.showMessageDialog(null, "Imposible borrar del sistema el Estudio Patológico seleccionado","Control Estudios Patológicos",JOptionPane.ERROR_MESSAGE);
+								}
+						}
+						//Nuevo estudio
+						if(chckbxNuevo.isSelected())
+						{
+							java.sql.Date pFecha =MyFormatter.parseSQLDate(fecha);
+							IU_FormEstudio IU_Estudio = new IU_FormEstudio(pHistorial,tipo,pFecha, null);
+							IU_Estudio.setVisible(true);
+							dispose();
+						}
+						//ver estudio
+						if(chckbxVer.isSelected())
+						{
+							java.sql.Date pFecha = new java.sql.Date(0);
+							pFecha=MyFormatter.parseSQLDate(fecha);
+							String seleccionado = list.getSelectedValue().toString();
+							String[] key = seleccionado.split(";");
+							Estudio estudio = estudios.get(key[0]);
+							IU_FormEstudio IU_FE = new IU_FormEstudio(estudio.getPaciente(), estudio.getTipo().toString(), pFecha, estudio);
+							IU_FE.setVisible(true);
 						}
 					}
-					//Nuevo estudio
-					if(chckbxNuevo.isSelected())
-					{
-						java.sql.Date pFecha =parseSQLDate(fecha);
-						IU_FormEstudio IU_Estudio = new IU_FormEstudio(pHistorial,tipo,pFecha);
-						IU_Estudio.setVisible(true);
-						dispose();
-					}
-					
-				}
-			}			
+				}	
+			}
 		});
 		btnAceptar.setBounds(190, 237, 117, 25);
-		contentPane.add(btnAceptar);		
-	}
-	public  Date parseSQLDate(final String fecha) {
-		try 
-		{
-			java.sql.Date pFecha = new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(fecha).getTime());
-			return pFecha;
-		} 
-		catch (ParseException e1) 
-		{
-			JOptionPane.showMessageDialog(null, "Incompatibilidad en el formato de fechas", "Control Estudios patológicos", JOptionPane.ERROR_MESSAGE);
-			return null;
-		}
-	}
+		contentPane.add(btnAceptar);	
+	}	
 }

@@ -26,9 +26,10 @@ public class IU_FastIdent extends JFrame {
 
 	/**
 	 * Create the frame. El parámetro pEmail_Historial se utiliza para el email del usuario a manipular (borrar) o el historial del paciente.
+	 * @param user 
 	 */
 	
-	public IU_FastIdent(final String pNom,final String pEmail_Historial,final boolean darDeBajaU,final boolean darDeBajaP) {
+	public IU_FastIdent(final String pNom,final String pEmail_Historial,final boolean darDeBajaU,final boolean darDeBajaP, final Usuario user) {
 		setTitle("Verificar identidad");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -38,7 +39,7 @@ public class IU_FastIdent extends JFrame {
 		contentPane.setLayout(null);
 		setResizable(false);
 		
-		JLabel lblUsuario = new JLabel("Usuario");
+		JLabel lblUsuario = new JLabel("Usuario/E-mal");
 		lblUsuario.setBounds(59, 67, 98, 15);
 		contentPane.add(lblUsuario);
 		
@@ -47,11 +48,11 @@ public class IU_FastIdent extends JFrame {
 		contentPane.add(lblContrasea);
 		
 		pass = new JPasswordField();
-		pass.setBounds(175, 127, 181, 19);
+		pass.setBounds(206, 127, 181, 19);
 		contentPane.add(pass);
 		
 		textUsuario = new JTextField();
-		textUsuario.setBounds(175, 65, 181, 19);
+		textUsuario.setBounds(206, 65, 181, 19);
 		contentPane.add(textUsuario);
 		textUsuario.setColumns(10);
 		
@@ -131,7 +132,7 @@ public class IU_FastIdent extends JFrame {
 					}
 				}
 				//Actualizar datos de usuario.
-				else if (e.getSource()==btnAceptar && !darDeBajaU && !darDeBajaP)
+				else if (e.getSource()==btnAceptar && !darDeBajaU && !darDeBajaP && user==null)
 				{
 					if(textUsuario.getText().length()>0 && pass.getPassword().length>0 && EmailValidator.validateEmail(textUsuario.getText()))
 					{
@@ -144,6 +145,56 @@ public class IU_FastIdent extends JFrame {
 								IU_FormMedico IU_FM = new IU_FormMedico(textUsuario.getText(), user.getNombre(), user.getEmail(), user.getEsp());
 								IU_FM.setVisible(true);
 								dispose();
+							}
+							else
+							{
+								JOptionPane.showMessageDialog(null, "No ha sido actualizar los datos del usuario, usted no es administrador");
+							}
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+						}
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Faltan campos o el formato del email es incorrecto");
+					}
+				}
+				//Añadir usuario
+				else if (e.getSource()==btnAceptar && user!=null)
+				{
+					if(textUsuario.getText().length()>0 && pass.getPassword().length>0 && EmailValidator.validateEmail(textUsuario.getText()))
+					{
+						String rdo=C_Administracion.getMiAdmin().identificarseEmail(textUsuario.getText(), String.valueOf(pass.getPassword()));
+						if(rdo!=null)
+						{
+							if(rdo.equals("1"))
+							{
+								if(C_Administracion.getMiAdmin().obtenerUsuario(user.getEmail())!=null)
+								{
+									if(C_Administracion.getMiAdmin().darDeAltaUsuario(user,pNom))
+									{
+										JOptionPane.showMessageDialog(null, "El usuario se encontraba registrado en el sistema,se ha dado de alta de nuevo","Control de Usuarios", JOptionPane.INFORMATION_MESSAGE);
+										dispose();
+									}
+									else
+									{
+										JOptionPane.showMessageDialog(null, "El usuario se encontraba registrado en el sistema, no ha sido posible dar de alta de nuevo","Control de Usuarios", JOptionPane.INFORMATION_MESSAGE);
+										dispose();
+									}
+								}
+								else
+								{
+									if(C_Administracion.getMiAdmin().addUsuario(user, pNom))
+									{
+										JOptionPane.showMessageDialog(null, "Usuario añadido al sistema", "Control de usuarios", JOptionPane.INFORMATION_MESSAGE);
+									}
+									else
+									{
+										JOptionPane.showMessageDialog(null, "No ha sido posible añadir el Usuario al sistema", "Control Usuarios", JOptionPane.ERROR_MESSAGE);
+									}
+								}
 							}
 							else
 							{

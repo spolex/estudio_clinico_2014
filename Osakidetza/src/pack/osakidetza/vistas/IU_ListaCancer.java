@@ -83,6 +83,7 @@ public class IU_ListaCancer extends JFrame {
 				modelo.addElement(cancer.getTipo()+";"+cancer.getFecha());
 			}
 			list.setModel(modelo);
+			list.setSelectedIndex(-1);
 		}
 		
 		final JCheckBox chckbxEliminar = new JCheckBox("Eliminar");
@@ -119,45 +120,73 @@ public class IU_ListaCancer extends JFrame {
 						IU_FC.setVisible(true);
 					}
 					//Actualizar cancer
-					else if(chckbxActualizar.isSelected()){
+					else if(chckbxActualizar.isSelected())
+					{
 						Iterator<Cancer> itr = C_Doctor.getMiDoctor().listarCancer(pHistorial);
 						boolean enc = false;
-						while(itr.hasNext()&&!enc){
-							String cancer= (String) list.getSelectedValue();
-							Cancer pCancer=itr.next();
-							String[] cancerAux = cancer.split(";");
-							if(cancerAux[0].equals(pCancer.getTipo().toString()) && cancerAux[1].equals(pCancer.getFecha().toString())){
-								enc=true;
-								IU_FormCancer IU_FC= new IU_FormCancer(pHistorial, pCancer);
-								IU_FC.setVisible(true);
-							}
-							else
+						boolean seleccion = false;
+						while(itr.hasNext()&& !enc && !seleccion)
+						{
+							try
 							{
-								JOptionPane.showMessageDialog(null, "El cancer seleccionado no se encuentra en el sistema", "Control cáncer", JOptionPane.ERROR_MESSAGE);
+								String cancer= (String) list.getSelectedValue();
+								Cancer pCancer=itr.next();
+								String[] cancerAux = cancer.split(";");
+								if(cancerAux[0].equals(pCancer.getTipo().toString()) && cancerAux[1].equals(pCancer.getFecha().toString())){
+									enc=true;
+									IU_FormCancer IU_FC= new IU_FormCancer(pHistorial, pCancer);
+									IU_FC.setVisible(true);
+								}
 							}
+							catch(NullPointerException n)
+							{
+								JOptionPane.showMessageDialog(null, "No ha seleccionado ningún cáncer para actualizar", "Control cáncer", JOptionPane.ERROR_MESSAGE);
+								seleccion=true;
+							}
+						}
+						if(!enc && !seleccion)
+						{
+							JOptionPane.showMessageDialog(null, "El cancer seleccionado no se encuentra en el sistema", "Control cáncer", JOptionPane.ERROR_MESSAGE);
 						}
 					}
-					else if(chckbxEliminar.isSelected()){
-						//Comprobamos que existe 
-						Iterator<Cancer> itr = C_Doctor.getMiDoctor().listarCancer(pHistorial);
+					else if(chckbxEliminar.isSelected())
+					{
 						boolean enc = false;
 						boolean eliminado=false;
-						while(itr.hasNext()&&!enc){
-							String cancer= (String) list.getSelectedValue();
-							Cancer pCancer=itr.next();
-							String[] cancerAux = cancer.split(";");
-							if(cancerAux[0].equals(pCancer.getTipo().toString()) && cancerAux[1].equals(pCancer.getFecha().toString())){
-							    eliminado = C_Doctor.getMiDoctor().eliminarCancer(pCancer);
-								enc=true;
-							}
-						}
-						if(eliminado){
-							JOptionPane.showMessageDialog(null, "Eliminado con éxito");
+						if(list.isSelectionEmpty())
+						{
+							JOptionPane.showMessageDialog(null, "Seleccione el cáncer que desea eliminar", "Control cáncer", JOptionPane.ERROR_MESSAGE);
 						}
 						else
 						{
-							JOptionPane.showMessageDialog(null, "No ha sido posible eliminar");
+							//Comprobamos que existe 
+							
+							if(list.isSelectionEmpty())
+							{
+								JOptionPane.showMessageDialog(null, "Seleccione el cáncer que desea eliminar", "Control cáncer", JOptionPane.ERROR_MESSAGE);
+							}
+							else
+							{
+								Iterator<Cancer> itr = C_Doctor.getMiDoctor().listarCancer(pHistorial);
+							
+								while(itr.hasNext()&&!enc){
+									String cancer= (String) list.getSelectedValue();
+									Cancer pCancer=itr.next();
+									String[] cancerAux = cancer.split(";");
+									if(cancerAux[0].equals(pCancer.getTipo().toString()) && cancerAux[1].equals(pCancer.getFecha().toString())){
+										eliminado = C_Doctor.getMiDoctor().eliminarCancer(pCancer);
+										enc=true;
+									}
+								}
+							}
+							if(eliminado){
+								JOptionPane.showMessageDialog(null, "Eliminado con éxito");
+							}
+							else
+							{
+								JOptionPane.showMessageDialog(null, "No ha sido posible eliminar");
 
+							}
 						}
 					}
 				}
@@ -170,7 +199,7 @@ public class IU_ListaCancer extends JFrame {
 		btnEstudios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				if(e.getSource()==btnEstudios && !list.isSelectionEmpty())
+				if(e.getSource()==btnEstudios)
 				{
 					if(list.isSelectionEmpty())
 					{

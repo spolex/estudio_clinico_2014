@@ -74,8 +74,8 @@ public class IU_Principal extends JFrame {
 		btnSalir.setBounds(319, 237, 117, 25);
 		contentPane.add(btnSalir);
 		
-		JLabel lblUsuario = new JLabel("Usuario");
-		lblUsuario.setBounds(27, 71, 70, 15);
+		JLabel lblUsuario = new JLabel("Usuario/E-mail");
+		lblUsuario.setBounds(27, 71, 101, 15);
 		contentPane.add(lblUsuario);
 		
 		JLabel lblContrasea = new JLabel("Contraseña");
@@ -83,12 +83,12 @@ public class IU_Principal extends JFrame {
 		contentPane.add(lblContrasea);
 		
 		textUsuario = new JTextField();
-		textUsuario.setBounds(133, 69, 194, 19);
+		textUsuario.setBounds(211, 69, 194, 19);
 		contentPane.add(textUsuario);
 		textUsuario.setColumns(10);
 		
 		passUsuario = new JPasswordField();
-		passUsuario.setBounds(133, 111, 194, 17);
+		passUsuario.setBounds(211, 110, 194, 17);
 		contentPane.add(passUsuario);
 		
 		final JButton btnEntrar = new JButton("Entrar");

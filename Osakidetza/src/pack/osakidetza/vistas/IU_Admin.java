@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.DefaultListModel;
@@ -33,23 +32,6 @@ public class IU_Admin extends JFrame {
 	private JPanel contentPane;
 	private String doctor;
 	private String emailDoctor;
-
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IU_Admin frame = new IU_Admin("Admin");
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -108,7 +90,7 @@ public class IU_Admin extends JFrame {
 					if(listMedicos.getSelectedValue()!=null)
 					{
 						if(IU_Admin.this.doctor != null && IU_Admin.this.emailDoctor != null){
-							IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,true, false);					
+							IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,true, false, null);					
 							IU_FI.setVisible(true);									
 						}
 					}
@@ -174,7 +156,7 @@ public class IU_Admin extends JFrame {
 				//Actualizar médico.
 				if(e.getSource()==btnActualizar){
 					if(IU_Admin.this.doctor != null && IU_Admin.this.emailDoctor != null){
-						IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,false,false);					
+						IU_FastIdent IU_FI= new IU_FastIdent(IU_Admin.this.doctor,IU_Admin.this.emailDoctor,false,false, null);					
 						IU_FI.setVisible(true);									
 					}
 				}

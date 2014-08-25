@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
 import pack.osakidetza.aux.EmailValidator;
+import pack.osakidetza.controladoras.C_Administracion;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -64,7 +65,7 @@ public class IU_Doctor extends JFrame {
 				if(e.getSource()==btnPacientes){
 					String email=null;
 					int cont = 3;
-					while(email==null && cont>0)
+					while(email==null || cont>0 && C_Administracion.getMiAdmin().obtenerUsuario(email)==null)
 					{
 						email = JOptionPane.showInputDialog(null, "Introduzca su email, le quedan "+cont+" intentos.");
 						cont--;

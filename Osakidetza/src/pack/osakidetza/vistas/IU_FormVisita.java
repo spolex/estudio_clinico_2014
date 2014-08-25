@@ -100,7 +100,7 @@ public class IU_FormVisita extends JFrame {
 						{
 							String pEmail =null;
 							int cont = 3;
-							while(pEmail==null && cont > 0){
+							while(pEmail==null  || (cont > 0 && C_Administracion.getMiAdmin().obtenerUsuario(pEmail)==null)){
 								pEmail = JOptionPane.showInputDialog("Introduzca su email doctor/a "+nombre+", le quedan "+cont+" intentos");
 								cont--;
 							}									
@@ -133,7 +133,8 @@ public class IU_FormVisita extends JFrame {
 				{
 					String pEmail =null;
 					int cont = 3;
-					while((pEmail==null && cont > 0) ){
+					while((pEmail==null  || (cont > 0 && C_Administracion.getMiAdmin().obtenerUsuario(pEmail)==null)) )
+					{
 						pEmail = JOptionPane.showInputDialog("Introduzca su email doctor/a "+nombre+", le quedan "+cont+" intentos");
 						cont--;
 					}									

@@ -25,25 +25,7 @@ public class IU_CambiarPass extends JFrame {
 	private JPasswordField passNew;
 	private JPasswordField passRepite;
 
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IU_CambiarPass frame = new IU_CambiarPass();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public IU_CambiarPass() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 383, 487);
@@ -97,14 +79,16 @@ public class IU_CambiarPass extends JFrame {
 					if(passNueva.equals(passNuevaR)){
 						String passOld1 = String.valueOf(passOld.getPassword());
 						changed = C_Administracion.getMiAdmin().cambiarPass(textUser.getText(), passOld1, passNueva, textPaneAsk.getText(), textResp.getText());
-						if(changed){
+						if(changed)
+						{
 							JOptionPane.showMessageDialog(null, "Contraseña actualizada con éxito");
 							dispose();
 							IU_Principal IU_P = new IU_Principal();
 							IU_P.setVisible(true);
 						}
-						else{
-							JOptionPane.showMessageDialog(null, "Imposible actualizar la contraseña, intentelo de nuevo");
+						else
+						{
+							JOptionPane.showMessageDialog(null, "Imposible actualizar la contraseña, intentelo de nuevo","Control Usuarios",JOptionPane.ERROR_MESSAGE);
 						}
 					}
 					else
@@ -113,7 +97,7 @@ public class IU_CambiarPass extends JFrame {
 					}
 				}
 				else{
-					JOptionPane.showMessageDialog(null, "Algunos campos necesarios están vacíos");
+					JOptionPane.showMessageDialog(null, "Algunos campos necesarios están vacíos","Control de usuarios",JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});

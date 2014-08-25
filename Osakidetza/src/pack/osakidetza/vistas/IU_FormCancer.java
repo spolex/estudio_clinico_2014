@@ -135,14 +135,10 @@ public class IU_FormCancer extends JFrame {
 					{
 							if(pCancer==null)
 							{
-								java.util.Date fecha=null;
-								if(dateFecha.getDate()==null)
+								java.sql.Date fecha=new java.sql.Date(0);
+								if(dateFecha.getDate()!=null)
 								{
-									fecha=new Date();
-								}
-								else
-								{
-									fecha=dateFecha.getDate();
+									fecha=new java.sql.Date(dateFecha.getDate().getTime());
 								}
 								String mama=null;
 								if(comboBox_tipo_Mama.getSelectedItem()!=null)
@@ -154,15 +150,22 @@ public class IU_FormCancer extends JFrame {
 								{
 									tipo=comboBoxtipo.getSelectedItem().toString();
 								}
-								boolean add=C_Doctor.getMiDoctor().addCancer(pHistorial,fecha,tipo,mama,textTratamiento.getText());
-								if(add)
+								if(C_Doctor.getMiDoctor().obtenerCancer(pHistorial,fecha,tipo)==null)
 								{
-									JOptionPane.showMessageDialog(null, "Añadido con éxito");
-									dispose();
+									boolean add=C_Doctor.getMiDoctor().addCancer(pHistorial,fecha,tipo,mama,textTratamiento.getText());
+									if(add)
+									{
+										JOptionPane.showMessageDialog(null, "Añadido con éxito");
+										dispose();
+									}
+									else
+									{
+										JOptionPane.showMessageDialog(null, "No se ha podido añadir");
+									}
 								}
 								else
 								{
-									JOptionPane.showMessageDialog(null, "No se ha podido añadir");
+									JOptionPane.showMessageDialog(null, "El cáncer ya existe en el sistema", "Control cáncer", JOptionPane.ERROR_MESSAGE);
 								}
 							}
 							else

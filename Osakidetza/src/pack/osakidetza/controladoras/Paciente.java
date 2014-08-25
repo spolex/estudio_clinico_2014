@@ -285,4 +285,8 @@ public class Paciente {
 		return this.getCanceres().eliminarEstudio(estudio, fechaCancer);
 	}
 
+	public Cancer obtenerCancer(String pHistorial, java.sql.Date fecha, String tipo) {
+		return this.getCanceres().obtenerCancer(pHistorial, tipo, fecha);
+	}
+
 }

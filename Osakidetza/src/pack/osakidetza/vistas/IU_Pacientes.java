@@ -158,7 +158,7 @@ public class IU_Pacientes extends JFrame {
 					//borrar paciente
 					if(chckbxEliminar.isSelected()){
 						if(!listPacientes.isSelectionEmpty()){
-							IU_FastIdent IU_FI= new IU_FastIdent("",historial,false,true);					
+							IU_FastIdent IU_FI= new IU_FastIdent("",historial,false,true,null);					
 							IU_FI.setVisible(true);	
 						}
 						else{
@@ -175,6 +175,9 @@ public class IU_Pacientes extends JFrame {
 								DefaultListModel encontrado = new DefaultListModel();
 								encontrado.addElement(paciente);
 								listPacientes.setModel(encontrado);
+							}
+							else{
+								JOptionPane.showMessageDialog(null, "El paciente con el nº de historial "+txtNHistorial.getText()+" no se encuentra registrado en el sistema", "Control de pacientes", JOptionPane.ERROR_MESSAGE);
 							}
 					    }
 					//listar pacientes dado ci
@@ -235,7 +238,7 @@ public class IU_Pacientes extends JFrame {
 						}
 						else
 						{
-							JOptionPane.showMessageDialog(null, "Seleccione el paciente al que desea añadir el diagnóstico genético");
+							JOptionPane.showMessageDialog(null, "Debe elegir un paciente");
 						}
 					}
 					//listar visitas dado un paciente
@@ -251,7 +254,7 @@ public class IU_Pacientes extends JFrame {
 							IU_LV.setVisible(true);
 						}
 					}
-					else
+					else if(buttonGroup.getSelection()==null)
 					{
 						JOptionPane.showMessageDialog(null, "Seleccione la funcionalidad que desea ejecutar", "Control Paciente", JOptionPane.INFORMATION_MESSAGE);
 					}

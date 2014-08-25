@@ -12,7 +12,7 @@ public class Cancer
 	private Date fecha;
 	private Mama mama;
 	private String tratamiento;
-	private ListaEstudio estudios;
+	private ListaEstudios estudios;
 	
 	
 	public Cancer(String pHistorial, Date pFecha, TipoCancer pTipo,
@@ -22,7 +22,7 @@ public class Cancer
 		this.fecha=pFecha;
 		this.tratamiento= pTratamiento;
 		this.mama= pMama;
-		this.estudios=new ListaEstudio();
+		this.estudios=new ListaEstudios();
 	}
 	public void setTipo(TipoCancer tipo) {
 		this.tipo = tipo;
@@ -54,7 +54,7 @@ public class Cancer
 	public String getTratamiento() {
 		return tratamiento;
 	}
-	private ListaEstudio getEstudios() {
+	private ListaEstudios getEstudios() {
 		return estudios;
 	}
 	public Iterator<Estudio> listarEstudios(){			
@@ -63,7 +63,7 @@ public class Cancer
 	public boolean addEstudio(Estudio estudio) {
 		return this.getEstudios().addEstudio(estudio);
 	}
-	public boolean esliminarEstudio(Estudio estudio) {
+	public boolean eliminarEstudio(Estudio estudio) {
 		return this.getEstudios().eliminarEstudio(estudio);
 	}
 }
