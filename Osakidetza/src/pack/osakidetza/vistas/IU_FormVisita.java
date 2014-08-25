@@ -82,6 +82,14 @@ public class IU_FormVisita extends JFrame {
 		dateChooser.setBounds(366, 78, 104, 19);
 		contentPane.add(dateChooser);
 		
+		final JDateChooser dateDesde = new JDateChooser();
+		dateDesde.setBounds(145, 320, 104, 19);
+		contentPane.add(dateDesde);
+		
+		final JDateChooser dateHasta = new JDateChooser();
+		dateHasta.setBounds(412, 320, 104, 19);
+		contentPane.add(dateHasta);
+		
 		final JButton btnIntroducir = new JButton("Aceptar");
 		btnIntroducir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -129,13 +137,28 @@ public class IU_FormVisita extends JFrame {
 						pEmail = JOptionPane.showInputDialog("Introduzca su email doctor/a "+nombre+", le quedan "+cont+" intentos");
 						cont--;
 					}									
-					if(cont > 0 && pEmail!=null)
+					if(cont> 0 && pEmail!=null)
 					{						
 							if(EmailValidator.validateEmail(pEmail)){
 								if(C_Administracion.getMiAdmin().obtenerUsuario(pEmail)!=null)
 								{
-									IU_ListaVisitas IU_LV = new IU_ListaVisitas(pEmail);
-									IU_LV.setVisible(true);
+									if(dateDesde.getDate()==null && dateHasta.getDate()==null)
+									{
+										IU_ListaVisitas IU_LV = new IU_ListaVisitas(pEmail,null,null,null);
+										IU_LV.setVisible(true);
+									}
+									else
+									{
+										if(dateDesde.getDate()==null || dateHasta.getDate()==null)
+										{
+											JOptionPane.showMessageDialog(null, "Debe seleccionar las fechas entre las que desea obtener las visitas", "Control visitas", JOptionPane.ERROR_MESSAGE);
+										}
+										else
+										{
+											IU_ListaVisitas IU_LV = new IU_ListaVisitas(pEmail,null,dateDesde.getDate(),dateHasta.getDate());
+											IU_LV.setVisible(true);
+										}
+									}
 								}
 								else
 								{
@@ -177,18 +200,7 @@ public class IU_FormVisita extends JFrame {
 		});
 		btnVolver.setBounds(270, 369, 117, 25);
 		contentPane.add(btnVolver);
-		
-		JDateChooser dateDesde = new JDateChooser();
-		dateDesde.setBounds(145, 320, 104, 19);
-		contentPane.add(dateDesde);
-		
-		JDateChooser dateHasta = new JDateChooser();
-		dateHasta.setBounds(412, 320, 104, 19);
-		contentPane.add(dateHasta);
-		
-		
-		
-		
+						
 		JSeparator separator = new JSeparator();
 		separator.setBounds(22, 41, 504, 25);
 		contentPane.add(separator);

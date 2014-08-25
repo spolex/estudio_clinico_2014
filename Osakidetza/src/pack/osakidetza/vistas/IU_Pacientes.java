@@ -43,7 +43,7 @@ public class IU_Pacientes extends JFrame {
 	 * Create the frame.
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public IU_Pacientes() {
+	public IU_Pacientes(final String pEmail) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 433);
 		contentPane = new JPanel();
@@ -70,7 +70,7 @@ public class IU_Pacientes extends JFrame {
 		final JCheckBox chckbxDiagnosticos = new JCheckBox("Diagnósticos");
 		buttonGroup.add(chckbxDiagnosticos);
 		
-		JCheckBox chckbxVisitas = new JCheckBox("Visitas");
+		final JCheckBox chckbxVisitas = new JCheckBox("Visitas");
 		buttonGroup.add(chckbxVisitas);
 		
 		final JCheckBox chckbxCancer = new JCheckBox("Cancer\n");
@@ -148,7 +148,8 @@ public class IU_Pacientes extends JFrame {
 		final JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource()==btnAceptar){
+				if(e.getSource()==btnAceptar)
+				{
 					//Añadir paciente
 					if(chckbxNuevo.isSelected()){
 						IU_FormPaciente IU_FP= new IU_FormPaciente(null);
@@ -218,7 +219,8 @@ public class IU_Pacientes extends JFrame {
 							IU_ListaCancer IU_Lista= new IU_ListaCancer(historial);		
 							IU_Lista.setVisible(true);	
 						}
-						else{
+						else
+						{
 							JOptionPane.showMessageDialog(null, "No ha escogido un paciente para consultar");
 						}
 						
@@ -235,6 +237,23 @@ public class IU_Pacientes extends JFrame {
 						{
 							JOptionPane.showMessageDialog(null, "Seleccione el paciente al que desea añadir el diagnóstico genético");
 						}
+					}
+					//listar visitas dado un paciente
+					else if(chckbxVisitas.isSelected())
+					{
+						if(listPacientes.isSelectionEmpty())
+						{
+							JOptionPane.showMessageDialog(null, "Seleccione el paciente del que desea consultar las visitas", "Control PAciente", JOptionPane.ERROR_MESSAGE);
+						}
+						else
+						{
+							IU_ListaVisitas IU_LV = new IU_ListaVisitas(pEmail,historial,null,null);
+							IU_LV.setVisible(true);
+						}
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Seleccione la funcionalidad que desea ejecutar", "Control Paciente", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			}

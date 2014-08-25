@@ -4,6 +4,7 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
@@ -12,6 +13,8 @@ import java.awt.Font;
 
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+
+import pack.osakidetza.aux.EmailValidator;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -59,8 +62,23 @@ public class IU_Doctor extends JFrame {
 		btnPacientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==btnPacientes){
-					IU_Pacientes IU_P = new IU_Pacientes();
-					IU_P.setVisible(true);
+					String email=null;
+					int cont = 3;
+					while(email==null && cont>0)
+					{
+						email = JOptionPane.showInputDialog(null, "Introduzca su email, le quedan "+cont+" intentos.");
+						cont--;
+					}
+					if(email!=null && EmailValidator.validateEmail(email))
+					{
+						IU_Pacientes IU_P = new IU_Pacientes(email);
+						IU_P.setVisible(true);
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Email no valido", "Control doctor", JOptionPane.ERROR_MESSAGE);
+						dispose();
+					}
 				}
 			}
 		});

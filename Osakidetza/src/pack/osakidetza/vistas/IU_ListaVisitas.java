@@ -32,7 +32,7 @@ public class IU_ListaVisitas extends JFrame {
 
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public IU_ListaVisitas(final String pEmail) {
+	public IU_ListaVisitas(final String pEmail, final String historial, Date fechaDesde, Date fechaHasta) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 409, 533);
 		contentPane = new JPanel();
@@ -54,10 +54,29 @@ public class IU_ListaVisitas extends JFrame {
 		listvisit.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		C_Doctor.getMiDoctor().resetVisitas();
 		final DefaultListModel modelo= new DefaultListModel();
-		Iterator<Visita> itr = C_Doctor.getMiDoctor().listarVisitas(pEmail);
+		Iterator<Visita> itr =null;
+		if(fechaDesde==null && fechaHasta==null)
+		{
+			itr = C_Doctor.getMiDoctor().listarVisitas(pEmail);
+		}
+		else 
+		{
+			itr=C_Doctor.getMiDoctor().listarVisitasEntre(pEmail,new java.sql.Date(fechaDesde.getTime()),new java.sql.Date(fechaHasta.getTime()));
+		}
 		while(itr.hasNext()){
 			Visita visita =itr.next();
-			modelo.addElement(visita.getPaciente()+";"+visita.getMedico()+";"+visita.getFecha());
+			if(historial==null)
+			{
+				modelo.addElement(visita.getPaciente()+";"+visita.getMedico()+";"+visita.getFecha());
+			}
+			else
+			{
+				//para añadir sólo las correspondientes a un paciente, cuando viene de la interfaz de pacientes.
+				if(visita.getPaciente().equals(historial))
+				{
+					modelo.addElement(visita.getPaciente()+";"+visita.getMedico()+";"+visita.getFecha());
+				}
+			}
 		}
 		listvisit.setModel(modelo);
 		scrollPanevisit.setViewportView(listvisit);

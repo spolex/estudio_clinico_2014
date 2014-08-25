@@ -86,6 +86,11 @@ public class C_Doctor {
 		return CatalogoVisitas.getMisvisitas().listarVisitas(pEmail);
 	}
 	
+	public Iterator<Visita> listarVisitasEntre(String pEmail,
+			java.util.Date fechaDesde, java.util.Date fechaHasta) {
+		return CatalogoVisitas.getMisvisitas().listarVisitas(pEmail, fechaDesde, fechaHasta);
+	}
+	
 	public boolean eliminarVisita(Visita pVisita){
 		return CatalogoVisitas.getMisvisitas().eliminarVisita(pVisita);
 	}
@@ -121,4 +126,6 @@ public class C_Doctor {
 	public boolean eliminarEstudio(Estudio estudio, java.sql.Date fechaCancer) {
 		return CatalogoPacientes.getPacientes().eliminarEstudio(estudio, fechaCancer);
 	}
+
+	
 }

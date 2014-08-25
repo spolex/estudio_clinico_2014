@@ -78,7 +78,20 @@ public class CatalogoVisitas extends ArrayList<Visita>{
 		return !rdo;
 	}
 	
-	public boolean resetVisitas(){
+	public boolean resetVisitas()
+	{
 		return CatalogoVisitas.getMisvisitas().removeAll(getMisvisitas());
+	}
+
+	public Iterator<Visita> listarVisitas(String pEmail,
+		java.util.Date fechaDesde, java.util.Date fechaHasta) {
+		String consulta = "SELECT * FROM Visita WHERE emailMedico = '"+pEmail+"' AND fecha >= '"+fechaDesde+"' AND fecha <= '"+fechaHasta+"'";
+		ResultadoSQL RdoSQL = SGBD.getSGBD().consultaSQL(consulta);
+		while(RdoSQL.next()){
+			CatalogoVisitas.getMisvisitas().add(new Visita(RdoSQL.get("pacienteHistorial"), 
+					RdoSQL.getDate("fecha"), RdoSQL.get("nombreUsuario"), RdoSQL.get("emailMedico")));			
+		}
+		RdoSQL.close();
+		return this.iterator();
 	}
 }
