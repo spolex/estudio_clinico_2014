@@ -14,6 +14,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.ButtonGroup;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class IU_Estadisticas extends JFrame {
@@ -23,6 +26,7 @@ public class IU_Estadisticas extends JFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	
 
@@ -57,15 +61,22 @@ public class IU_Estadisticas extends JFrame {
 		btnAceptar.setBounds(309, 282, 117, 25);
 		contentPane.add(btnAceptar);
 		
-		JButton btnVolver = new JButton("Volver");
+		final JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==btnVolver)dispose();
+			}
+		});
 		btnVolver.setBounds(180, 282, 117, 25);
 		contentPane.add(btnVolver);
 		
 		JRadioButton rdbtnCasosEnBizkaia = new JRadioButton("Casos en Bizkaia");
+		buttonGroup.add(rdbtnCasosEnBizkaia);
 		rdbtnCasosEnBizkaia.setBounds(12, 100, 149, 23);
 		contentPane.add(rdbtnCasosEnBizkaia);
 		
 		JRadioButton rdbtnCasosFueraDe = new JRadioButton("Casos fuera de BIzkaia");
+		buttonGroup.add(rdbtnCasosFueraDe);
 		rdbtnCasosFueraDe.setBounds(12, 140, 192, 23);
 		contentPane.add(rdbtnCasosFueraDe);
 		
@@ -82,6 +93,7 @@ public class IU_Estadisticas extends JFrame {
 		textField_1.setColumns(10);
 		
 		JRadioButton rdbtnGestaciones = new JRadioButton("Gestaciones");
+		buttonGroup.add(rdbtnGestaciones);
 		rdbtnGestaciones.setBounds(12, 183, 149, 23);
 		contentPane.add(rdbtnGestaciones);
 		
@@ -92,6 +104,7 @@ public class IU_Estadisticas extends JFrame {
 		textField_2.setColumns(10);
 		
 		JRadioButton rdbtnEdadMedia = new JRadioButton("Edad media");
+		buttonGroup.add(rdbtnEdadMedia);
 		rdbtnEdadMedia.setBounds(12, 229, 149, 23);
 		contentPane.add(rdbtnEdadMedia);
 		

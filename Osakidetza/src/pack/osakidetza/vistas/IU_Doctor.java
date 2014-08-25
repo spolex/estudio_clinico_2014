@@ -85,7 +85,17 @@ public class IU_Doctor extends JFrame {
 		btnPacientes.setBounds(23, 262, 117, 25);
 		contentPane.add(btnPacientes);
 		
-		JButton btnEstadsticas = new JButton("Estadísticas");
+		final JButton btnEstadsticas = new JButton("Estadísticas");
+		btnEstadsticas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				if(e.getSource()==btnEstadsticas)
+				{
+					IU_Estadisticas IU_E = new IU_Estadisticas();
+					IU_E.setVisible(true);
+				}
+			}
+		});
 		btnEstadsticas.setBounds(172, 262, 146, 25);
 		contentPane.add(btnEstadsticas);
 		

@@ -123,10 +123,6 @@ public class I_Estudios extends JFrame {
 		chckbxEliminar.setBounds(158, 168, 129, 23);
 		contentPane.add(chckbxEliminar);
 		
-		final JCheckBox chckbxActualizar = new JCheckBox("Actualizar");
-		chckbxActualizar.setBounds(291, 168, 129, 23);
-		contentPane.add(chckbxActualizar);
-		
 		
 		final JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
@@ -143,11 +139,6 @@ public class I_Estudios extends JFrame {
 			{
 				if (e.getSource()==btnAceptar)
 				{
-					//Actualizar estudio
-					if(chckbxActualizar.isSelected())
-					{
-						
-					}
 					//Borrar estudio
 					if(chckbxEliminar.isSelected())
 					{
