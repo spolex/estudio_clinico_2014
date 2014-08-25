@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
@@ -29,11 +30,13 @@ import javax.swing.ListSelectionModel;
 public class IU_ListaVisitas extends JFrame {
 
 	private JPanel contentPane;
+	private HashMap<String, Visita> visitas;
 
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public IU_ListaVisitas(final String pEmail, final String historial, Date fechaDesde, Date fechaHasta) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.visitas= new HashMap<String, Visita>();
 		setBounds(100, 100, 409, 533);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -67,14 +70,16 @@ public class IU_ListaVisitas extends JFrame {
 			Visita visita =itr.next();
 			if(historial==null)
 			{
-				modelo.addElement(visita.getPaciente()+";"+visita.getMedico()+";"+visita.getFecha());
+				modelo.addElement(visita.getPaciente()+";"+visita.getMedico()+";"+visita.getEmailMedico()+";"+visita.getFecha());
+				this.visitas.put(visita.getPaciente()+visita.getMedico()+visita.getEmailMedico()+visita.getFecha().toString(),visita);
 			}
 			else
 			{
 				//para añadir sólo las correspondientes a un paciente, cuando viene de la interfaz de pacientes.
 				if(visita.getPaciente().equals(historial))
 				{
-					modelo.addElement(visita.getPaciente()+";"+visita.getMedico()+";"+visita.getFecha());
+					modelo.addElement(visita.getPaciente()+";"+visita.getMedico()+";"+visita.getEmailMedico()+";"+visita.getFecha());
+					this.visitas.put(visita.getPaciente()+visita.getMedico()+visita.getEmailMedico()+visita.getFecha(),visita);
 				}
 			}
 		}
@@ -108,7 +113,7 @@ public class IU_ListaVisitas extends JFrame {
 						} catch (ParseException e1) {
 							JOptionPane.showMessageDialog(null, "Error en el formato de fecha", "Control de formato", ERROR);
 						}
-						Visita borraVisita = new Visita(pVisita[0], new java.sql.Date(fecha.getTime()), pVisita[1], pEmail);
+						Visita borraVisita = new Visita(pVisita[0], new java.sql.Date(fecha.getTime()), pVisita[1], pEmail,null);
 						if(C_Doctor.getMiDoctor().eliminarVisita(borraVisita))
 						{
 							JOptionPane.showMessageDialog(null, "Visita borrada del sistema", "Control de visitas", JOptionPane.INFORMATION_MESSAGE);
@@ -128,6 +133,19 @@ public class IU_ListaVisitas extends JFrame {
 		});
 		btnEliminar.setBounds(149, 459, 117, 25);
 		contentPane.add(btnEliminar);
+		
+		JButton btnVer = new JButton("Ver");
+		btnVer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				String visitaString= (String) listvisit.getSelectedValue();
+				String[] pVisita = visitaString.split(";");
+				Visita verVisita = IU_ListaVisitas.this.visitas.get(pVisita[0]+pVisita[1]+pVisita[2]+pVisita[3]);
+				IU_FormVisita IU_FV = new IU_FormVisita(verVisita.getMedico(),verVisita.getEmailMedico(),verVisita);
+				IU_FV.setVisible(true);
+			}
+		});
+		btnVer.setBounds(20, 459, 117, 25);
+		contentPane.add(btnVer);
 	}
-
 }

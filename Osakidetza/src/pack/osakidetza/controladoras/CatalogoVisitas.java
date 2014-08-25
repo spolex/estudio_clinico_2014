@@ -44,8 +44,9 @@ public class CatalogoVisitas extends ArrayList<Visita>{
 		java.sql.Date fecha = visita.getFecha();
 		String nombre = visita.getMedico();
 		String email = visita.getEmailMedico();
-		String orden ="INSERT INTO Visita(pacienteHistorial, fecha, nombreUsuario, emailMedico)"
-				+ "VALUES('"+paciente+"','"+fecha +"','"+nombre+"', '"+email+"')";
+		String observ = visita.getObservaciones();
+		String orden ="INSERT INTO Visita(pacienteHistorial, fecha, nombreUsuario, emailMedico, observaciones)"
+				+ "VALUES('"+paciente+"','"+fecha +"','"+nombre+"', '"+email+"', '"+observ+"')";
 		SGBD.getSGBD().execSQL(orden);
 		return existe(visita);
 	}
@@ -60,7 +61,7 @@ public class CatalogoVisitas extends ArrayList<Visita>{
 		String consulta = "SELECT * FROM Visita WHERE emailMedico = '"+pEmail+"'";
 		ResultadoSQL RdoSQL = SGBD.getSGBD().consultaSQL(consulta);
 		while(RdoSQL.next()){
-			CatalogoVisitas.getMisvisitas().add(new Visita(RdoSQL.get("pacienteHistorial"), RdoSQL.getDate("fecha"), RdoSQL.get("nombreUsuario"), RdoSQL.get("emailMedico")));			
+			CatalogoVisitas.getMisvisitas().add(new Visita(RdoSQL.get("pacienteHistorial"), RdoSQL.getDate("fecha"), RdoSQL.get("nombreUsuario"), RdoSQL.get("emailMedico"), RdoSQL.get("observaciones")));			
 		}
 		RdoSQL.close();
 		return this.iterator();
@@ -89,7 +90,7 @@ public class CatalogoVisitas extends ArrayList<Visita>{
 		ResultadoSQL RdoSQL = SGBD.getSGBD().consultaSQL(consulta);
 		while(RdoSQL.next()){
 			CatalogoVisitas.getMisvisitas().add(new Visita(RdoSQL.get("pacienteHistorial"), 
-					RdoSQL.getDate("fecha"), RdoSQL.get("nombreUsuario"), RdoSQL.get("emailMedico")));			
+					RdoSQL.getDate("fecha"), RdoSQL.get("nombreUsuario"), RdoSQL.get("emailMedico"), RdoSQL.get("observaciones")));			
 		}
 		RdoSQL.close();
 		return this.iterator();

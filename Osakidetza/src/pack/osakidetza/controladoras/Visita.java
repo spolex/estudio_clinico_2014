@@ -6,6 +6,7 @@ public class Visita
 	private java.sql.Date fecha;
 	private String medico;
 	private String emailMedico;
+	private String observaciones;
 	
 	/**
 	 * 
@@ -14,11 +15,12 @@ public class Visita
 	 * @param pMedico
 	 * @param pEmailMedico
 	 */
-	public Visita(String pHistorial, java.sql.Date pFecha,String pMedico, String pEmailMedico){
+	public Visita(String pHistorial, java.sql.Date pFecha,String pMedico, String pEmailMedico, String pObservaciones){
 		this.paciente=pHistorial;
 		this.fecha=pFecha;
 		this.medico=pMedico;
 		this.emailMedico=pEmailMedico;
+		this.observaciones= pObservaciones;
 	}
 
 	public String getPaciente() {
@@ -39,5 +41,9 @@ public class Visita
 	
 	public void setEmail(String pEmail){
 		this.emailMedico=pEmail;
+	}
+
+	public String getObservaciones() {
+		return this.observaciones;
 	}
 }

@@ -21,8 +21,6 @@ import javax.swing.JCheckBox;
 import javax.swing.ButtonGroup;
 import javax.swing.JSeparator;
 
-import pack.osakidetza.aux.EmailValidator;
-import pack.osakidetza.controladoras.C_Administracion;
 import pack.osakidetza.controladoras.C_Doctor;
 import pack.osakidetza.controladoras.Visita;
 
@@ -36,8 +34,9 @@ public class IU_FormVisita extends JFrame {
 	
 	/**
 	 * Create the frame.
+	 * @param pEmail 
 	 */
-	public IU_FormVisita(final String nombre) {
+	public IU_FormVisita(final String nombre, final String pEmail, Visita pVisita) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 540, 432);
 		contentPane = new JPanel();
@@ -74,7 +73,7 @@ public class IU_FormVisita extends JFrame {
 		chckbxNueva.setBounds(399, 268, 129, 23);
 		contentPane.add(chckbxNueva);
 				
-		JTextPane textPane = new JTextPane();
+		final JTextPane textPane = new JTextPane();
 		textPane.setBounds(12, 168, 504, 72);
 		contentPane.add(textPane);
 		
@@ -90,34 +89,34 @@ public class IU_FormVisita extends JFrame {
 		dateHasta.setBounds(412, 320, 104, 19);
 		contentPane.add(dateHasta);
 		
+		if(pVisita!=null)
+		{
+			textFieldHist.setText(pVisita.getPaciente());
+			textFieldHist.setEnabled(false);
+			dateChooser.setDate(new java.util.Date(pVisita.getFecha().getTime()));
+			dateChooser.setEnabled(false);
+			textPane.setText(pVisita.getObservaciones());
+			textPane.setEnabled(false);
+		}
+		
 		final JButton btnIntroducir = new JButton("Aceptar");
 		btnIntroducir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(chckbxNueva.isSelected() && e.getSource()==btnIntroducir)
 				{
-					if(textFieldHist.getText().length()>0 && dateChooser.getDate()!=null){
+					if(textFieldHist.getText().length()>0 && dateChooser.getDate()!=null)
+					{
 						if(C_Doctor.getMiDoctor().buscarPaciente(textFieldHist.getText())!=null)
 						{
-							String pEmail =null;
-							int cont = 3;
-							while(pEmail==null  || (cont > 0 && C_Administracion.getMiAdmin().obtenerUsuario(pEmail)==null)){
-								pEmail = JOptionPane.showInputDialog("Introduzca su email doctor/a "+nombre+", le quedan "+cont+" intentos");
-								cont--;
-							}									
-							if(cont > 0)
-							{
-							   Visita visita = new Visita(textFieldHist.getText(),new java.sql.Date(dateChooser.getDate().getTime()),nombre,pEmail);
-							   if(C_Doctor.getMiDoctor().addVisita(visita)){
-								   JOptionPane.showMessageDialog(null, "Visita añadida con éxito al sistema", "Control de visitas", JOptionPane.INFORMATION_MESSAGE);
-							   }
-							   else{
-								   JOptionPane.showMessageDialog(null, "Imposible añadir la visita", "Control de visitas", JOptionPane.ERROR_MESSAGE);
-							   }
-							}
-							else
-							{
-								JOptionPane.showMessageDialog(null, "Ha superado el número de intentos", "Control de visitas", JOptionPane.ERROR_MESSAGE);
-							}
+							Visita visita = new Visita(textFieldHist.getText(),new java.sql.Date(dateChooser.getDate().getTime()),nombre,pEmail,textPane.getText());
+							 if(C_Doctor.getMiDoctor().addVisita(visita))
+							 {
+								 JOptionPane.showMessageDialog(null, "Visita añadida con éxito al sistema", "Control de visitas", JOptionPane.INFORMATION_MESSAGE);
+							 }
+							 else
+							 {
+								 JOptionPane.showMessageDialog(null, "Imposible añadir la visita", "Control de visitas", JOptionPane.ERROR_MESSAGE);
+							 }							
 						}
 						else
 						{
@@ -130,51 +129,24 @@ public class IU_FormVisita extends JFrame {
 					}
 				}
 				else if(chckbxBuscar.isSelected())
-				{
-					String pEmail =null;
-					int cont = 3;
-					while((pEmail==null  || (cont > 0 && C_Administracion.getMiAdmin().obtenerUsuario(pEmail)==null)) )
+				{							
+					if(dateDesde.getDate()==null && dateHasta.getDate()==null)
 					{
-						pEmail = JOptionPane.showInputDialog("Introduzca su email doctor/a "+nombre+", le quedan "+cont+" intentos");
-						cont--;
-					}									
-					if(cont> 0 && pEmail!=null)
-					{						
-							if(EmailValidator.validateEmail(pEmail)){
-								if(C_Administracion.getMiAdmin().obtenerUsuario(pEmail)!=null)
-								{
-									if(dateDesde.getDate()==null && dateHasta.getDate()==null)
-									{
-										IU_ListaVisitas IU_LV = new IU_ListaVisitas(pEmail,null,null,null);
-										IU_LV.setVisible(true);
-									}
-									else
-									{
-										if(dateDesde.getDate()==null || dateHasta.getDate()==null)
-										{
-											JOptionPane.showMessageDialog(null, "Debe seleccionar las fechas entre las que desea obtener las visitas", "Control visitas", JOptionPane.ERROR_MESSAGE);
-										}
-										else
-										{
-											IU_ListaVisitas IU_LV = new IU_ListaVisitas(pEmail,null,dateDesde.getDate(),dateHasta.getDate());
-											IU_LV.setVisible(true);
-										}
-									}
-								}
-								else
-								{
-									JOptionPane.showMessageDialog(null, "El email no está registrado en el sistema", "Control de visitas", JOptionPane.ERROR_MESSAGE);
-								}
-							}
-							else
-							{
-								JOptionPane.showMessageDialog(null, "El formato de email no es soportado por el sistema", "Control de visitas", JOptionPane.ERROR_MESSAGE);
-							}						
+						IU_ListaVisitas IU_LV = new IU_ListaVisitas(pEmail,null,null,null);
+						IU_LV.setVisible(true);
 					}
 					else
 					{
-						JOptionPane.showMessageDialog(null, "Ha superado el número de intentos", "Control de visitas", JOptionPane.ERROR_MESSAGE);
-					}
+						if(dateDesde.getDate()==null || dateHasta.getDate()==null)
+						{
+							JOptionPane.showMessageDialog(null, "Debe seleccionar las fechas entre las que desea obtener las visitas", "Control visitas", JOptionPane.ERROR_MESSAGE);
+						}
+						else
+						{
+							IU_ListaVisitas IU_LV = new IU_ListaVisitas(pEmail,null,dateDesde.getDate(),dateHasta.getDate());
+							IU_LV.setVisible(true);
+						}
+					}				
 				}
 			}
 		});

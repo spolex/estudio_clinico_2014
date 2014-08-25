@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 public class IU_Doctor extends JFrame {
 
 	private JPanel contentPane;
+	private String email;
 
 
 	/**
@@ -59,28 +60,31 @@ public class IU_Doctor extends JFrame {
 		 
 		lblIcon.setIcon(iconoEscalado);
 		
+		String pEmail=null;
+		int cont = 3;
+		while(pEmail==null && cont>0 && C_Administracion.getMiAdmin().obtenerUsuario(pEmail)==null)
+		{
+			pEmail = JOptionPane.showInputDialog(null, "Introduzca su email, le quedan "+cont+" intentos.");
+			cont--;
+		}
+		if(pEmail!=null && EmailValidator.validateEmail(pEmail))
+		{
+			this.email=pEmail;
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "Email no valido", "Control doctor", JOptionPane.ERROR_MESSAGE);
+			dispose();
+		}
+		
 		final JButton btnPacientes = new JButton("Pacientes");
 		btnPacientes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				if(e.getSource()==btnPacientes){
-					String email=null;
-					int cont = 3;
-					while(email==null || cont>0 && C_Administracion.getMiAdmin().obtenerUsuario(email)==null)
-					{
-						email = JOptionPane.showInputDialog(null, "Introduzca su email, le quedan "+cont+" intentos.");
-						cont--;
-					}
-					if(email!=null && EmailValidator.validateEmail(email))
-					{
-						IU_Pacientes IU_P = new IU_Pacientes(email);
+						IU_Pacientes IU_P = new IU_Pacientes(IU_Doctor.this.email);
 						IU_P.setVisible(true);
 					}
-					else
-					{
-						JOptionPane.showMessageDialog(null, "Email no valido", "Control doctor", JOptionPane.ERROR_MESSAGE);
-						dispose();
-					}
-				}
 			}
 		});
 		btnPacientes.setBounds(23, 262, 117, 25);
@@ -103,7 +107,7 @@ public class IU_Doctor extends JFrame {
 		JButton btnVisitas = new JButton("Visitas");
 		btnVisitas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				IU_FormVisita IU_FV = new IU_FormVisita(nombre);
+				IU_FormVisita IU_FV = new IU_FormVisita(nombre,IU_Doctor.this.email,null);
 				IU_FV.setVisible(true);
 			}
 		});
