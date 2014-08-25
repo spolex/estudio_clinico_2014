@@ -172,10 +172,17 @@ public class IU_ListaCancer extends JFrame {
 			{
 				if(e.getSource()==btnEstudios && !list.isSelectionEmpty())
 				{
-					String item = (String) list.getSelectedValue();
-					String[] seleccionado = item.split(";");
-					I_Estudios I_E= new I_Estudios(pHistorial,seleccionado[0],seleccionado[1]);
-					I_E.setVisible(true);
+					if(list.isSelectionEmpty())
+					{
+						JOptionPane.showMessageDialog(null, "Seleccione el cáncer del que desea visualizar los Estudios patológicos", "Control cáncer", JOptionPane.ERROR_MESSAGE);
+					}
+					else
+					{
+						String item = (String) list.getSelectedValue();
+						String[] seleccionado = item.split(";");
+						I_Estudios I_E= new I_Estudios(pHistorial,seleccionado[0],seleccionado[1]);
+						I_E.setVisible(true);
+					}					
 				}
 			}
 		});

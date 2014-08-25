@@ -183,6 +183,10 @@ public class ListaCancer extends ArrayList<Cancer> {
 		return this.obtenerCancer(estudio.getPaciente(), estudio.getTipo().toString(),pFechaCancer).addEstudio(estudio);
 	}
 
+	public boolean eliminarEstudio(Estudio estudio, java.sql.Date fechaCancer) {
+		return this.obtenerCancer(estudio.getPaciente(), estudio.getTipo().toString(), fechaCancer).esliminarEstudio(estudio);
+	}
+
 	
 	 
 	

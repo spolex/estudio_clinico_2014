@@ -281,4 +281,8 @@ public class Paciente {
 		return this.getCanceres().addEstudios(estudio, pFechaCancer);
 	}
 
+	public boolean eliminarEstudio(Estudio estudio, java.sql.Date fechaCancer) {
+		return this.getCanceres().eliminarEstudio(estudio, fechaCancer);
+	}
+
 }

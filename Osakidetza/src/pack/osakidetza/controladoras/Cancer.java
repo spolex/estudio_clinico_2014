@@ -63,4 +63,7 @@ public class Cancer
 	public boolean addEstudio(Estudio estudio) {
 		return this.getEstudios().addEstudio(estudio);
 	}
+	public boolean esliminarEstudio(Estudio estudio) {
+		return this.getEstudios().eliminarEstudio(estudio);
+	}
 }

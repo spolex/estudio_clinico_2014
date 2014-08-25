@@ -72,7 +72,8 @@ public class ListaEstudio extends ArrayList<Estudio>
 	}
 
 	/**
-	 * 
+	 * pre: El estudio a añadir no existe en el sistema.
+	 * post: se  añade al sistema el estudio nuevo, tanto al modelo como a la lista de estudios patológicos del cancer correspondiente. 
 	 * @param estudio
 	 * @return
 	 */
@@ -92,7 +93,22 @@ public class ListaEstudio extends ArrayList<Estudio>
 		if(estudio.getN()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET estidiajeN = '"+estudio.getN()+"' WHERE codigo = '"+estudio.getCode()+"'");
 		if(estudio.getT()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET estidiajeT = '"+estudio.getT()+"' WHERE codigo = '"+estudio.getCode()+"'");
 		if(estudio.getM()!=null)SGBD.getSGBD().execSQL("UPDATE Patologico SET estidiajeM = '"+estudio.getM()+"' WHERE codigo = '"+estudio.getCode()+"'");
+		this.add(estudio);
 		return rdo;
+	}
+
+	/**
+	 * pre: El estudio a eliminar existe en el sistema.
+	 * post: se elimina completamente del sistyema el estudio seleccionado.
+	 * @param estudio
+	 * @return
+	 */
+	public boolean eliminarEstudio(Estudio estudio)
+	{
+		String orden ="DELETE FROM Patologico WHERE codigo = '"+estudio.getCode()+"' AND cancerTipo = '"+estudio.getTipo().toString()+"'"
+				+ " AND cancerHistorial = '"+estudio.getPaciente()+"' AND fecha = '"+estudio.getFecha()+"'";
+		this.remove(estudio);
+		return SGBD.getSGBD().execSQL(orden);
 	}
 
 }

@@ -117,4 +117,8 @@ public class C_Doctor {
 	public static boolean addEstudio(Estudio estudio, java.sql.Date pFechaCancer) {
 		return CatalogoPacientes.getPacientes().addEstudio(estudio,pFechaCancer);
 	}
+
+	public boolean eliminarEstudio(Estudio estudio, java.sql.Date fechaCancer) {
+		return CatalogoPacientes.getPacientes().eliminarEstudio(estudio, fechaCancer);
+	}
 }
