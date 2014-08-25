@@ -128,10 +128,6 @@ public class IU_ListaVisitas extends JFrame {
 		});
 		btnEliminar.setBounds(149, 459, 117, 25);
 		contentPane.add(btnEliminar);
-		
-		JButton btnActualizar = new JButton("Actualizar");
-		btnActualizar.setBounds(26, 459, 117, 25);
-		contentPane.add(btnActualizar);
 	}
 
 }
