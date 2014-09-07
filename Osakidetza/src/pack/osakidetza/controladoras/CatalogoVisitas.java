@@ -37,6 +37,7 @@ public class CatalogoVisitas extends ArrayList<Visita>{
 	/**
 	 * 
 	 * @param visita
+	 * @return
 	 */
 	public boolean addVisita(Visita visita) {
 		
@@ -46,9 +47,8 @@ public class CatalogoVisitas extends ArrayList<Visita>{
 		String email = visita.getEmailMedico();
 		String observ = visita.getObservaciones();
 		String orden ="INSERT INTO Visita(pacienteHistorial, fecha, nombreUsuario, emailMedico, observaciones)"
-				+ "VALUES('"+paciente+"','"+fecha +"','"+nombre+"', '"+email+"', '"+observ+"')";
-		SGBD.getSGBD().execSQL(orden);
-		return existe(visita);
+				+ "VALUES('"+paciente+"','"+fecha +"','"+nombre+"', '"+email+"', '"+observ+"')";		
+		return SGBD.getSGBD().execSQL(orden);
 	}
 	
 	/**

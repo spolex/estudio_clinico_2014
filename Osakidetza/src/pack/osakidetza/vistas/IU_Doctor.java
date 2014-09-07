@@ -16,7 +16,6 @@ import javax.swing.JButton;
 
 import pack.osakidetza.aux.EmailValidator;
 import pack.osakidetza.controladoras.C_Administracion;
-
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -31,7 +30,7 @@ public class IU_Doctor extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IU_Doctor(final String nombre) {
+	public IU_Doctor(final String nombre, final String pEmail) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 504, 330);
 		contentPane = new JPanel();
@@ -39,6 +38,7 @@ public class IU_Doctor extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);		
 		setResizable(false);
+		this.email=pEmail;
 		
 		JLabel lblBienvenidoDoctor = new JLabel("Bienvenido Dr/a. "+nombre);
 		lblBienvenidoDoctor.setHorizontalAlignment(SwingConstants.CENTER);
@@ -58,25 +58,7 @@ public class IU_Doctor extends JFrame {
 		
 		ImageIcon iconoEscalado = new ImageIcon (imagen.getScaledInstance(308,103,Image.SCALE_AREA_AVERAGING));
 		 
-		lblIcon.setIcon(iconoEscalado);
-		
-		String pEmail=null;
-		int cont = 3;
-		while(pEmail==null && cont>0 && C_Administracion.getMiAdmin().obtenerUsuario(pEmail)==null)
-		{
-			pEmail = JOptionPane.showInputDialog(null, "Introduzca su email, le quedan "+cont+" intentos.");
-			cont--;
-		}
-		if(pEmail!=null && EmailValidator.validateEmail(pEmail))
-		{
-			this.email=pEmail;
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(null, "Email no valido", "Control doctor", JOptionPane.ERROR_MESSAGE);
-			dispose();
-		}
-		
+		lblIcon.setIcon(iconoEscalado);		
 		final JButton btnPacientes = new JButton("Pacientes");
 		btnPacientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)

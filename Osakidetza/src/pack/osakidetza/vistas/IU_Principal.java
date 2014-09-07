@@ -17,6 +17,7 @@ import javax.swing.JPasswordField;
 
 import pack.osakidetza.aux.EmailValidator;
 import pack.osakidetza.controladoras.C_Administracion;
+import pack.osakidetza.controladoras.Usuario;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -99,16 +100,48 @@ public class IU_Principal extends JFrame {
 					String pass = new String(passUsuario.getPassword());					
 					String nombre = new String(textUsuario.getText().toString());
 					String identificado = new String();
-				    identificado = C_Administracion.getMiAdmin().identificarse(nombre, pass);				
+				    identificado = C_Administracion.getMiAdmin().identificarse(nombre, pass);				    
 					if(identificado!=null)
 					{
+						Usuario userIdentified = new Usuario(nombre,  null, null);
+					    userIdentified.setPass(pass);
+					    passUsuario.setText("");
 						if(identificado.equalsIgnoreCase("0"))
 						{
-							
-							IU_Doctor IU_DR = new IU_Doctor(textUsuario.getText());
-							IU_DR.setVisible(true);
-							passUsuario.setText("");
-							dispose();
+							String pEmail=null;
+							int cont = 3;
+							while(pEmail==null && cont>0 && C_Administracion.getMiAdmin().obtenerUsuario(pEmail)==null)
+							{
+								pEmail = JOptionPane.showInputDialog(null, "Introduzca su email, le quedan "+cont+" intentos.");
+								cont--;
+							}
+							if(pEmail!=null && EmailValidator.validateEmail(pEmail))
+							{
+								Usuario user =C_Administracion.getMiAdmin().obtenerUsuario(pEmail);
+								if(user!=null)
+								{
+									if(user.getNombre().equals(userIdentified.getNombre()))
+									{
+										IU_Doctor IU_DR = new IU_Doctor(textUsuario.getText(),pEmail);
+										IU_DR.setVisible(true);
+									}
+									else
+									{
+										JOptionPane.showMessageDialog(null, "El email introducido no corresponde con el usuario", "Control doctor", JOptionPane.ERROR_MESSAGE);
+										dispose();
+									}
+								}
+								else
+								{
+									JOptionPane.showMessageDialog(null, "Email no registrado en el sistema", "Control doctor", JOptionPane.ERROR_MESSAGE);
+									dispose();
+								}
+							}
+							else
+							{
+								JOptionPane.showMessageDialog(null, "Email no valido", "Control doctor", JOptionPane.ERROR_MESSAGE);
+								dispose();
+							}							
 						}
 						else if (identificado.equalsIgnoreCase("1"))
 						{

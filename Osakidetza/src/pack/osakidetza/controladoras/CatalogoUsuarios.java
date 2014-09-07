@@ -192,6 +192,10 @@ public class CatalogoUsuarios {
 		}
 		return false;
 	}
+	/**
+	 * 
+	 * @return la lista de los usuarios registrados como médicos.
+	 */
 	public ArrayList<Usuario> listarMedicos() {
 		ArrayList<Usuario> pListaUsuarios =new ArrayList<Usuario>();
 		
@@ -206,7 +210,13 @@ public class CatalogoUsuarios {
 		
 		return pListaUsuarios;
 	}
-
+	
+	/**
+	 * pre:recibe el email del usuario que desea obtener
+	 * pos:obtiene el usuario con el email recibido por parámetros.
+	 * @param pEmail
+	 * @return 
+	 */
 	public Usuario obtenerUsuario(String pEmail) 
 	{
 		ResultadoSQL RdoSQL = SGBD.getSGBD().consultaSQL("Select * FROM Usuario WHERE email = '" +pEmail+ "'");
@@ -215,7 +225,14 @@ public class CatalogoUsuarios {
 		}
 		return null;
 	}
-
+	/**
+	 * pre: el usuario a actualizar es el correspondiente con el email.
+	 * @param pEmailViejo
+	 * @param pEmailNuevo
+	 * @param pNomNuevo
+	 * @param pEspec
+	 * @return true si se consiguen actualizar los datos, false en otro caso.
+	 */
 	public boolean actualizarUsuario(String pEmailViejo,String pEmailNuevo, String pNomNuevo,String pEspec) {
 		
 		SGBD.getSGBD().execSQL("UPDATE Usuario SET nombre='"+pNomNuevo+"', email='"+pEmailNuevo+"', especialidad='"+pEspec+"' WHERE email='" +pEmailViejo+ "'");
@@ -227,7 +244,12 @@ public class CatalogoUsuarios {
 		}
 		return false;		
 	}
-
+	/**
+	 * pre: el usuario existe en el sistema y se corresponde con el email.
+	 * @param user
+	 * @param pAdmin
+	 * @return
+	 */
 	public static boolean darDeAltaUsuario(Usuario user, String pAdmin) {
 		return SGBD.getSGBD().execSQL("UPDATE Usuario SET esMedico = '1', nombreAdmin = '"+pAdmin+"' WHERE email = '"+user.getEmail()+"'");
 		
