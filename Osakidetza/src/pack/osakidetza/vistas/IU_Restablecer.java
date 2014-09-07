@@ -64,7 +64,8 @@ public class IU_Restablecer extends JFrame {
 		final JButton btnOk = new JButton("OK");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == btnOk){
+				if(e.getSource() == btnOk)
+				{
 					String passN = new String(passNueva.getPassword());
 					String passR = new String (passRepite.getPassword());
 					if(passN.equals(passR))
@@ -73,13 +74,10 @@ public class IU_Restablecer extends JFrame {
 						{
 							JOptionPane.showMessageDialog(null, "Contraseña restablecida con éxito");
 							dispose();
-							IU_Principal IU_P = new IU_Principal();
-							IU_P.setVisible(true);
 						}
 						else
 						{
 							JOptionPane.showMessageDialog(null,"La respuesta no es correcta");
-							dispose();
 						}
 					}
 					else

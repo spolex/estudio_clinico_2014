@@ -125,7 +125,7 @@ public class IU_FormVisita extends JFrame {
 					}
 					else
 					{
-						JOptionPane.showMessageDialog(null, "Introduzca el número de historial del paciente o la fecha");
+						JOptionPane.showMessageDialog(null, "Introduzca el número de historial del paciente y la fecha");
 					}
 				}
 				else if(chckbxBuscar.isSelected())

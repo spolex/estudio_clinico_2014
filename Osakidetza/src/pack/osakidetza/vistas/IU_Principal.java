@@ -185,11 +185,11 @@ public class IU_Principal extends JFrame {
 					String pregunta = C_Administracion.getMiAdmin().obtenerPregunta(email);
 					if(pregunta!=null)
 					{
-						dispose();
 						IU_Restablecer IU_R = new IU_Restablecer(pregunta,email);
 						IU_R.setVisible(true);
 					}
-					else{
+					else
+					{
 						JOptionPane.showMessageDialog(null, "El email no está registrado");
 					}
 				}
