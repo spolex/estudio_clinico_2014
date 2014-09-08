@@ -38,8 +38,6 @@ public class ListaDiagnosticos extends ArrayList<Diagnostico>
 		
 		while(RdoSQL.next())
 		{
-			TipoCancer tipo =null;
-			if(RdoSQL.get("tipoCancer")!=null)tipo = TipoCancer.valueOf(RdoSQL.get("tipoCancer"));
 			
 			Gen gen = null;
 			if(RdoSQL.get("genSecuenciado")!=null)gen = Gen.valueOf(RdoSQL.get("genSecuenciado"));
@@ -53,7 +51,7 @@ public class ListaDiagnosticos extends ArrayList<Diagnostico>
 			String mutacion = null;
 			if(RdoSQL.get("mutacion")!=null)mutacion=RdoSQL.get("mutacion");
 			
-			Diagnostico diag = new Diagnostico(pHistorial,tipo,gen,mutacion,rdo,fecha);
+			Diagnostico diag = new Diagnostico(pHistorial,gen,mutacion,rdo,fecha);
 			
 			this.add(diag);
 
@@ -70,8 +68,7 @@ public class ListaDiagnosticos extends ArrayList<Diagnostico>
 	 */
 	public boolean eliminarDiagnostico(Diagnostico diag) 
 	{
-		String orden = "DELETE FROM Diagnostico_genetico WHERE tipoCancer = '"+diag.getCancer().toString()+"' "
-				+ "AND pacienteHistorial = '"+diag.getPaciente()+"' "
+		String orden = "DELETE FROM Diagnostico_genetico WHERE pacienteHistorial = '"+diag.getPaciente()+"' "
 						+ "AND fecha = '"+diag.getFecha()+"' AND genSecuenciado ='"+diag.getGenSecuenciado().toString()+"'";
 		return SGBD.getSGBD().execSQL(orden);
 	}
@@ -103,7 +100,7 @@ public class ListaDiagnosticos extends ArrayList<Diagnostico>
 			String mutacion = null;
 			if(RdoSQL.get("mutacion")!=null)mutacion=RdoSQL.get("mutacion");
 			
-			Diagnostico diag = new Diagnostico(pHist,tipo,gen,mutacion,rdo,fecha);
+			Diagnostico diag = new Diagnostico(pHist,gen,mutacion,rdo,fecha);
 			
 			this.add(diag);
 
@@ -113,16 +110,15 @@ public class ListaDiagnosticos extends ArrayList<Diagnostico>
 
 	public boolean actualizarDiagnostico(Diagnostico diagOld, Diagnostico actualizado) {
 		String orden = "UPDATE Diagnostico_genetico SET genSecuenciado = '"+actualizado.getGenSecuenciado().toString()+"', fecha = '"+actualizado.getFecha()+"', "
-				+ "tipoCancer = '"+actualizado.getCancer().toString()+"', mutacion= '"+actualizado.getMutacion()+"', resultado = '"+actualizado.getResultado()+"'"
+				+ "mutacion= '"+actualizado.getMutacion()+"', resultado = '"+actualizado.getResultado()+"'"
 				+ "WHERE pacienteHistorial = '"+diagOld.getPaciente()+"'"
-				+ " AND genSecuenciado = '"+diagOld.getGenSecuenciado().toString()+"' AND fecha = '"+diagOld.getFecha()+"' AND "
-				+ "tipoCancer = '"+diagOld.getCancer().toString()+"'";
+				+ " AND genSecuenciado = '"+diagOld.getGenSecuenciado().toString()+"' AND fecha = '"+diagOld.getFecha()+"'";
 		return SGBD.getSGBD().execSQL(orden);
 	}
 
 	public boolean addDiagnostico(Diagnostico nuevo) {
-		String orden = "INSERT INTO Diagnostico_genetico (genSecuenciado, pacienteHistorial, fecha, tipoCancer, mutacion, resultado)"
-				+ "VALUES('"+nuevo.getGenSecuenciado().toString()+"', '"+nuevo.getPaciente()+"', '"+nuevo.getFecha()+"', '"+nuevo.getCancer().toString()+"', "
+		String orden = "INSERT INTO Diagnostico_genetico (genSecuenciado, pacienteHistorial, fecha, mutacion, resultado)"
+				+ "VALUES('"+nuevo.getGenSecuenciado().toString()+"', '"+nuevo.getPaciente()+"', '"+nuevo.getFecha()+"',"
 						+ "'"+nuevo.getMutacion()+"', '"+nuevo.getResultado()+"')";
 		return SGBD.getSGBD().execSQL(orden );
 	}

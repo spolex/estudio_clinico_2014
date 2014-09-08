@@ -30,15 +30,11 @@ import pack.osakidetza.controladoras.C_Doctor;
 import pack.osakidetza.controladoras.Cancer;
 import pack.osakidetza.controladoras.Diagnostico;
 import pack.osakidetza.enumerados.Gen;
-import pack.osakidetza.enumerados.TipoCancer;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyAdapter;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 
 @SuppressWarnings("serial")
 public class IU_Diagnosticos extends JFrame {
@@ -75,10 +71,6 @@ public class IU_Diagnosticos extends JFrame {
 		lblGenSecuenciado.setBounds(12, 189, 161, 15);
 		contentPane.add(lblGenSecuenciado);
 		
-		JLabel lblTipoCancer = new JLabel("Tipo ");
-		lblTipoCancer.setBounds(341, 194, 133, 15);
-		contentPane.add(lblTipoCancer);
-		
 		JLabel lblObservaciones = new JLabel("Observaciones :");
 		lblObservaciones.setBounds(12, 287, 114, 15);
 		contentPane.add(lblObservaciones);
@@ -89,31 +81,7 @@ public class IU_Diagnosticos extends JFrame {
 		comboBoxGen.setSelectedIndex(-1);
 		contentPane.add(comboBoxGen);
 		
-		final JComboBox comboBoxTipo = new JComboBox();
-		comboBoxTipo.setBounds(471, 189, 143, 25);
-		contentPane.add(comboBoxTipo);
-		comboBoxTipo.setSelectedIndex(-1);
-		
 		final JCheckBox chckbxNuevo = new JCheckBox("Nuevo");
-		chckbxNuevo.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if(e.getItem()==chckbxNuevo)
-				{
-					if(chckbxNuevo.isSelected())
-					{
-						Iterator itrCancer1 = C_Doctor.getMiDoctor().listarCancer(pHistorial);
-						while(itrCancer1.hasNext())
-						{
-							Cancer pCancer = (Cancer) itrCancer1.next();
-							String item = pCancer.getTipo().toString();
-							comboBoxTipo.addItem(item);								
-						}
-						if(comboBoxTipo.getComponentCount()==0)JOptionPane.showMessageDialog(null, "Necesita registrar un cáncer para éste paciente en el sistema.", "Control diagnósticos", JOptionPane.ERROR_MESSAGE);
-						
-					}
-				}
-			}
-		});
 		buttonGroup.add(chckbxNuevo);		
 		chckbxNuevo.setBounds(441, 69, 129, 23);
 		contentPane.add(chckbxNuevo);
@@ -160,7 +128,7 @@ public class IU_Diagnosticos extends JFrame {
 			while(itr.hasNext())
 			{
 				Diagnostico diag =itr.next();
-				modelo.addElement(diag.getCancer()+";"+diag.getFecha()+";"+diag.getGenSecuenciado());
+				modelo.addElement(diag.getPaciente()+";"+diag.getFecha()+";"+diag.getGenSecuenciado());
 			}
 			listDiagnosticos.setModel(modelo);
 		}
@@ -175,14 +143,7 @@ public class IU_Diagnosticos extends JFrame {
 					//añadir diagnostico.
 					//Sólo se podran añadir diagnósticos para pacientes o cánceres ya existentes en el sistema para cumplir las restricciones de integridad.
 					if(chckbxNuevo.isSelected())
-					{
-						
-						TipoCancer tipo=null;
-						if(comboBoxTipo.getSelectedItem()!=null)
-					    {
-					    	tipo =TipoCancer.valueOf(comboBoxTipo.getSelectedItem().toString());
-					    }
-						
+					{						
 						Gen genSecuenciado=null;
 						if(comboBoxGen.getSelectedItem()!=null)
 						{
@@ -195,7 +156,7 @@ public class IU_Diagnosticos extends JFrame {
 							fechaDiag = new java.sql.Date (dateChooser.getDate().getTime());
 						}
 						
-						Diagnostico nuevo = new Diagnostico(pHistorial, tipo, genSecuenciado, textMutacion.getText(), textObservaciones.getText(),
+						Diagnostico nuevo = new Diagnostico(pHistorial, genSecuenciado, textMutacion.getText(), textObservaciones.getText(),
 								fechaDiag);
 						if(C_Doctor.getMiDoctor().addDiagnostico(nuevo))
 						{
@@ -220,9 +181,6 @@ public class IU_Diagnosticos extends JFrame {
 							{
 								Diagnostico diag =itr.next();
 								
-								String tipoCancer = "";
-								if(diag.getCancer()!=null)tipoCancer=diag.getCancer().toString();
-								
 								String gen = "";
 								if(diag.getGenSecuenciado()!=null)gen = diag.getGenSecuenciado().toString();
 								
@@ -238,7 +196,7 @@ public class IU_Diagnosticos extends JFrame {
 								java.sql.Date fechaDiag = new Date(0);
 								if(diag.getFecha()!=null)fechaDiag=diag.getFecha();								
 
-								if(pHistorial.equals(diag.getPaciente()) && diagnostico[0].equals(tipoCancer) && diagnostico[2].equals(gen) && fecha.equals(fechaDiag))
+								if(pHistorial.equals(diag.getPaciente()) && diagnostico[2].equals(gen) && fecha.equals(fechaDiag))
 								{
 									enc=true;
 									if(C_Doctor.getMiDoctor().eliminarDiagnostico(diag))
@@ -272,9 +230,6 @@ public class IU_Diagnosticos extends JFrame {
 							{
 							     diag1 =itrDiagnostico.next();
 								
-								String tipoCancer = "";
-								if(diag1.getCancer()!=null)tipoCancer=diag1.getCancer().toString();
-								
 								String gen = "";
 								if(diag1.getGenSecuenciado()!=null)gen = diag1.getGenSecuenciado().toString();
 								
@@ -290,14 +245,12 @@ public class IU_Diagnosticos extends JFrame {
 								java.sql.Date fechaDiag = new Date(0);
 								if(diag1.getFecha()!=null)fechaDiag=diag1.getFecha();								
 
-								if(pHistorial.equals(diag1.getPaciente()) && diagnostico[0].equals(tipoCancer) && diagnostico[2].equals(gen) && fecha.equals(fechaDiag))
+								if(pHistorial.equals(diag1.getPaciente()) && diagnostico[2].equals(gen) && fecha.equals(fechaDiag))
 								{
 									Iterator <Cancer> itrCancer = C_Doctor.getMiDoctor().listarCancer(pHistorial);
 									while(itrCancer.hasNext())
 									{
 										Cancer cancer = itrCancer.next();
-										String item = cancer.getTipo().toString();
-										comboBoxTipo.addItem(item);										
 										comboBoxGen.setSelectedItem(gen);										
 										dateChooser.setDate(fechaDiag);
 										textMutacion.setText(diag1.getMutacion());
@@ -308,13 +261,7 @@ public class IU_Diagnosticos extends JFrame {
 									KeyListener	keyListen =new KeyAdapter(){
 										public void keyPressed(KeyEvent key){
 											if(key.getKeyCode() == KeyEvent.VK_ENTER){
-												
-												TipoCancer tipo=null;
-												if(comboBoxTipo.getSelectedItem()!=null)
-											    {
-											    	tipo =TipoCancer.valueOf(comboBoxTipo.getSelectedItem().toString());
-											    }
-												
+																								
 												Gen genSecuenciado=null;
 												if(comboBoxGen.getSelectedItem()!=null)
 												{
@@ -327,7 +274,7 @@ public class IU_Diagnosticos extends JFrame {
 													fechaDiag = new java.sql.Date (dateChooser.getDate().getTime());
 												}
 												
-												Diagnostico actualizado = new Diagnostico(pHistorial, tipo, genSecuenciado, textMutacion.getText(), textObservaciones.getText(),
+												Diagnostico actualizado = new Diagnostico(pHistorial, genSecuenciado, textMutacion.getText(), textObservaciones.getText(),
 														fechaDiag);
 											    
 												if(C_Doctor.getMiDoctor().actualizarDiagnostico(diagOld,actualizado))
@@ -348,7 +295,6 @@ public class IU_Diagnosticos extends JFrame {
 									textObservaciones.addKeyListener(keyListen);
 									textMutacion.addKeyListener(keyListen);
 									comboBoxGen.addKeyListener(keyListen);
-									comboBoxTipo.addKeyListener(keyListen);
 									listDiagnosticos.addKeyListener(keyListen);
 									
 									enc=true;

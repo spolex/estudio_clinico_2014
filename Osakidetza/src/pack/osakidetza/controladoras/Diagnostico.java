@@ -3,22 +3,19 @@ package pack.osakidetza.controladoras;
 import java.sql.Date;
 
 import pack.osakidetza.enumerados.Gen;
-import pack.osakidetza.enumerados.TipoCancer;
 
 public class Diagnostico {
 	
 	private String paciente;
-	private TipoCancer cancer;
 	private Gen genSecuenciado;
 	private String mutacion;
 	private String resultado;
 	private java.sql.Date fecha;
 
-	public Diagnostico(String paciente, TipoCancer cancer, Gen genSecuenciado,
+	public Diagnostico(String paciente, Gen genSecuenciado,
 			String mutacion, String resultado, Date fecha) {
 		super();
 		this.paciente = paciente;
-		this.cancer = cancer;
 		this.genSecuenciado = genSecuenciado;
 		this.mutacion = mutacion;
 		this.resultado = resultado;
@@ -29,9 +26,6 @@ public class Diagnostico {
 		return paciente;
 	}
 
-	public TipoCancer getCancer() {
-		return cancer;
-	}
 
 	public Gen getGenSecuenciado() {
 		return genSecuenciado;
@@ -54,9 +48,6 @@ public class Diagnostico {
 		this.paciente = paciente;
 	}
 
-	public void setCancer(TipoCancer cancer) {
-		this.cancer = cancer;
-	}
 
 	public void setGenSecuenciado(Gen genSecuenciado) {
 		this.genSecuenciado = genSecuenciado;

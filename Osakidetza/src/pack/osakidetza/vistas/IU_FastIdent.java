@@ -39,8 +39,8 @@ public class IU_FastIdent extends JFrame {
 		contentPane.setLayout(null);
 		setResizable(false);
 		
-		JLabel lblUsuario = new JLabel("Usuario/E-mal");
-		lblUsuario.setBounds(59, 67, 98, 15);
+		JLabel lblUsuario = new JLabel("E-mail");
+		lblUsuario.setBounds(59, 67, 42, 15);
 		contentPane.add(lblUsuario);
 		
 		JLabel lblContrasea = new JLabel("Contraseña");
