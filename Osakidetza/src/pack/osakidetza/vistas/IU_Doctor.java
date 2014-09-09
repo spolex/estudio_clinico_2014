@@ -49,7 +49,7 @@ public class IU_Doctor extends JFrame {
 		lblIcon.setBounds(94, 105, 308, 103);
 		contentPane.add(lblIcon);
 		
-		ImageIcon icon = new ImageIcon("resources/osak.jpg");
+		ImageIcon icon = new ImageIcon(getClass().getResource("/images/osak.jpg"));
 		
 		Image imagen = icon.getImage();
 		

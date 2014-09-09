@@ -34,7 +34,9 @@ public class SGBD {
         dataSource.setUser("doctor");
         dataSource.setPassword("x6a4Fj8q");
         dataSource.setDatabaseName("Estudio");
-        dataSource.setServerName("localhost");
+        //BD REMOTA
+        dataSource.setServerName("80.103.204.186");	
+        //dataSource.setServerName("localhost");
 
          conexion = dataSource.getConnection();
          
